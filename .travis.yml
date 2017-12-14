@@ -29,6 +29,7 @@ deploy:
     - FRONTEND_IMAGE.tar.sha1
     - BACKEND_IMAGE.tar
     - BACKEND_IMAGE.tar.sha1
+    - docker-compose.yml
   skip_cleanup: true
   on:
     repo: StiviiK/hsro-wt-project-angular

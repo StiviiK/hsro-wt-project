@@ -1,0 +1,12 @@
+version: '3'
+services: 
+  backend:
+    image: stiviik/hsro-wt-project-angular/backend
+  frontend:
+    image: stiviik/hsro-wt-project-angular/frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    links:
+      - "backend:backend"
