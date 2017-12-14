@@ -32,5 +32,5 @@ deploy:
     - docker-compose.yml
   skip_cleanup: true
   on:
-    repo: StiviiK/hsro-wt-project-angular
+    repo: StiviiK/hsro-wt-project
     tags: true
