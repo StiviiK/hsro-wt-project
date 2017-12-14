@@ -6,12 +6,7 @@ services:
 before_install:
   - docker info
 
-env:
-  - base_name="$USERNAME/$REPO"
-  - frontend_name="$base_name/frontend"
-  - backend_name="$base_name/backend"
-
 script:
   - cd Frontend
-  - docker build -t $frontend_name .
+  - docker build -t "$FRONTEND_IMAGE" .
   - docker images
