@@ -11,5 +11,5 @@ env:
 
 script:
   - cd Frontend
-  - docker build -t $base_name/frontend .
+  - docker build -t '$base_name/frontend' .
   - docker images
