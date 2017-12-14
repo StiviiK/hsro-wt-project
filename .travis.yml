@@ -9,15 +9,15 @@ before_install:
 script:
 - cd Frontend
 - docker build -t "$FRONTEND_IMAGE" .
-#- cd Backend
-#- docker build -t "$BACKEND_IMAGE" .
+- cd Backend
+- docker build -t "$BACKEND_IMAGE" .
 - docker images
 
 before_deploy:
 - docker save "$FRONTEND_IMAGE" > FRONTEND_IMAGE.tar
-#- docker save "$BACKEND_IMAGE" > BACKEND_IMAGE.tar
-- sah1sum FRONTEND_IMAGE.tar > FRONTEND_IMAGE.tar.sha1
-#- sah1sum BACKEND_IMAGE.tar > BACKEND_IMAGE.tar.sha1
+- docker save "$BACKEND_IMAGE" > BACKEND_IMAGE.tar
+- sha1sum FRONTEND_IMAGE.tar > FRONTEND_IMAGE.tar.sha1
+- sha1sum BACKEND_IMAGE.tar > BACKEND_IMAGE.tar.sha1
 
 deploy:
   provider: releases
@@ -26,7 +26,8 @@ deploy:
   file: 
     - FRONTEND_IMAGE.tar
     - FRONTEND_IMAGE.tar.sha1
-#    - BACKEND_IMAGE.tar
-#    - BACKEND_IMAGE.tar.sha1
+    - BACKEND_IMAGE.tar
+    - BACKEND_IMAGE.tar.sha1
   on:
     repo: StiviiK/hsro-wt-project-angular
+    tags: true
