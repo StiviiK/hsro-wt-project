@@ -7,9 +7,11 @@ before_install:
   - docker info
 
 env:
-  - base_name = "$USERNAME/$REPO"
+  - base_name="$USERNAME/$REPO"
+  - frontend_name="$base_name/frontend"
+  - backend_name="$base_name/backend"
 
 script:
   - cd Frontend
-  - docker build -t '$base_name/frontend' .
+  - docker build -t $frontend_name .
   - docker images
