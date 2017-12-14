@@ -9,9 +9,10 @@ before_install:
 script:
 - cd Frontend
 - docker build -t "$FRONTEND_IMAGE" .
-- cd Backend
+- cd ../Backend/
 - docker build -t "$BACKEND_IMAGE" .
 - docker images
+- cd ..
 
 before_deploy:
 - docker save "$FRONTEND_IMAGE" > FRONTEND_IMAGE.tar
