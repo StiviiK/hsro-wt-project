@@ -1,0 +1,15 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker info
+
+env:
+  - base_name = "$USERNAME/$REPO"
+
+script:
+  - cd Frontend
+  - docker build -t $base_name/frontend .
+  - docker images
