@@ -11,8 +11,8 @@ script:
 - docker build -t "$FRONTEND_IMAGE" .
 - cd ../Backend/
 - docker build -t "$BACKEND_IMAGE" .
-- docker images
 - cd ..
+- docker images
 
 before_deploy:
 - docker save "$FRONTEND_IMAGE" > FRONTEND_IMAGE.tar
@@ -29,6 +29,7 @@ deploy:
     - FRONTEND_IMAGE.tar.sha1
     - BACKEND_IMAGE.tar
     - BACKEND_IMAGE.tar.sha1
+  skip_cleanup: true
   on:
     repo: StiviiK/hsro-wt-project-angular
     tags: true
