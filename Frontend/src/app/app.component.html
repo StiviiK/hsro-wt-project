@@ -1,15 +1,35 @@
-<mat-toolbar class="headerBar">
-  <mat-icon style="margin-right:25px" (click)="sidenav.toggle()">menu</mat-icon> <span>{{title}}</span>
+<mat-toolbar class="header">
+  <button mat-button class="menu-button" (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a routerLink="/dashboard" class="unmarked-link">{{title}}</a>
 </mat-toolbar>
-<mat-sidenav-container class="sidenav-main-container"  >
-  <mat-sidenav #sidenav mode="side" class="sidenav-container">
-    <a routerLink="/">main</a><br>
-    <a routerLink="/chat">Chat test</a>
+
+<mat-sidenav-container class="sidenav">
+  <mat-sidenav #sidenav mode="side" class="sidenav container">
+    <!--
+    <div class="sidenav header">
+      <mat-toolbar class="header">
+        <span style="margin-left: 15px">Awesome items!</span>
+      </mat-toolbar>
+    </div>
+    -->
+
+    <mat-list role="list">
+        <mat-list-item role="listitem">
+          <button mat-button routerLink="/dashboard" class="sidenav-item">
+            <mat-icon style="padding-right: 10px">home</mat-icon>Dashboard
+          </button>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+            <button mat-button routerLink="/chat" class="sidenav-item">
+            <mat-icon style="padding-right: 10px">chat</mat-icon>Chat
+            </button>
+        </mat-list-item>
+      </mat-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-   <span>
     <router-outlet></router-outlet>
-   </span>
   </mat-sidenav-content>
 </mat-sidenav-container>
