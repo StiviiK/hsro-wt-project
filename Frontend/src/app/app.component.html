@@ -1,1 +1,15 @@
-<mat-slider></mat-slider>
+<mat-toolbar class="headerBar">
+  <mat-icon style="margin-right:25px" (click)="sidenav.toggle()">menu</mat-icon> <span>{{title}}</span>
+</mat-toolbar>
+<mat-sidenav-container class="sidenav-main-container"  >
+  <mat-sidenav #sidenav mode="side" class="sidenav-container">
+    Sidenav content
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+   <span>
+    Placeholder(important dnd)
+   </span>
+  </mat-sidenav-content>
+</mat-sidenav-container>

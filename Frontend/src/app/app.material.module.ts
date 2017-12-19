@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
-import { MatSliderModule } from '@angular/material';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
-    MatSliderModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
   ],
   exports: [
     BrowserAnimationsModule,
-    MatSliderModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
   ],
 })
 export class AppMaterialModule { }
