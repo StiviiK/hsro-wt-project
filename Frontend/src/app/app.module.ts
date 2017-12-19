@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSliderModule} from '@angular/material/slider';
+import { AppMaterialModule } from './app.material.module';
 
 import { AppComponent } from './app.component';
 
@@ -13,8 +12,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    MatSliderModule
+    AppMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
