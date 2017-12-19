@@ -3,13 +3,13 @@
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-main-container"  >
   <mat-sidenav #sidenav mode="side" class="sidenav-container">
-    Sidenav content
-
+    <a routerLink="/">main</a><br>
+    <a routerLink="/chat">Chat test</a>
   </mat-sidenav>
 
   <mat-sidenav-content>
    <span>
-    Placeholder(important dnd)
+    <router-outlet></router-outlet>
    </span>
   </mat-sidenav-content>
 </mat-sidenav-container>
