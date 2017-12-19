@@ -9,7 +9,7 @@ WORKDIR /usr/src/app/build/
 ADD package.json .
 
 # Install depedencys
-RUN npm set progress=true && npm config set depth 0 && npm cache clean --force
+RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 RUN npm install
 
 # Add files
