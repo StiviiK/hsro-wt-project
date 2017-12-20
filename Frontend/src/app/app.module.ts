@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { ChatComponent } from './chat/chat.component';
 import { EnterpageComponent } from './enterpage/enterpage.component';
+import { ForumComponent } from './forum/forum.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
-    EnterpageComponent
+    EnterpageComponent,
+    ForumComponent
   ],
   imports: [
     BrowserModule,

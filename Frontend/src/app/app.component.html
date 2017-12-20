@@ -1,4 +1,4 @@
-<mat-toolbar class="header">
+<mat-toolbar class="header"><!-- this is the headerbar -->
   <button mat-button class="menu-button" (click)="sidenav.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -15,7 +15,7 @@
     </div>
     -->
 
-    <mat-list role="list">
+    <mat-list role="list"><!-- This is the List that pops out when u open the sidebarmenu -->
         <mat-list-item role="listitem">
           <button mat-button routerLink="/dashboard" class="sidenav-item">
             <mat-icon style="padding-right: 10px">home</mat-icon>Dashboard
@@ -26,10 +26,17 @@
             <mat-icon style="padding-right: 10px">chat</mat-icon>Chat
             </button>
         </mat-list-item>
+        <mat-list-item role="listitem">
+            <button mat-button routerLink="/forum" class="sidenav-item">
+            <mat-icon style="padding-right: 10px">forum</mat-icon>Forum
+            </button>
+        </mat-list-item>
       </mat-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
+  <mat-sidenav-content> <!-- Contains the content that gets Pushed by the Sidebar -->
+    <router-outlet class="Main Content"><!-- the router-outlet is the element that gets changed when the routes change -->
+
+    </router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
