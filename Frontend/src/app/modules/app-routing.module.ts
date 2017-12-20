@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { EnterpageComponent } from './enterpage/enterpage.component';
-import { ChatComponent } from './chat/chat.component';
-import { ForumComponent } from './forum/forum.component';
-import { ErrorComponent } from './error/error.component';
+import { EnterpageComponent } from '../components/enterpage/enterpage.component';
+import { ChatComponent } from '../components/chat/chat.component';
+import { ForumComponent } from '../components/forum/forum.component';
+import { ErrorComponent } from '../components/error/error.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // If path routing is empty redirect to dashboard
