@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppMaterialModule } from './modules/app.material.module';
-import { AppRoutingModule } from './modules/app-routing.module';
+import { AppMaterialModule } from './modules/material.module';
+import { AppRoutingModule } from './modules/routing.module';
 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './components/chat/chat.component';

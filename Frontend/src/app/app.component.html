@@ -6,7 +6,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav">
-  <mat-sidenav #sidenav mode="side" class="sidenav container">
+  <mat-sidenav #sidenav mode="push" class="sidenav container">
     <!--
     <div class="sidenav header">
       <mat-toolbar class="header">
@@ -22,15 +22,15 @@
           </button>
         </mat-list-item>
         <mat-list-item role="listitem">
-            <button mat-button routerLink="/chat" class="sidenav-item">
-            <mat-icon style="padding-right: 10px">chat</mat-icon>Chat
-            </button>
-        </mat-list-item>
-        <mat-list-item role="listitem">
             <button mat-button routerLink="/forum" class="sidenav-item">
             <mat-icon style="padding-right: 10px">forum</mat-icon>Forum
             </button>
         </mat-list-item>
+        <mat-list-item role="listitem">
+          <button mat-button routerLink="/chat" class="sidenav-item">
+          <mat-icon style="padding-right: 10px">chat</mat-icon>Chat
+          </button>
+      </mat-list-item>
       </mat-list>
   </mat-sidenav>
 
