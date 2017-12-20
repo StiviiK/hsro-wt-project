@@ -10,7 +10,8 @@ const routes: Routes = [
   // linking rout paths with components
   { path: 'dashboard', component: EnterpageComponent },
   { path: 'chat', component: ChatComponent },
-  { path: 'forum', component: ForumComponent }
+  { path: 'forum', component: ForumComponent },
+  { path: 'forum/test', component: ForumComponent},
 ];
 
 @NgModule({

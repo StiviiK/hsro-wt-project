@@ -7,7 +7,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
-
+import {MatGridListModule} from '@angular/material/grid-list';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -17,6 +17,7 @@ import {MatListModule} from '@angular/material/list';
     MatMenuModule,
     MatButtonModule,
     MatListModule,
+    MatGridListModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -26,6 +27,7 @@ import {MatListModule} from '@angular/material/list';
     MatMenuModule,
     MatButtonModule,
     MatListModule,
+    MatGridListModule,
   ],
 })
 export class AppMaterialModule { }

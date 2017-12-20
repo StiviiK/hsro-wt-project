@@ -8,6 +8,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { ChatComponent } from './chat/chat.component';
 import { EnterpageComponent } from './enterpage/enterpage.component';
 import { ForumComponent } from './forum/forum.component';
+import { ForumContentComponent } from './forum/forum-content/forum-content.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ForumComponent } from './forum/forum.component';
     AppComponent,
     ChatComponent,
     EnterpageComponent,
-    ForumComponent
+    ForumComponent,
+    ForumContentComponent
   ],
   imports: [
     BrowserModule,

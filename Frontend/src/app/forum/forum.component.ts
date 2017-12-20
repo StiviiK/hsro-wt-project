@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-forum',
   templateUrl: './forum.component.html',
-  styleUrls: ['./forum.component.scss']
+  styleUrls: ['./forum.component.scss'],
+
 })
 export class ForumComponent implements OnInit {
 
@@ -12,4 +13,8 @@ export class ForumComponent implements OnInit {
   ngOnInit() {
   }
 
+  goTo() {
+    console.log('laaft');
+
+  }
 }
