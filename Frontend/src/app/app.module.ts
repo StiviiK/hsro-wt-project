@@ -9,6 +9,7 @@ import { ChatComponent } from './chat/chat.component';
 import { EnterpageComponent } from './enterpage/enterpage.component';
 import { ForumComponent } from './forum/forum.component';
 import { ForumContentComponent } from './forum/forum-content/forum-content.component';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ForumContentComponent } from './forum/forum-content/forum-content.compo
     ChatComponent,
     EnterpageComponent,
     ForumComponent,
-    ForumContentComponent
+    ForumContentComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
