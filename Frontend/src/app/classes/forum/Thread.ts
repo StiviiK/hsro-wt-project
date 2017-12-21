@@ -9,6 +9,7 @@ export class Thread {
   public question: string;
   public answers: ThreadAnswer[];
   public lastUpdate: Date;
+  public votes: number;
 
   public constructor(id: number, views: number, creator: User, topic: string, question: string, lastUpdate: Date) {
     this.id = id;
@@ -18,6 +19,7 @@ export class Thread {
     this.question = question;
     this.answers = [];
     this.lastUpdate = lastUpdate;
+    this.votes = Math.floor(Math.random() * 20 - 10);
   }
 
   public addAnswer(answer: ThreadAnswer): number {

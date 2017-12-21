@@ -53,25 +53,24 @@ export class ThreadService {
      */
 
     return of([
+      this.threads[0],
       this.threads[1],
       this.threads[2],
-      this.threads[3]
+      this.threads[3],
+      this.threads[4],
+      this.threads[5],
     ]);
   }
 
   getLastVisited(): Observable<Thread[]> {
-    /**
-     * See ideas @ Thread Service getHottest-Method
-     */
-    return of([
-      this.threads[4],
-      this.threads[5]
-    ]);
-  }
+    const threads = [];
+    const self = this;
+    JSON.parse(localStorage.getItem('lastVisited') || '[]').forEach(
+      (item: any) => {
+        threads.push(self.threads[item - 1]);
+      }
+    );
 
-  /**
-   * Loading procdure:
-   * Thread service makes request to api => receives the thread
-   * after that Thread service makes request via ThreadAnswer service to api => add answers to thread
-   */
+    return of(threads);
+  }
 }

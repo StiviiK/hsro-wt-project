@@ -8,6 +8,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -18,6 +21,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatButtonModule,
     MatListModule,
     MatGridListModule,
+    MatChipsModule,
+    MatTooltipModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -28,6 +33,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatButtonModule,
     MatListModule,
     MatGridListModule,
+    MatChipsModule,
+    MatTooltipModule,
   ],
 })
 export class AppMaterialModule { }

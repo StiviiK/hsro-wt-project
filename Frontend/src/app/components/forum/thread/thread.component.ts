@@ -14,10 +14,13 @@ export class ForumThreadComponent implements OnInit {
 
   thread: Thread;
 
-  constructor(private _route: ActivatedRoute, private _router: Router, private _threadService: ThreadService) { }
+  constructor(private _route: ActivatedRoute,
+              private _router: Router,
+              private _threadService: ThreadService) { }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
+      this.updateHistory(params['id'] as string);
       this._threadService.get(params['id'], true).subscribe(thread => {
         if (thread === undefined) {
           this._router.navigate(['error', '404']);
@@ -28,4 +31,12 @@ export class ForumThreadComponent implements OnInit {
     });
   }
 
+  private updateHistory(threadId: string): void {
+    const lastVisited: string[] = JSON.parse(localStorage.getItem('lastVisited') || '[]');
+    if (!lastVisited.find(id => id === threadId)) {
+      lastVisited.unshift(threadId);
+    }
+    lastVisited.splice(4, 1);
+    localStorage.setItem('lastVisited', JSON.stringify(lastVisited));
+  }
 }
