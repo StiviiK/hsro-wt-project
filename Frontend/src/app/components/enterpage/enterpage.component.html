@@ -1,3 +1,19 @@
-<p>
-  enterpage works!
-</p>
+<div class="inner-content">
+  <mat-list>
+    <h3 mat-subheader>Hot Topics</h3>
+    <mat-list-item *ngFor="let topic of hotTopics">
+      <mat-icon mat-list-icon>speaker_notes</mat-icon>
+      <h4 mat-line>{{topic.name}}</h4>
+      <p mat-line> {{topic.updated | date}} </p>
+      <p>{{ topic.answers }} answers</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Last Topics visited</h3>
+    <mat-list-item *ngFor="let topic of lastTopics">
+      <mat-icon mat-list-icon>bookmark</mat-icon>
+      <h4 mat-line>{{topic.name}}</h4>
+      <p mat-line> {{topic.updated | date}} </p>
+      <p>{{ topic.answers }} answers</p>
+    </mat-list-item>
+  </mat-list>
+</div>
