@@ -5,6 +5,7 @@ import { EnterpageComponent } from '../components/enterpage/enterpage.component'
 import { ChatComponent } from '../components/chat/chat.component';
 import { ForumComponent } from '../components/forum/forum.component';
 import { ErrorComponent } from '../components/error/error.component';
+import { ForumThreadComponent } from '../components/forum/thread/thread.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // If path routing is empty redirect to dashboard
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'forum', component: ForumComponent },
   { path: 'forum/test', component: ForumComponent},
+  // { path: 'forum/thread', component: ForumThreadComponent },
+  { path: 'forum/thread/:id', component: ForumThreadComponent },
 
   // cath all other routes and redirect to 404 page
   { path: '**', redirectTo: '/error/404' },

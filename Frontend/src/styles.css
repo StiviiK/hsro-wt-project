@@ -1,4 +1,5 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 body {
   margin: 0px;
@@ -7,4 +8,9 @@ body {
 .unmarked-link{
   text-decoration: none;
   color: Black;
+}
+
+.inner-content{
+  margin-left: 10vw;
+  width: 80vw;
 }
