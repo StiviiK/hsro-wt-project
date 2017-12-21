@@ -18,12 +18,13 @@ export class ForumThreadComponent implements OnInit {
 
   ngOnInit() {
     this._route.params.subscribe(params => {
-      const thread = this._threadService.get(params['id'], true);
-      if (thread === undefined) {
-        this._router.navigate(['error', '404']);
-      } else {
-        this.thread = thread;
-      }
+      this._threadService.get(params['id'], true).subscribe(thread => {
+        if (thread === undefined) {
+          this._router.navigate(['error', '404']);
+        } else {
+          this.thread = thread;
+        }
+      });
     });
   }
 

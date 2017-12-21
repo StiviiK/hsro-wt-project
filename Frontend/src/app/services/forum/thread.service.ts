@@ -3,6 +3,9 @@ import { Thread } from '../../classes/forum/Thread';
 import { User } from '../../classes/user/User';
 import { ThreadAnswer } from '../../classes/forum/ThreadAnswer';
 
+import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs/Observable';
+
 const userA = new User(1, 'StiviK');
 const userB = new User(2, 'Verocode');
 const userC = new User(3, 'FatLoki');
@@ -11,7 +14,7 @@ const lorem_ipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 @Injectable()
 export class ThreadService {
 
-  private api_url = 'api/threads';
+  private static route = '/api/threads';
   private threads = [
     new Thread(1, 0, userA, 'Play two input with each output on two different channels simultaneously using sounddevice', lorem_ipsum, new Date(Date.now())),
     new Thread(2, 0, userA, 'Angular 4 is not working', lorem_ipsum, new Date('1/1/16')),
@@ -33,13 +36,13 @@ export class ThreadService {
     this.threads[5].addAnswer(new ThreadAnswer(5, this.threads[5], userB, 'Why do u ask me?'));
   }
 
-  get(id: number, fetchAnswers: boolean): Thread {
+  get(id: number, fetchAnswers: boolean): Observable<Thread> {
     // Step 1: fetches thread from api (without answers, boolean to disable answer fetching)
     // Step 2 (optional): ask ThreadAnswer service to get answers for this thread and attach/add them
-    return this.threads[id - 1];
+    return of(this.threads[id - 1]);
   }
 
-  getHottest(): Thread[] {
+  getHottest(): Observable<Thread[]> {
     /**
      * Idea 1:
      *  - Step 1: fetch thread ids from api
@@ -49,21 +52,21 @@ export class ThreadService {
      *  - Step 1: fetch direct the threads in this method (redudant code? because does same as Thread Service get-Method)
      */
 
-    return  [
+    return of([
       this.threads[1],
       this.threads[2],
       this.threads[3]
-    ];
+    ]);
   }
 
-  getLastVisited(): Thread[] {
+  getLastVisited(): Observable<Thread[]> {
     /**
      * See ideas @ Thread Service getHottest-Method
      */
-    return [
+    return of([
       this.threads[4],
       this.threads[5]
-    ];
+    ]);
   }
 
   /**
