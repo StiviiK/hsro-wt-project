@@ -1,11 +1,8 @@
 sudo: required
-
 services:
 - docker
-
 before_install:
 - docker info
-
 script:
 - cd Frontend
 - docker build -t "$FRONTEND_IMAGE" .
@@ -13,24 +10,25 @@ script:
 - docker build -t "$BACKEND_IMAGE" .
 - cd ..
 - docker images
-
 before_deploy:
 - docker save "$FRONTEND_IMAGE" > FRONTEND_IMAGE.tar
 - docker save "$BACKEND_IMAGE" > BACKEND_IMAGE.tar
 - sha1sum FRONTEND_IMAGE.tar > FRONTEND_IMAGE.tar.sha1
 - sha1sum BACKEND_IMAGE.tar > BACKEND_IMAGE.tar.sha1
-
 deploy:
   provider: releases
   api_key:
     secure: jvkW90AkOH8gT0SMxogwHN9ga7Cecl5vIsfCAmdhaPZTLOoHRL9TI9yGyhTqkiM3x1GwBEi3mF2m1T+no9EUxVZOa7ptzav5KXw0+BOA67bYzfqP0cP6l47Dx/YldHvYKZg8VYPzXQzDRhtyAUzxYFSZkETFvvd1whuDW3s4bdbaZ3OIBuEI8Ve58fo7ZMyPBz2K8Vt2ofIhDHzTOOvZvGBfgMJgHsgPj3QFxehHITFYWxWJ4rvbr9kaYXNrWE0rQVR3CaPzp9zfr1CgA43Zj6PMzmxJJoEdM9I4mxRMNwYn70XQCxiZP2eWpE9c/anRPPdhlBZipfra2ypTvqYpYQVnHNU3ba1yCsIFN3kcRKGNG8yez9xh5pL4wiTZ553Y+DDN3V/4mPvgOUzSMTI510zDcVRIVO91pov8HpTbAZZ+/nFtlPS1icWI7FdoXcPG+EhkVEc0Kl6/ZrXmUE0A52NG4rRSTrWvmNx8s/77YzaXoEAAA2eHiF7GbQ0WWugDOUoC7N1ukprZDfvRvzj1OwCzXs/z4/fLNEsFVBpkR9NzvTFa1JA5SdAf08cPM26I/yr16SL8jSudGlY3tQm+AftA07heGVIjI2DlT8CRPtOyNs+seJNrbo1jH4XxHhWSRY38xzFe6T+CgTdh6+qccY3K/1jF4lM6SqG9LFNyd0s=
-  file: 
-    - FRONTEND_IMAGE.tar
-    - FRONTEND_IMAGE.tar.sha1
-    - BACKEND_IMAGE.tar
-    - BACKEND_IMAGE.tar.sha1
-    - docker-compose.yml
+  file:
+  - FRONTEND_IMAGE.tar
+  - FRONTEND_IMAGE.tar.sha1
+  - BACKEND_IMAGE.tar
+  - BACKEND_IMAGE.tar.sha1
+  - docker-compose.yml
   skip_cleanup: true
   on:
     repo: StiviiK/hsro-wt-project
     tags: true
+notifications:
+  slack:
+    secure: CciXli5V00cG9WI7Pe0/OVqrMOt93T6We09n2rfdxq6QwpJq+AewLKth07tKqyCGbh/jy1Nt10ZjaKq+89qZ+KpTR6zD/CH77Kid6xmgCrcAzh6Jv4G6NhNJ19Dz08u3buTRPEFoKVz6TDBENZUJfkIBOuiWMjzJSdl03Us2UNkr1IKY1tDfYH1UZcswAcxaSPxE8KyaUwckV0z3a0XduA9bPh52xlsKO2PEDoV931jPDgoUwZeVrkpECkNy5gk7rn1MvshmEuqkQZbGFh3tpML6IvxXgQ/KO1CEB2LQ2/JQNlXSqS+RWz0ZyXqty0VjygXkKDuGWb/woZ8O4gCsiI063bGknQ/Tcw01m1nfxATD/TuPYT3B2L2HUJsCYMWSGUB3nkHSes+QGg33s7rRpivYunXTXQg2ZpkM7HYyAqHwL8oGtQj9E0nd2NahY87KudtMja7t/Doc7EWRDSRxsDaa+7rI1JxYyQYDSRXKSsRv942kg9G3mrBqGN4R6zQ0SR0HbyB8vDoq+rIcILVsMvBeVlZowyTqNlg3zWWD+XwUSpSwpGyXcS9ruNPgthgXoo3VXQT+f+Ro4INCYbwZQ/3klJBEawM7mWUpfZVxc8uMCJ6y+agxzjPAZej2l4eN/t+yw6qupHs9PIHhnA1drbrdT18nRkW5Ko3MHb1qAgM=
