@@ -1,0 +1,6 @@
+{
+    // Travis CI status extension
+    "travis.github_oauth_token": "cc25603a7f7f7530253460de5e2c48b9c9313adf",
+    "travis.pro": true,
+    "travis.statusPollingInterval": 600,
+}
