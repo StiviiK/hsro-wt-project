@@ -40,3 +40,20 @@ e2e/*.map
 # System Files
 .DS_Store
 Thumbs.db
+
+# Ignore Backend working directory #
+Backend/bin/
+Backend/db
+Backend/.eclipse
+Backend/lib/
+Backend/logs/
+Backend/modules
+Backend/project/project
+Backend/project/target
+Backend/target
+Backend/tmp/
+Backend/test-result
+Backend/server.pid
+Backend/*.eml
+Backend/dist/
+Backend/.cache

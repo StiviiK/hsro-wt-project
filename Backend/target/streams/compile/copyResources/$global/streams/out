@@ -1,7 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/mnt/d/Project/hsro-wt-project/Backend/conf/application.conf,/mnt/d/Project/hsro-wt-project/Backend/target/scala-2.12/classes/application.conf)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/mnt/d/Project/hsro-wt-project/Backend/conf/evolutions,/mnt/d/Project/hsro-wt-project/Backend/target/scala-2.12/classes/evolutions)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/mnt/d/Project/hsro-wt-project/Backend/conf/logback.xml,/mnt/d/Project/hsro-wt-project/Backend/target/scala-2.12/classes/logback.xml)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/mnt/d/Project/hsro-wt-project/Backend/conf/routes,/mnt/d/Project/hsro-wt-project/Backend/target/scala-2.12/classes/routes)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/mnt/d/Project/hsro-wt-project/Backend/conf/evolutions/default,/mnt/d/Project/hsro-wt-project/Backend/target/scala-2.12/classes/evolutions/default)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/mnt/d/Project/hsro-wt-project/Backend/conf/evolutions/default/1.sql,/mnt/d/Project/hsro-wt-project/Backend/target/scala-2.12/classes/evolutions/default/1.sql)[0m
