@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs/observable';
 import { AuthenticatedUser } from '../../models/user/User';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor { // Injects the authorization token into the http requests

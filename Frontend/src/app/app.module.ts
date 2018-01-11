@@ -23,6 +23,12 @@ import { LogoutComponent } from './components/user/auth/logout.component';
 
 
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'angular4-social-login';
+const socialConfig = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('46761239813-oumj8o0oh51ipa90d6gf88jkp2d946n3.apps.googleusercontent.com')
+  }
+]);
 
 @NgModule({
   declarations: [
@@ -41,14 +47,7 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'angul
     AppMaterialModule,
     AppRoutingModule,
     HttpClientModule,
-    SocialLoginModule.initialize(
-      new AuthServiceConfig([
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider('46761239813-oumj8o0oh51ipa90d6gf88jkp2d946n3.apps.googleusercontent.com')
-        }
-      ])
-    )
+    SocialLoginModule.initialize(socialConfig)
   ],
   providers: [
     {
