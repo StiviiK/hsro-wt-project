@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Thread } from '../../../classes/forum/Thread';
-import { ThreadService } from '../../../services/forum/thread.service';
-import { ThreadAnswer } from '../../../classes/forum/ThreadAnswer';
-import { User } from '../../../classes/user/User';
+import { Thread } from '../../../models/forum/Thread';
+import { ThreadService } from '../../../services/forum/thread';
+import { ThreadAnswer } from '../../../models/forum/ThreadAnswer';
+import { User } from '../../../models/user/User';
 
 @Component({
   selector: 'app-forum-thread',

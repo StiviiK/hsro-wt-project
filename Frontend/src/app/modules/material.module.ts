@@ -10,6 +10,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatGridListModule,
     MatChipsModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -35,6 +37,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatGridListModule,
     MatChipsModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class AppMaterialModule { }

@@ -6,7 +6,7 @@
 
     <div *ngFor="let answer of thread.answers; let i = index">
       <mat-divider></mat-divider>
-      <p>#{{ i }} - {{ answer.creator.username }}: {{ answer.message }}</p>
+      <p>#{{ i }} - {{ answer.creator.name }}: {{ answer.message }}</p>
     </div>
   </div>
   <div *ngIf="!thread">

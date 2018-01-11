@@ -1,0 +1,3 @@
+<p *ngIf="status === 'failed'">Login failed!</p>
+<mat-spinner *ngIf="status === 'loading'"></mat-spinner>
+<button mat-button (click)="login()">LogIn!</button>

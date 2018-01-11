@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Thread } from '../../classes/forum/Thread';
-import { User } from '../../classes/user/User';
-import { ThreadService } from '../../services/forum/thread.service';
+import { Thread } from '../../models/forum/Thread';
+import { User, AuthenticatedUser } from '../../models/user/User';
+import { ThreadService } from '../../services/forum/thread';
 
 @Component({
   selector: 'app-enterpage',
@@ -11,7 +11,6 @@ import { ThreadService } from '../../services/forum/thread.service';
 export class EnterpageComponent implements OnInit { // fill this with backend later
   hotThreads: Thread[];
   lastThreads: Thread[];
-
   constructor(private _threadService: ThreadService) { }
 
   ngOnInit() {

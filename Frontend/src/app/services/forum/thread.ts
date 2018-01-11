@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Thread } from '../../classes/forum/Thread';
-import { User } from '../../classes/user/User';
-import { ThreadAnswer } from '../../classes/forum/ThreadAnswer';
+import { Thread } from '../../models/forum/Thread';
+import { User } from '../../models/user/User';
+import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 
-const userA = new User(1, 'StiviK');
-const userB = new User(2, 'Verocode');
-const userC = new User(3, 'FatLoki');
+const userA = new User(1, 'Stefan Kürzeder', 'test@gmail.com', '');
+const userB = new User(2,  'Erik van Slingerland', 'test@gmail.com', '');
+const userC = new User(3, 'Moritz Dietl', 'test@gmail.com', '');
 const lorem_ipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Hendrerit gravida rutrum quisque non tellus orci ac auctor augue. Donec ac odio tempor orci. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac.';
 
 @Injectable()
@@ -17,11 +17,11 @@ export class ThreadService {
   private static route = '/api/threads';
   private threads = [
     new Thread(1, 0, userA, 'Play two input with each output on two different channels simultaneously using sounddevice', lorem_ipsum, new Date(Date.now())),
-    new Thread(2, 0, userA, 'Angular 4 is not working', lorem_ipsum, new Date('1/1/16')),
-    new Thread(3, 0, userA, 'PC doesnt start, help please', lorem_ipsum, new Date('1/17/16')),
-    new Thread(4, 0, userA, 'Work', lorem_ipsum, new Date('1/28/16')),
+    new Thread(2, 0, userC, 'Angular 4 is not working', lorem_ipsum, new Date('1/1/16')),
+    new Thread(3, 0, userB, 'PC doesnt start, help please', lorem_ipsum, new Date('1/17/16')),
+    new Thread(4, 0, userB, 'Work', lorem_ipsum, new Date('1/28/16')),
     new Thread(5, 0, userA, 'How do i do this computing thing', lorem_ipsum, new Date('2/20/16')),
-    new Thread(6, 0, userA, 'Website Remodel', lorem_ipsum, new Date('2/20/16')),
+    new Thread(6, 0, userC, 'Website Remodel', lorem_ipsum, new Date('2/20/16')),
   ]; // debug only, fetch later from api
 
   // IMPORTANT: CACHING?
