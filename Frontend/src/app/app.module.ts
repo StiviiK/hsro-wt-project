@@ -16,7 +16,7 @@ import { AuthInterceptor } from './services/authentication/auth.interceptor';
 import { ApiService } from './services/api/api.service';
 import { AuthenticationService } from './services/authentication/authentication';
 import { ThreadService } from './services/forum/thread';
-import { ForumCategoryService } from './services/forum/forum-category.service';
+import { ForumCategoryService } from './services/forum/forum-category';
 
 // components
 import { AppComponent } from './app.component';
@@ -29,6 +29,7 @@ import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-a
 import { ErrorComponent } from './components/error/error.component';
 import { LoginComponent } from './components/user/auth/login.component';
 import { LogoutComponent } from './components/user/auth/logout.component';
+import { UserService } from './services/user/user';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { LogoutComponent } from './components/user/auth/logout.component';
     ApiService,
     AuthenticationService,
     ThreadService,
-    ForumCategoryService
+    ForumCategoryService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

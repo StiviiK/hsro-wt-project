@@ -5,6 +5,7 @@ import { ForumCategory } from '../../models/forum/ForumCategory';
 import { of } from 'rxjs/observable/of';
 import { Thread } from '../../models/forum/Thread';
 import { User } from '../../models/user/User';
+import { ApiService } from '../api/api.service';
 
 const userA = new User(1, 'StiviK', 'fuck', 'you');
 const userB = new User(2, 'Verocode', 'fuck', 'you');
@@ -37,7 +38,9 @@ export class ForumCategoryService {
     new ForumCategory(8, 'RL', 'grey')
   ];
 
-  constructor() {
+  public categoriesX: ForumCategory[];
+
+  constructor(private _api: ApiService) {
     this.categories[0].addThread(threads[0]);
     this.categories[0].addThread(threads[1]);
     this.categories[1].addThread(threads[2]);

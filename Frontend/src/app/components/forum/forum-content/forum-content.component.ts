@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ForumCategory } from '../../../models/forum/ForumCategory';
-import { ForumCategoryService } from '../../../services/forum/forum-category.service';
+import { ForumCategoryService } from '../../../services/forum/forum-category';
 
 @Component({
   selector: 'app-forum-content',

@@ -25,9 +25,8 @@ const routes: Routes = [
   { path: 'dashboard', component: EnterpageComponent, canActivate: [AuthGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
-  // { path: 'forum/thread', component: ForumThreadComponent },
-  { path: 'forum/:categoryId', component: ForumContentComponent },
-  { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent },
+  { path: 'forum/:categoryId', component: ForumContentComponent, canActivate: [AuthGuard] },
+  { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
   { path: 'forum/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
 
   // cath all other routes and redirect to 404 page

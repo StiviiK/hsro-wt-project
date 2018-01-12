@@ -12,9 +12,4 @@ export class ForumComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  goTo() {
-    console.log('laaft');
-
-  }
 }

@@ -14,8 +14,8 @@ export class ApiService {
 
   constructor(private _http: HttpClient) { }
 
-  public get<T extends ApiResponse>(route: string, payload: ApiRequest): Observable<T> {
-    return this._http.get<T>(this.url + route, payload);
+  public get<T extends ApiResponse>(route: string): Observable<T> {
+    return this._http.get<T>(this.url + route);
   }
 
   public post<T extends ApiResponse>(route: string, payload: ApiRequest): Observable<T> {
@@ -26,7 +26,7 @@ export class ApiService {
     return this._http.put<T>(this.url + route, payload);
   }
 
-  public delete<T extends ApiResponse>(route: string, payload: ApiRequest): Observable<T> {
-    return this._http.delete<T>(this.url + route, payload);
+  public delete<T extends ApiResponse>(route: string): Observable<T> {
+    return this._http.delete<T>(this.url + route);
   }
 }

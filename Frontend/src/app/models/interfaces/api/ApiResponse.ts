@@ -1,5 +1,3 @@
-// import { Thread } from '../../forum/Thread';
-
 export interface ApiResponse {
   status: boolean;
   message: string;
@@ -17,6 +15,15 @@ export interface JWTApiResponse extends ApiResponse {
   };
 }
 
+export interface UserApiResponse extends ApiResponse {
+  data: {
+    id: number,
+    name: string,
+    email: string,
+    avatar_url: string,
+  };
+}
+
 // Example code
 // export interface ThreadApiResponse extends ApiResponse {
 //   data: {
@@ -27,14 +34,5 @@ export interface JWTApiResponse extends ApiResponse {
 //     question: string;
 //     answers: number[];
 //     lastUpdate: number;
-//   };
-// }
-
-// export interface UserApiResponse extends ApiResponse {
-//   data: {
-//     id: number;
-//     name: string;
-//     email: string;
-//     avatar_url: string;
 //   };
 // }

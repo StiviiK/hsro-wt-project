@@ -36,13 +36,26 @@ app.get('/api/thread/:id', (req, res) => {
         status: true,
         message: "successfully loaded thread!",
         data: {
-            id: 5,
+            id: req.params.id,
             views: 0,
             creator: 1,
             topic: 'Angular 4 is not working',
             question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Hendrerit gravida rutrum quisque non tellus orci ac auctor augue. Donec ac odio tempor orci. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac.',
             answers: {},
             lastUpdate: Date.now(),
+        }
+    })
+})
+
+app.get('/api/user/:id', (req, res) => {
+    res.send({
+        status: true,
+        message: "user found!",
+        data: {
+            id: req.params.id,
+            name: 'StiviK',
+            email: 'fuck',
+            avatar_url: 'you!'
         }
     })
 })
