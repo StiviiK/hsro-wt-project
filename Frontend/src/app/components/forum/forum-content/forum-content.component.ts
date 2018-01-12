@@ -9,7 +9,7 @@ import { ForumCategoryService } from '../../../services/forum/forum-category.ser
   styleUrls: ['./forum-content.component.css']
 })
 export class ForumContentComponent implements OnInit {
-  private category: ForumCategory;
+  public category: ForumCategory;
 
   constructor(private forumCategoryService: ForumCategoryService, private route: ActivatedRoute) {
   }

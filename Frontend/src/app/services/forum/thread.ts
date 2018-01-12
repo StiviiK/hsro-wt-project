@@ -6,7 +6,7 @@ import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../api/api.service';
-import { ApiRequest, AuthenticatedApiRequest } from '../../models/interfaces/api/ApiRequest';
+import { ApiRequest } from '../../models/interfaces/api/ApiRequest';
 // import { ApiResponse, ThreadApiResponse, UserApiResponse } from '../../models/interfaces/api/ApiResponse';
 import { mergeMap } from 'rxjs/operators/mergeMap';
 
