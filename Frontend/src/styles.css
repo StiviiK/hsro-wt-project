@@ -10,6 +10,11 @@ body {
   color: Black;
 }
 
+.forum-header .unmarked-link:not(:last-child)::after {
+  margin: 0 0.25rem;
+  content: '>';
+}
+
 .inner-content{
   margin: 0 10vw 0 10vw;
 }

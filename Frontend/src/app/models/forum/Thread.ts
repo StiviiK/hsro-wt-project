@@ -1,5 +1,6 @@
 import { User } from '../user/User';
 import { ThreadAnswer } from './ThreadAnswer';
+import { ForumCategory } from './ForumCategory';
 
 export class Thread {
   public id: number;
@@ -10,6 +11,7 @@ export class Thread {
   public answers: ThreadAnswer[];
   public lastUpdate: Date;
   public votes: number;
+  public category: ForumCategory;
 
   public constructor(id: number, views: number, creator: User, topic: string, question: string, lastUpdate: Date) {
     this.id = id;

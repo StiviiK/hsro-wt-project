@@ -4,6 +4,7 @@ import { Thread } from '../../../models/forum/Thread';
 import { ThreadService } from '../../../services/forum/thread';
 import { ThreadAnswer } from '../../../models/forum/ThreadAnswer';
 import { User } from '../../../models/user/User';
+import { ForumCategory } from '../../../models/forum/ForumCategory';
 
 @Component({
   selector: 'app-forum-thread',
@@ -11,7 +12,6 @@ import { User } from '../../../models/user/User';
   styleUrls: ['./thread.component.scss']
 })
 export class ForumThreadComponent implements OnInit {
-
   thread: Thread;
 
   constructor(private _route: ActivatedRoute,

@@ -1,7 +1,15 @@
-.forum-grid-list-selector{
-  margin:50px;
+mat-list-item {
+  cursor: pointer;
 }
-.category-header{
- margin:20px;
-  text-align: center;
+
+mat-list-item:hover {
+  background-color: #BDBDBD;
+}
+
+.vote {
+  color: green;
+}
+
+.vote-red {
+  color: red;
 }

@@ -10,6 +10,7 @@ import { ErrorComponent } from '../components/error/error.component';
 import { ForumThreadComponent } from '../components/forum/thread/thread.component';
 import { LoginComponent } from '../components/user/auth/login.component';
 import { LogoutComponent } from '../components/user/auth/logout.component';
+import { ForumContentComponent } from '../components/forum/forum-content/forum-content.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,6 +26,8 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
   // { path: 'forum/thread', component: ForumThreadComponent },
+  { path: 'forum/:categoryId', component: ForumContentComponent },
+  { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent },
   { path: 'forum/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
 
   // cath all other routes and redirect to 404 page

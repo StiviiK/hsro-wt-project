@@ -15,6 +15,7 @@ import { AuthInterceptor } from './services/authentication/auth.interceptor';
 // services
 import { ThreadService } from './services/forum/thread';
 import { AuthenticationService } from './services/authentication/authentication';
+import { ForumCategoryService } from './services/forum/forum-category.service';
 
 // components
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { EnterpageComponent } from './components/enterpage/enterpage.component';
 import { ForumComponent } from './components/forum/forum.component';
 import { ForumContentComponent } from './components/forum/forum-content/forum-content.component';
 import { ForumThreadComponent } from './components/forum/thread/thread.component';
+import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-answer.component';
 import { ErrorComponent } from './components/error/error.component';
 import { LoginComponent } from './components/user/auth/login.component';
 import { LogoutComponent } from './components/user/auth/logout.component';
@@ -36,6 +38,7 @@ import { LogoutComponent } from './components/user/auth/logout.component';
     ForumContentComponent,
     ErrorComponent,
     ForumThreadComponent,
+    ThreadAnswerComponent,
     LoginComponent,
     LogoutComponent
   ],
@@ -64,7 +67,10 @@ import { LogoutComponent } from './components/user/auth/logout.component';
     AuthGuard,
 
     // Services
-    ThreadService, AuthenticationService],
+    ThreadService,
+    AuthenticationService,
+    ForumCategoryService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

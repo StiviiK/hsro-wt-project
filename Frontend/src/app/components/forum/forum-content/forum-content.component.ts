@@ -1,26 +1,29 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ForumCategory } from '../../../models/forum/ForumCategory';
+import { ForumCategoryService } from '../../../services/forum/forum-category.service';
 
 @Component({
   selector: 'app-forum-content',
   templateUrl: './forum-content.component.html',
   styleUrls: ['./forum-content.component.css']
 })
-export class ForumContentComponent implements OnInit {  // we want to Get this info from Server
-  computerTiles = [
-    {text: 'Web technology', cols: 1, rows: 1, color: 'lightblue' },
-    {text: 'Java', cols: 1, rows: 1, color: 'lightgreen'},
-    {text: 'Unity', cols: 1, rows: 1, color: 'lightpink'},
-    {text: 'Hardware', cols: 1, rows: 1, color: '#DDBDF1'},
-  ]
-  etcTiles = [
-    {text: 'Food', cols: 1, rows: 1, color: 'red' },
-    {text: 'Crafting', cols: 1, rows: 1, color: 'orange'},
-    {text: 'Sport', cols: 1, rows: 1, color: 'yellow'},
-    {text: 'RL', cols: 1, rows: 1, color: 'grey'},
-  ];
-  constructor() { }
+export class ForumContentComponent implements OnInit {
+  private category: ForumCategory;
+
+  constructor(private forumCategoryService: ForumCategoryService, private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
+    let id: number;
+    this.route.params.subscribe(params => {
+      id = params['categoryId'];
+    });
+    this.forumCategoryService.getForumCategory(id).subscribe(
+      category => {
+        this.category = category;
+      }
+    );
   }
 }
 
