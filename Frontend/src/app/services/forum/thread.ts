@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Thread } from '../../models/forum/Thread';
-import { User } from '../../models/user/User';
+import { User, AuthenticatedUser } from '../../models/user/User';
 import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
+import { ApiService } from '../api/api.service';
+import { ApiRequest, AuthenticatedApiRequest } from '../../models/interfaces/api/ApiRequest';
+// import { ApiResponse, ThreadApiResponse, UserApiResponse } from '../../models/interfaces/api/ApiResponse';
+import { mergeMap } from 'rxjs/operators/mergeMap';
 
 const userA = new User(1, 'Stefan Kürzeder', 'test@gmail.com', '');
 const userB = new User(2,  'Erik van Slingerland', 'test@gmail.com', '');
@@ -26,7 +30,7 @@ export class ThreadService {
 
   // IMPORTANT: CACHING?
 
-  constructor() {
+  constructor(private _api: ApiService) {
     this.threads[1].addAnswer(new ThreadAnswer(1, this.threads[1], userA, 'Angular? can u eat this?'));
 
     this.threads[2].addAnswer(new ThreadAnswer(2, this.threads[2], userA, 'You fucked up!'));
@@ -39,8 +43,51 @@ export class ThreadService {
   get(id: number, fetchAnswers: boolean): Observable<Thread> {
     // Step 1: fetches thread from api (without answers, boolean to disable answer fetching)
     // Step 2 (optional): ask ThreadAnswer service to get answers for this thread and attach/add them
+
+    // Example code
+    // return this._api.get<ThreadApiResponse>('thread/' + id, {})
+    //   .pipe(
+    //     mergeMap(
+    //       (response: ThreadApiResponse): Observable<Thread> => {
+    //         const data = response.data;
+    //         let observable = this.getUser(data.creator)
+    //           .map(
+    //             (user: User): Thread => {
+    //               return new Thread(data.id, data.views, user, data.topic, data.question, new Date(data.lastUpdate));
+    //             }
+    //           );
+
+    //         if (fetchAnswers === true) {
+    //           observable = observable.pipe(
+    //             mergeMap(
+    //               (thread: Thread): Observable<Thread> => {
+    //                 return this.getAnswers(id)
+    //                   .map(
+    //                     (threadAnswer: ThreadAnswer): Thread => {
+    //                       thread.addAnswer(threadAnswer);
+    //                       return thread;
+    //                     }
+    //                   );
+    //               }
+    //             )
+    //           );
+    //         }
+
+    //         return observable;
+    //       }
+    //     )
+    //   );
     return of(this.threads[id - 1]);
   }
+
+  // Example code
+  // getUser(id: number): Observable<User> {
+  //   return of(userA);
+  // }
+
+  // getAnswers(id: number): Observable<ThreadAnswer> {
+  //   return of(new ThreadAnswer(1, this.threads[1], userA, 'Angular? can u eat this?'));
+  // }
 
   getHottest(): Observable<Thread[]> {
     /**

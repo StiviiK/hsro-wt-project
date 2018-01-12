@@ -8,6 +8,11 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'ng4-s
 import { AppMaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/routing.module';
 
+// services
+import { ApiService } from './services/api/api.service';
+import { ThreadService } from './services/forum/thread';
+import { AuthenticationService } from './services/authentication/authentication';
+
 // auth
 import { AuthGuard } from './guards/authentication/auth.guard';
 import { AuthInterceptor } from './services/authentication/auth.interceptor';
@@ -67,8 +72,9 @@ import { LogoutComponent } from './components/user/auth/logout.component';
     AuthGuard,
 
     // Services
+	ApiService,
+	AuthenticationService,
     ThreadService,
-    AuthenticationService,
     ForumCategoryService
   ],
   bootstrap: [AppComponent]
