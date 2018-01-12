@@ -8,18 +8,14 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from 'ng4-s
 import { AppMaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/routing.module';
 
-// services
-import { ApiService } from './services/api/api.service';
-import { ThreadService } from './services/forum/thread';
-import { AuthenticationService } from './services/authentication/authentication';
-
 // auth
 import { AuthGuard } from './guards/authentication/auth.guard';
 import { AuthInterceptor } from './services/authentication/auth.interceptor';
 
 // services
-import { ThreadService } from './services/forum/thread';
+import { ApiService } from './services/api/api.service';
 import { AuthenticationService } from './services/authentication/authentication';
+import { ThreadService } from './services/forum/thread';
 import { ForumCategoryService } from './services/forum/forum-category.service';
 
 // components
@@ -72,8 +68,8 @@ import { LogoutComponent } from './components/user/auth/logout.component';
     AuthGuard,
 
     // Services
-	ApiService,
-	AuthenticationService,
+    ApiService,
+    AuthenticationService,
     ThreadService,
     ForumCategoryService
   ],
