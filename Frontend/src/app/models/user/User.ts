@@ -1,5 +1,5 @@
 import { EmailValidator } from '@angular/forms';
-import { SocialUser } from 'angular4-social-login';
+import { SocialUser } from 'ng4-social-login';
 
 export class User { // represents any user
   public id: number;

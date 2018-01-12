@@ -5,8 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
-import { AuthService, GoogleLoginProvider } from 'angular4-social-login';
-import { SocialUser } from 'angular4-social-login/entities/user';
+import { AuthService, GoogleLoginProvider, SocialUser } from 'ng4-social-login';
 import { mergeMap } from 'rxjs/operators/mergeMap';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { AuthenticatedUser } from '../../models/user/User';
@@ -33,10 +32,10 @@ export class AuthenticationService {
       .pipe(
         mergeMap(
           (user: SocialUser) => {
-            if (user && user.authToken) {
+            if (user && user.token) {
               return this._http.post<APILoginResponse>('//localhost:3000/jwt/get/',
                   JSON.stringify({
-                    googleToken: user.authToken,
+                    googleToken: user.token,
                     email: user.email, // unique + primary key
                     name: user.name,
                     avatar: user.photoUrl
