@@ -1,6 +1,8 @@
 import { SocialUser } from 'ng4-social-login';
 
 export class User { // represents any user
+  public static users: Map<number, User> = new Map();;
+
   public id: number;
   public name: string;
   public email: string; // unique + primary key
