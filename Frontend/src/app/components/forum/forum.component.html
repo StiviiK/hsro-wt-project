@@ -1,5 +1,5 @@
 <mat-toolbar class="forum-header"><!-- this is the headerbar -->
-  <a routerLink="/forum" class="unmarked-link">Forum</a>
+  <a routerLink="/!/forum" class="unmarked-link">Forum</a>
 </mat-toolbar>
 <h2 class="category-header">Categories</h2>
 <mat-grid-list class="forum-grid-list-selector" cols="2" rowHeight="100px" >
@@ -9,7 +9,7 @@
     [rowspan]=1
     [style.background]="category.color"
   >
-    <a routerLink="/forum/{{category.id}}" class="tile-link">
+    <a routerLink="/!/forum/{{category.id}}" class="tile-link">
     <div class="tile-link-content">
       <span>{{category.name}}</span>
     </div>

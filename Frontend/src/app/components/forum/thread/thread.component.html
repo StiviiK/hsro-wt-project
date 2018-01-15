@@ -1,12 +1,12 @@
 <mat-toolbar *ngIf="thread.category" class="forum-header"><!-- this is the headerbar -->
-  <a routerLink="/forum" class="unmarked-link">Forum</a>
-  <a routerLink="/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
-  <a routerLink="/forum/{{category.id}}/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.question}}</a>
+  <a routerLink="/!/forum" class="unmarked-link">Forum</a>
+  <a routerLink="/!/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
+  <a routerLink="/!/forum/{{category.id}}/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.question}}</a>
 </mat-toolbar>
 <!-- Remove later -->
 <mat-toolbar *ngIf="thread.category == null" class="forum-header"><!-- this is the headerbar -->
-  <a routerLink="/forum" class="unmarked-link">Forum</a>
-  <a routerLink="/forum/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.topic}}</a>
+  <a routerLink="/!/forum" class="unmarked-link">Forum</a>
+  <a routerLink="/!/forum/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.topic}}</a>
 </mat-toolbar>
 <!-- Remove end -->
 <div class="inner-content">

@@ -1,0 +1,33 @@
+.header {
+    padding-left: 0;
+    background-color: #FF9800;
+    color: white;
+  }
+  
+  .menu-button {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  .unmarked-link {
+    color: #FFFFFF;
+  }
+  
+  .sidenav {
+    height: 93.5vh;
+  
+    .header {
+      height: 7vh;
+    }
+  
+    .container {
+      background-color: white;
+      width: 15vw;
+    }
+  }
+  
+  .sidenav-item {
+    width: 100%;
+    text-align: left;
+  }
+  

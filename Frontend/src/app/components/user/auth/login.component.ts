@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
       (result) => {
         this.status = null;
         console.log(result);
-        this._router.navigate(['/dashboard']);
+        this._router.navigate(['/!/dashboard']);
       },
       (err) => {
         this.status = "failed";

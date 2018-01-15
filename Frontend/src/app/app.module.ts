@@ -20,6 +20,9 @@ import { ForumCategoryService } from './services/forum/forum-category';
 
 // components
 import { AppComponent } from './app.component';
+import { LoginComponent } from './components/user/auth/login.component';
+import { LogoutComponent } from './components/user/auth/logout.component';
+import { NavComponent } from './components/nav/nav.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { EnterpageComponent } from './components/enterpage/enterpage.component';
 import { ForumComponent } from './components/forum/forum.component';
@@ -27,22 +30,21 @@ import { ForumContentComponent } from './components/forum/forum-content/forum-co
 import { ForumThreadComponent } from './components/forum/thread/thread.component';
 import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-answer.component';
 import { ErrorComponent } from './components/error/error.component';
-import { LoginComponent } from './components/user/auth/login.component';
-import { LogoutComponent } from './components/user/auth/logout.component';
 import { UserService } from './services/user/user';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    LogoutComponent,
+    NavComponent,
     ChatComponent,
     EnterpageComponent,
     ForumComponent,
     ForumContentComponent,
     ErrorComponent,
     ForumThreadComponent,
-    ThreadAnswerComponent,
-    LoginComponent,
-    LogoutComponent
+    ThreadAnswerComponent
   ],
   imports: [
     BrowserModule,

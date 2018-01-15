@@ -2,7 +2,7 @@
   <mat-list>
     <div *ngIf="lastThreads.length > 0">
       <h3 mat-subheader>Last Topics visited</h3>
-      <mat-list-item *ngFor="let thread of lastThreads" routerLink="/forum/thread/{{ thread.id }}">
+      <mat-list-item *ngFor="let thread of lastThreads" routerLink="/!/forum/thread/{{ thread.id }}">
         <mat-icon mat-list-icon>bookmark</mat-icon>
         <h4 mat-line>{{thread.topic}}</h4>
         <p mat-line>by {{thread.creator.name}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
@@ -12,7 +12,7 @@
       <mat-divider></mat-divider>
     </div>
     <h3 mat-subheader>Hot Topics</h3>
-    <mat-list-item *ngFor="let thread of hotThreads" routerLink="/forum/thread/{{ thread.id }}">
+    <mat-list-item *ngFor="let thread of hotThreads" routerLink="/!/forum/thread/{{ thread.id }}">
       <mat-icon mat-list-icon>speaker_notes</mat-icon>
       <h4 mat-line>{{thread.topic}}</h4>
       <p mat-line>by {{thread.creator.name}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
