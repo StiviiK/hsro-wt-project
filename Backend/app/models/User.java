@@ -16,6 +16,12 @@ public class User extends Model {
     @Constraints.Required
     private String username;
 
+    @Constraints.Required
+    private String password;
+
+
+    private String currentToken;
+
     public static final Finder<Long, User> find = new Finder<>(User.class);
 
     //region Getter & Setter
@@ -32,5 +38,20 @@ public class User extends Model {
         this.username = username;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getCurrentToken() {
+        return currentToken;
+    }
+
+    public void setCurrentToken(String currentToken) {
+        this.currentToken = currentToken;
+    }
     //endregion
 }

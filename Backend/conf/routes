@@ -10,6 +10,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 #UserRoutes
 + nocsrf
++ noJwtFilter
 POST    /Users                      controllers.UserController.create()
 PATCH   /Users/:id                  controllers.UserController.update(id: Long)
 + nocsrf
@@ -38,3 +39,18 @@ GET     /Forum/:id/Post/:pid        controllers.ForumPostController.get(id:Long,
 
 #ChatRoutes
 GET     /Chat/Host                  controllers.SocketController.hostSocket()
+
+# An example controller showing a sample home page
++ noJwtFilter
+GET         /jwt                          controllers.JwtController.generateSignedToken
+
++ noJwtFilter
+POST     /jwt/login                     controllers.JwtController.login()
+
++ noJwtFilter
+GET     /jwt/requires-jwt               controllers.JwtController.requiresJwt
+
+GET     /jwt/requires-jwt-via-filter    controllers.JwtController.requiresJwtViaFilter
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /jwt/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
