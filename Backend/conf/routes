@@ -15,6 +15,7 @@ POST    /Users                      controllers.UserController.create()
 PATCH   /Users/:id                  controllers.UserController.update(id: Long)
 + nocsrf
 DELETE  /Users/:id                  controllers.UserController.delete(id: Long)
++ noJwtFilter
 GET     /Users                      controllers.UserController.list()
 GET     /Users/:id                  controllers.UserController.get(id: Long)
 GET    /Users/:id/Login            controllers.UserController.login(id: Long)
@@ -26,23 +27,26 @@ GET     /Users/:id/Chat             controllers.SocketController.connectWith(id:
 POST    /Forum                      controllers.ForumController.create()
 PATCH   /Forum/:id                  controllers.ForumController.update(id: Long)
 DELETE  /Forum/:id                  controllers.ForumController.delete(id: Long)
++ noJwtFilter
 GET     /Forum                      controllers.ForumController.list()
++ noJwtFilter
 GET     /Forum/:id                  controllers.ForumController.get(id: Long)
 
 #PostRoutes
 + nocsrf
+
 POST    /Forum/:id/Post             controllers.ForumPostController.create(id: Long)
 PATCH   /Forum/:id/Post/:pid        controllers.ForumPostController.update(id: Long,pid: Long)
 DELETE  /Forum/:id/Post/:pid        controllers.ForumPostController.delete(id: Long,pid: Long)
++ noJwtFilter
 GET     /Forum/:id/Post             controllers.ForumPostController.list(id: Long)
++ noJwtFilter
 GET     /Forum/:id/Post/:pid        controllers.ForumPostController.get(id:Long,pid: Long)
 
 #ChatRoutes
 GET     /Chat/Host                  controllers.SocketController.hostSocket()
 
 # An example controller showing a sample home page
-+ noJwtFilter
-GET         /jwt                          controllers.JwtController.generateSignedToken
 
 + noJwtFilter
 POST     /jwt/login                     controllers.JwtController.login()

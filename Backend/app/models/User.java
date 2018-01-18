@@ -19,6 +19,8 @@ public class User extends Model {
     @Constraints.Required
     private String password;
 
+    @Constraints.Required
+    private String email;
 
     private String currentToken;
 
@@ -53,5 +55,14 @@ public class User extends Model {
     public void setCurrentToken(String currentToken) {
         this.currentToken = currentToken;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     //endregion
 }

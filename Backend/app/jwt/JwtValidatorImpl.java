@@ -24,7 +24,7 @@ public class JwtValidatorImpl implements JwtValidator {
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
         verifier = JWT.require(algorithm)
-                .withIssuer("ThePlayApp")
+                //.withIssuer("ThePlayApp")
                 .build();
     }
 

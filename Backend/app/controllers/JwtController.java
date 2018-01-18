@@ -31,9 +31,9 @@ public class JwtController extends Controller {
     @Inject
     private Config config;
 
-    public Result generateSignedToken() throws UnsupportedEncodingException {
+    /*public Result generateSignedToken() throws UnsupportedEncodingException {
         return ok("signed token: " + getSignedToken(5l));
-    }
+    }*/
 
     public Result login() throws UnsupportedEncodingException {
         JsonNode body = request().body().asJson();
@@ -56,7 +56,7 @@ public class JwtController extends Controller {
                     //pw correct! logging in!
                     //System.out.println(currentUser.getUsername()+currentUser.getPassword());
                     ObjectNode result = Json.newObject();
-                    String currentToken=getSignedToken(currentUser.getId());
+                    String currentToken=getSignedToken(currentUser);
                     currentUser.setCurrentToken(currentToken);
                     result.put("access_token", currentToken);
                     return ok(result);
@@ -79,13 +79,14 @@ public class JwtController extends Controller {
         return forbidden();
     }
 
-    private String getSignedToken(Long userId) throws UnsupportedEncodingException {
+    private String getSignedToken(User user) throws UnsupportedEncodingException {
         String secret = config.getString("play.http.secret.key");
         System.out.println(secret);
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
-                .withIssuer("ThePlayApp")
-                .withClaim("user_id", userId)
+                .withClaim("username",user.getUsername())
+                .withClaim("email",user.getEmail())
+                .withClaim("user_id", user.getId())
                 .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusMinutes(10).toInstant()))
                 .sign(algorithm);
     }
