@@ -44,7 +44,7 @@ import { UserService } from './services/user/user';
     ForumContentComponent,
     ErrorComponent,
     ForumThreadComponent,
-    ThreadAnswerComponent
+    ThreadAnswerComponent,
   ],
   imports: [
     BrowserModule,

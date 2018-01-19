@@ -11,6 +11,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCardModule} from '@angular/material/card';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @NgModule({
   imports: [
@@ -25,6 +29,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatChipsModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   exports: [
     BrowserAnimationsModule,
@@ -38,6 +45,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatChipsModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
 })
 export class AppMaterialModule { }
