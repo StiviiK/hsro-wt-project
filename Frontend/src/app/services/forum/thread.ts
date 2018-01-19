@@ -48,14 +48,7 @@ export class ThreadService {
      *  - Step 1: fetch direct the threads in this method (redudant code? because does same as Thread Service get-Method)
      */
 
-    return of([
-      this.threads[0],
-      this.threads[1],
-      this.threads[2],
-      this.threads[3],
-      this.threads[4],
-      this.threads[5],
-    ]);
+    return of();
   }
 
   getLastVisited(): Observable<Thread[]> {

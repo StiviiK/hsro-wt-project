@@ -1,4 +1,4 @@
-<div class="inner-content">
+<div class="inner-content" *ngIf="thread !== undefined">
   <mat-list>
     <div *ngIf="lastThreads.length > 0">
       <h3 mat-subheader>Last Topics visited</h3>
@@ -21,3 +21,4 @@
     </mat-list-item>
   </mat-list>
 </div>
+<p *ngIf="thread === undefined">Loading...</p>
