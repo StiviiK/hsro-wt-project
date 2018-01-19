@@ -21,7 +21,6 @@
       <app-thread-answer [answer]="answer" [count]="i"></app-thread-answer>
     </div>
     <div>
-      <form>
         <mat-form-field class="maxWidth">
           <textarea matInput placeholder="reply" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
         </mat-form-field>
@@ -29,7 +28,6 @@
         <button mat-icon-button>
           <mat-icon>send</mat-icon>
         </button>
-      </form>
     </div>
   </div>
   <div *ngIf="!thread">
