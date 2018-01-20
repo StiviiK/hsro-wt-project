@@ -2,10 +2,15 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import helper.PostAction;
 import helper.ResultHelper;
+import io.ebean.Ebean;
 import models.Forum;
 
+import models.ForumPost;
+import play.Logger;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
@@ -13,6 +18,7 @@ import play.mvc.Result;
 import play.mvc.With;
 
 import javax.inject.Inject;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -38,7 +44,7 @@ public class ForumController extends Controller {
             //Validation
             return CompletableFuture.supplyAsync(() -> {
                         forum.save();
-                        return ok(ResultHelper.success("Forum created sucessfully", Json.toJson(forum)));
+                        return ok(ResultHelper.completed(true, "Forum created sucessfully", Json.toJson(forum)));
                     }
                     , hec.current());
         }
@@ -55,7 +61,7 @@ public class ForumController extends Controller {
             } else {
                 return CompletableFuture.supplyAsync(() -> {
                     forum.update();
-                    return ok(ResultHelper.success("Updated sucessfully", Json.toJson(forum)));
+                    return ok(ResultHelper.completed(true, "Updated sucessfully", Json.toJson(forum)));
                 }, hec.current());
             }
         }
@@ -64,9 +70,21 @@ public class ForumController extends Controller {
 
     public CompletionStage<Result> list() {
         return CompletableFuture.supplyAsync(() -> {
-            List<Forum> userList = Forum.find.all();
-            JsonNode forumList = Json.toJson(userList);
-            return ok(ResultHelper.success("Collected Forums sucessfully", forumList));
+            List<Forum> forumlist = Forum.find.all();
+            System.out.println(forumlist.toString());
+            //JsonNode forumListJN =Json.toJson(forumlist);
+            ObjectNode dataNode = Json.newObject();
+            ArrayNode forums = Json.newArray();
+            for (Forum forum : forumlist
+                    ) {
+                ObjectNode currentForum = Json.newObject();
+                currentForum.put("id", forum.getId());
+                currentForum.put("name", forum.getName());
+                currentForum.put("color", forum.getColor());
+                forums.add(currentForum);
+            }
+            dataNode.put("forum", forums);
+            return ok(ResultHelper.completed(true, "Collected Forums sucessfully", dataNode));
         }, hec.current());
     }
 
@@ -77,21 +95,38 @@ public class ForumController extends Controller {
             //Validation
             if (toDelete != null) {
                 toDelete.delete();
-                return ok(ResultHelper.success("Deleted succesfully", null));
+                return ok(ResultHelper.completed(true, "Deleted succesfully", null));
             } else {
-                return notFound("Forum not found");
+                return notFound(ResultHelper.completed(false, "Forum not found", null));
             }
         }, hec.current());
     }
-    public CompletionStage<Result> get(long forumID){
+
+    public CompletionStage<Result> get(long forumID) {
         return CompletableFuture.supplyAsync(() -> {
             Forum toGet = Forum.find.byId(forumID);
-            //Validation
-            if (toGet != null) {
-                return ok(ResultHelper.success("Read succesfully", Json.toJson(toGet)));
-            } else {
-                return notFound("Forum not found");
+            List<ForumPost> posts = toGet.getPosts();
+            ObjectNode node = Json.newObject();
+            node.put("id", toGet.getId());
+            node.put("name", toGet.getName());
+            node.put("color", toGet.getColor());
+
+            ArrayNode postsNode = Json.newArray();
+            for (ForumPost post : posts
+                    ) {
+                ObjectNode currentPost = Json.newObject();
+                currentPost.put("id", post.getId());
+                currentPost.put("topic", post.getTopic());
+                currentPost.put("question", post.getQuestion());
+                currentPost.put("views", post.getViews());
+                currentPost.put("creator", post.getCreator().getName());
+                postsNode.add(currentPost);
             }
+            node.set("threads", postsNode);
+
+            //Validation
+            return ok(ResultHelper.completed(true, "succes", node));
+
         }, hec.current());
     }
     //endregion

@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints;
@@ -21,8 +22,13 @@ public class Forum extends Model {
     @Constraints.Required
     private String name;
 
+    @Constraints.Required
+    private String color;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<ForumPost> posts;
+
+
 
     public static final Finder<Long, Forum> find = new Finder<>(Forum.class);
 //region Getter & Setter
@@ -51,5 +57,14 @@ public class Forum extends Model {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     //endregion
 }

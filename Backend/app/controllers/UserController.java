@@ -34,10 +34,10 @@ public class UserController extends Controller {
             //Validation
             return CompletableFuture.supplyAsync(() -> {
                 currentUser.save();
-                return ok(ResultHelper.success("Added succesfully", Json.toJson(currentUser)));
+                return ok(ResultHelper.completed(true,"Added succesfully", Json.toJson(currentUser)));
             }, hec.current());
         }
-        return completedFuture(badRequest("Body is empty"));
+        return completedFuture(badRequest(ResultHelper.completed(false,"Body is empty",null)));
 
     }
 
@@ -50,7 +50,7 @@ public class UserController extends Controller {
         }
         return CompletableFuture.supplyAsync(() -> {
             currentUser.update();
-            return ok(ResultHelper.success("Added succesfully", Json.toJson(currentUser)));
+            return ok(ResultHelper.completed(true,"Added succesfully", Json.toJson(currentUser)));
         }, hec.current());
     }
 
@@ -61,9 +61,9 @@ public class UserController extends Controller {
             //Validation
             if (toDelete != null) {
                 toDelete.delete();
-                return ok(ResultHelper.success("Deleted succesfully", null));
+                return ok(ResultHelper.completed(true,"Deleted succesfully", null));
             } else {
-                return notFound(ResultHelper.success("User not found", null));
+                return notFound(ResultHelper.completed(false,"User not found", null));
             }
         }, hec.current());
     }
@@ -72,7 +72,7 @@ public class UserController extends Controller {
         return CompletableFuture.supplyAsync(() -> {
             List<User> userList = User.find.all();
             JsonNode userListJson = Json.toJson(userList);
-            return ok(ResultHelper.success("Collected User sucessfully", userListJson));
+            return ok(ResultHelper.completed(true,"Collected User sucessfully", userListJson));
         }, hec.current());
     }
 
@@ -81,9 +81,9 @@ public class UserController extends Controller {
             User toGet = User.find.byId(userID);
             //Validation
             if (toGet != null) {
-                return ok(ResultHelper.success("Read succesfully", Json.toJson(toGet)));
+                return ok(ResultHelper.completed(true,"Read succesfully", Json.toJson(toGet)));
             } else {
-                return notFound(ResultHelper.success("User not found", null));
+                return notFound(ResultHelper.completed(false,"User not found", null));
             }
         }, hec.current());
     }

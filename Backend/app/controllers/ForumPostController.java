@@ -1,8 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import helper.PostAction;
 import helper.ResultHelper;
+import models.Answer;
 import models.Forum;
 import models.ForumPost;
 import models.User;
@@ -13,6 +16,8 @@ import play.mvc.Result;
 import play.mvc.With;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -23,7 +28,32 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 public class ForumPostController extends Controller {
 
     private HttpExecutionContext hec;
-
+    /*
+    * thread/:ID: ->
+{
+    status: bool
+    message: string,
+    data: {
+        id: number;
+            views: number;
+            creator: {
+            id: number,
+                name: string,
+                email: string,
+                avatar_url: string,
+        },
+            topic: string;
+            question: string;
+            answers: {
+            id: number;
+                creator: UserJson;
+                message: string;
+        }[];
+            lastUpdate: number;
+            votes: number;
+            category: number;
+    }
+}*/
     @Inject
     public ForumPostController(HttpExecutionContext hec) {
         this.hec = hec;
@@ -37,24 +67,22 @@ public class ForumPostController extends Controller {
             // ForumPost forumPost = Json.fromJson(body, ForumPost.class);
             ForumPost forumPost = new ForumPost();
 
-            if (body.get("forum").asLong() != 0 && body.get("user").asLong() != 0) {
-                if (forumID != body.get("forum").asLong()) {
-                    return completedFuture(badRequest("Ids didnt match"));
-                }
+            if (body.get("creator").asLong() != 0) {
                 //Validation
                 return CompletableFuture.supplyAsync(() -> {
-                            forumPost.setForum(Forum.find.byId(body.get("forum").asLong()));
-                            forumPost.setUser(User.find.byId(body.get("user").asLong()));
-                            forumPost.setText(body.get("text").asText());
-                            forumPost.setTitle(body.get("title").asText());
+                            forumPost.setForum(Forum.find.byId(forumID));
+                            forumPost.setCreator(User.find.byId(body.get("creator").asLong()));
+                            forumPost.setQuestion(body.get("question").asText());
+                            forumPost.setTopic(body.get("topic").asText());
+                            forumPost.setLastUpdate(new Date());
                             forumPost.save();
-                            return ok(ResultHelper.success("Post created sucessfully", Json.toJson(forumPost)));
+                            return ok(ResultHelper.completed(true,"Post created sucessfully", Json.toJson(forumPost)));
                         }
                         , hec.current());
                 //Even more validation required
 
             } else {
-                return completedFuture(badRequest(ResultHelper.success("ForumID or UserID is wrong", body)));
+                return completedFuture(badRequest(ResultHelper.completed(true,"ForumID or UserID is bad", body)));
             }
 
 
@@ -68,15 +96,15 @@ public class ForumPostController extends Controller {
         if (body != null) {
             ForumPost forumPost = Json.fromJson(body, ForumPost.class);
             if (forumPost.getId() != id) {
-                return completedFuture(badRequest("Ids didnt match"));
+                return completedFuture(badRequest(ResultHelper.completed(false,"Ids didnt match",null)));
             } else {
                 return CompletableFuture.supplyAsync(() -> {
                     forumPost.update();
-                    return ok(ResultHelper.success("Updated sucessfully", Json.toJson(forumPost)));
+                    return ok(ResultHelper.completed(true,"Updated sucessfully", Json.toJson(forumPost)));
                 }, hec.current());
             }
         }
-        return completedFuture(badRequest("Body was empty"));
+        return completedFuture(badRequest(ResultHelper.completed(true,"Body was empty",null)));
     }
 
     public CompletionStage<Result> list(long forumId) {
@@ -84,12 +112,12 @@ public class ForumPostController extends Controller {
             if (forumId == 0) {
                 List<ForumPost> postList = ForumPost.find.all();
                 JsonNode postListJson = Json.toJson(postList);
-                return ok(ResultHelper.success("Collected Posts sucessfully", postListJson));
+                return ok(ResultHelper.completed(true,"Collected Posts sucessfully", postListJson));
             }
             Forum selectedForum = Forum.find.byId(forumId);
             List<ForumPost> postList = selectedForum.getPosts();
             if (postList != null) {
-                return ok(ResultHelper.success("sucessfully fetched Posts from Forum" + forumId, Json.toJson(postList)));
+                return ok(ResultHelper.completed(true,"sucessfully fetched Posts from Forum" + forumId, Json.toJson(postList)));
             }
             return ok();
         }, hec.current());
@@ -102,9 +130,9 @@ public class ForumPostController extends Controller {
             //Validation
             if (toDelete != null) {
                 toDelete.delete();
-                return ok(ResultHelper.success("Deleted succesfully", null));
+                return ok(ResultHelper.completed(true,"Deleted succesfully", null));
             } else {
-                return notFound("Post not found");
+                return notFound(ResultHelper.completed(false,"Post not found",null));
             }
         }, hec.current());
     }
@@ -112,12 +140,46 @@ public class ForumPostController extends Controller {
     public CompletionStage<Result> get(long forumID, long postID) {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost toGet = ForumPost.find.byId(postID);
-            //Validation
-            if (toGet != null) {
-                return ok(ResultHelper.success("Read succesfully", Json.toJson(toGet)));
-            } else {
-                return notFound("Forum not found");
+
+            ObjectNode retNode=Json.newObject();
+            retNode.put("id",postID);
+            retNode.put("views",toGet.getViews());
+
+
+            retNode.put("topic",toGet.getTopic());
+            retNode.put("question",toGet.getQuestion());
+
+            if(toGet.getLastUpdate()!=null){
+                retNode.put("lastUpdate",toGet.getLastUpdate().toString());
             }
+
+
+
+            retNode.put("votes",toGet.getVotes());
+            retNode.put("Category",forumID);
+
+            retNode.set("creator",toGet.getCreator().toJson());
+            //responding Answers to post;
+            ArrayNode answerNode=Json.newArray();
+            List<Answer> answers = toGet.getAnswers();
+            JsonNode node=Json.toJson(answers);
+
+              //  for (Answer ans : answers) {
+                    /*
+                    ObjectNode currentAns = Json.newObject();
+                    currentAns.put("id", ans.getId());
+                    currentAns.set("creator", ans.getCreator().toJson());
+                    currentAns.put("message", ans.getMessage());
+                    answerNode.add(currentAns);
+                    */
+              //  }
+
+                retNode.set("answers", node);
+
+            //Validation
+
+                return ok(ResultHelper.completed(true,"Read succesfully", retNode));
+
         }, hec.current());
     }
     //endregion

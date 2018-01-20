@@ -3,6 +3,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
++ noJwtFilter
 GET     /                           controllers.HomeController.index
 
 # Map static resources from the /public folder to the /assets URL path
@@ -34,8 +35,8 @@ GET     /Forum/:id                  controllers.ForumController.get(id: Long)
 
 #PostRoutes
 + nocsrf
+POST    /Forum/:id                  controllers.ForumPostController.create(id: Long)
 
-POST    /Forum/:id/Post             controllers.ForumPostController.create(id: Long)
 PATCH   /Forum/:id/Post/:pid        controllers.ForumPostController.update(id: Long,pid: Long)
 DELETE  /Forum/:id/Post/:pid        controllers.ForumPostController.delete(id: Long,pid: Long)
 + noJwtFilter
@@ -43,11 +44,16 @@ GET     /Forum/:id/Post             controllers.ForumPostController.list(id: Lon
 + noJwtFilter
 GET     /Forum/:id/Post/:pid        controllers.ForumPostController.get(id:Long,pid: Long)
 
++nocsrf
+POST    /Forum/:id/Post/:pid        controllers.AnswerController.create(id: Long,pid: Long)
+
 #ChatRoutes
 GET     /Chat/Host                  controllers.SocketController.hostSocket()
 
+
 # An example controller showing a sample home page
 
++nocsrf
 + noJwtFilter
 POST     /jwt/login                     controllers.JwtController.login()
 
@@ -58,3 +64,13 @@ GET     /jwt/requires-jwt-via-filter    controllers.JwtController.requiresJwtVia
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /jwt/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#ScoketIO routes
++ noJwtFilter
+GET     /ws                    controllers.Assets.at(path = "/public", file = "index.html")
++ noJwtFilter
+GET     /ws/assets/*file       controllers.Assets.at(path = "/public", file)
++ noJwtFilter
+GET     /ws/socket.io/         play.engineio.EngineIOController.endpoint(transport)
++ noJwtFilter
+POST    /ws/socket.io/         play.engineio.EngineIOController.endpoint(transport)
