@@ -1,7 +1,11 @@
+import { User } from "../../user/User";
+import { ThreadAnswer } from "../../forum/ThreadAnswer";
+import { Thread } from "../../forum/Thread";
+import { ThreadJson, ForumCategoryJson } from "./JsonResponse";
+
 export interface ApiResponse {
   status: boolean;
   message: string;
-  error?: string;
 
   data?: object; // result of api call
 }
@@ -15,24 +19,10 @@ export interface JWTApiResponse extends ApiResponse {
   };
 }
 
-export interface UserApiResponse extends ApiResponse {
-  data: {
-    id: number,
-    name: string,
-    email: string,
-    avatar_url: string,
-  };
+export interface ThreadApiResponse extends ApiResponse {
+  data: ThreadJson;
 }
 
-// Example code
-// export interface ThreadApiResponse extends ApiResponse {
-//   data: {
-//     id: number;
-//     views: number;
-//     creator: number;
-//     topic: string;
-//     question: string;
-//     answers: number[];
-//     lastUpdate: number;
-//   };
-// }
+export interface ForumCategoryApiResponse extends ApiResponse {
+  data: ForumCategoryJson;
+}

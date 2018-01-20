@@ -13,14 +13,25 @@
   <div *ngIf="thread">
     <h2>{{ thread.topic }}</h2>
     <mat-divider></mat-divider>
-    <p>{{ thread.question }}</p>
-
+    <mat-card>
+      <p>{{thread.creator.name}}:</p>
+      <p>{{ thread.question }}</p>
+    </mat-card>
     <div *ngFor="let answer of thread.answers; let i = index">
-      <mat-divider></mat-divider>
-      <p>#{{ i }} - {{ answer.creator.username }}: {{ answer.message }}</p>
+      <app-thread-answer [answer]="answer" [count]="i"></app-thread-answer>
+    </div>
+    <div>
+        <mat-form-field class="maxWidth">
+          <textarea matInput placeholder="reply" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
+        </mat-form-field>
+
+        <button mat-icon-button>
+          <mat-icon>send</mat-icon>
+        </button>
     </div>
   </div>
   <div *ngIf="!thread">
     <h2>Loading...</h2>
   </div>
+
 </div>

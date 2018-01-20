@@ -1,8 +1,9 @@
-<mat-toolbar class="forum-header"><!-- this is the headerbar -->
-  <a routerLink="/!/forum" class="unmarked-link">Forum</a>
-  <a routerLink="/!/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
-</mat-toolbar>
-<div class="inner-content">
+<div *ngIf="category !== undefined">
+  <mat-toolbar class="forum-header"><!-- this is the headerbar -->
+    <a routerLink="/!/forum" class="unmarked-link">Forum</a>
+    <a routerLink="/!/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
+  </mat-toolbar>
+  <div class="inner-content">
     <mat-list>
       <mat-list-item *ngFor="let thread of category.threads" routerLink="/!/forum/{{category.id}}/thread/{{ thread.id }}">
         <mat-icon mat-list-icon>speaker_notes</mat-icon>
@@ -16,4 +17,5 @@
       </mat-list-item>
     </mat-list>
   </div>
-
+</div>
+<p *ngIf="category === undefined">Loading...</p>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ForumCategory } from '../../../models/forum/ForumCategory';
 import { ForumCategoryService } from '../../../services/forum/forum-category';
+import { ThreadService } from '../../../services/forum/thread';
+import { Thread } from '../../../models/forum/Thread';
 
 @Component({
   selector: 'app-forum-content',
@@ -11,19 +13,27 @@ import { ForumCategoryService } from '../../../services/forum/forum-category';
 export class ForumContentComponent implements OnInit {
   public category: ForumCategory;
 
-  constructor(private forumCategoryService: ForumCategoryService, private route: ActivatedRoute) {
+  constructor(private _forumCategoryService: ForumCategoryService,
+              private _threadService: ThreadService,
+              private _route: ActivatedRoute) {
   }
 
   ngOnInit() {
     let id: number;
-    this.route.params.subscribe(params => {
-      id = params['categoryId'];
+    this._route.params.subscribe(params => {
+      this._forumCategoryService.get(params['categoryId']).subscribe(
+        (category: ForumCategory) => {
+          category._threads.forEach(number => {
+            this._threadService.get(number).subscribe(
+              (thread: Thread) => {
+                category.addThread(thread);
+              }
+            )
+          })
+          this.category = category;
+        }
+      );
     });
-    this.forumCategoryService.getForumCategory(id).subscribe(
-      category => {
-        this.category = category;
-      }
-    );
   }
 }
 

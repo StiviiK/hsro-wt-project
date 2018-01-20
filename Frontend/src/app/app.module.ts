@@ -30,7 +30,6 @@ import { ForumContentComponent } from './components/forum/forum-content/forum-co
 import { ForumThreadComponent } from './components/forum/thread/thread.component';
 import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-answer.component';
 import { ErrorComponent } from './components/error/error.component';
-import { UserService } from './services/user/user';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,7 @@ import { UserService } from './services/user/user';
     ForumContentComponent,
     ErrorComponent,
     ForumThreadComponent,
-    ThreadAnswerComponent
+    ThreadAnswerComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +74,6 @@ import { UserService } from './services/user/user';
     AuthenticationService,
     ThreadService,
     ForumCategoryService,
-    UserService
   ],
   bootstrap: [AppComponent]
 })

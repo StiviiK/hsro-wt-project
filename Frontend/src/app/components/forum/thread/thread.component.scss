@@ -2,3 +2,16 @@
   font-family: Roboto;
   //width: 60vw;
 }
+mat-card{
+  margin-bottom: 5px;
+}
+
+.maxWidth{
+  min-width: 150px;
+  max-width: 65vw;
+  width: 100%;
+}
+
+button {
+  float: right;
+}
