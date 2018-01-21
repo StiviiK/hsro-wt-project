@@ -1,17 +1,17 @@
-<div class="inner-content" *ngIf="thread !== undefined">
-  <mat-list>
-    <div *ngIf="lastThreads.length > 0">
-      <h3 mat-subheader>Last Topics visited</h3>
-      <mat-list-item *ngFor="let thread of lastThreads" routerLink="/!/forum/thread/{{ thread.id }}">
-        <mat-icon mat-list-icon>bookmark</mat-icon>
-        <h4 mat-line>{{thread.topic}}</h4>
-        <p mat-line>by {{thread.creator.name}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
-        <span *ngIf="thread.votes < 0" style="color: #F44336" matTooltip="{{ thread.votes }} votes" matTooltipPosition="after">{{ thread.votes }}</span>
-        <span *ngIf="thread.votes >= 0" style="color: #4CAF50" matTooltip="{{ thread.votes }} votes" matTooltipPosition="after">{{ thread.votes }}</span>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </div>
-    <h3 mat-subheader>Hot Topics</h3>
+<mat-list>
+  <h3 mat-subheader>Last Topics visited</h3>
+  <div *ngIf="lastThreads !== null && lastThreads !== undefined">
+    <mat-list-item *ngFor="let thread of lastThreads" routerLink="/!/forum/thread/{{ thread.id }}">
+      <mat-icon mat-list-icon>bookmark</mat-icon>
+      <h4 mat-line>{{thread.topic}}</h4>
+      <p mat-line>by {{thread.creator.name}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
+      <span *ngIf="thread.votes < 0" style="color: #F44336" matTooltip="{{ thread.votes }} votes" matTooltipPosition="after">{{ thread.votes }}</span>
+      <span *ngIf="thread.votes >= 0" style="color: #4CAF50" matTooltip="{{ thread.votes }} votes" matTooltipPosition="after">{{ thread.votes }}</span>
+    </mat-list-item>
+  </div>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>Hot Topics</h3>
+  <div *ngIf="hotThreads !== null && hotThreads !== undefined">
     <mat-list-item *ngFor="let thread of hotThreads" routerLink="/!/forum/thread/{{ thread.id }}">
       <mat-icon mat-list-icon>speaker_notes</mat-icon>
       <h4 mat-line>{{thread.topic}}</h4>
@@ -19,6 +19,5 @@
       <span *ngIf="thread.votes < 0" style="color: #F44336">{{ thread.votes }}</span>
       <span *ngIf="thread.votes >= 0" style="color: #4CAF50">{{ thread.votes }}</span>
     </mat-list-item>
-  </mat-list>
-</div>
-<p *ngIf="thread === undefined">Loading...</p>
+  </div>
+</mat-list>

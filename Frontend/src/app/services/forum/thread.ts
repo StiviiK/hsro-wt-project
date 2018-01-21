@@ -33,8 +33,8 @@ export class ThreadService {
 
                 return thread;
               }
-            }   
-        )
+            }
+        );
       }
   }
 
@@ -56,7 +56,11 @@ export class ThreadService {
     const self = this;
     JSON.parse(localStorage.getItem('lastVisited') || '[]').forEach(
       (item: any) => {
-        threads.push(self.threads[item - 1]);
+        this.get(item)
+          .toPromise()
+          .then((thread) => {
+              threads.push(thread);
+          });
       }
     );
 

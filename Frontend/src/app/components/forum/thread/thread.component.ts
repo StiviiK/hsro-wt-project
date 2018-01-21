@@ -32,7 +32,7 @@ export class ForumThreadComponent implements OnInit {
               category.addThread(thread);
               thread.setCategory(category);
               this.thread = thread;
-            })
+            });
           }
         }
       );
