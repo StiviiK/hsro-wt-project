@@ -111,7 +111,8 @@ public class ForumController extends Controller {
             node.put("name", toGet.getName());
             node.put("color", toGet.getColor());
 
-            ArrayNode postsNode = Json.newArray();
+           /* ArrayNode postsNode = Json.newArray();
+
             for (ForumPost post : posts
                     ) {
                 ObjectNode currentPost = Json.newObject();
@@ -121,8 +122,15 @@ public class ForumController extends Controller {
                 currentPost.put("views", post.getViews());
                 currentPost.put("creator", post.getCreator().getName());
                 postsNode.add(currentPost);
+            }*/
+            long[] threadids=new long[posts.size()];
+            int i=0;
+            for (ForumPost post: posts
+                 ) {
+                threadids[i]=post.getId();
+                i++;
             }
-            node.set("threads", postsNode);
+            node.set("threads", Json.toJson(threadids));
 
             //Validation
             return ok(ResultHelper.completed(true, "succes", node));
