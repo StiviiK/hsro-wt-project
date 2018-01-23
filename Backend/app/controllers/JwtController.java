@@ -51,13 +51,13 @@ public class JwtController extends Controller {
     public Result login()  {
         JsonNode body = request().body().asJson();
 
-        System.out.println("got here 1");
+
         if (body == null) {
             Logger.error("json body is null");
             return forbidden(ResultHelper.completed(false,"Json body was empty",body));
         }
 
-        System.out.println("got here 2");
+
         if(body.hasNonNull("googleToken")){
             NetHttpTransport trans=new NetHttpTransport();
             JacksonFactory factory = new JacksonFactory();
@@ -166,10 +166,12 @@ public class JwtController extends Controller {
                 .withClaim("username",user.getName())
                 .withClaim("email",user.getEmail())
                 .withClaim("user_id", user.getId())
-                .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusMinutes(10).toInstant()))
+                .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusMinutes(300).toInstant()))
                 .sign(algorithm);
     }
-
+    public Result stillValid(){
+        return ok(ResultHelper.completed(true,"token still valid",null));
+    }
     public Result requiresJwt() {
         return jwtControllerHelper.verify(request(), res -> {
             if (res.left.isPresent()) {

@@ -49,6 +49,7 @@ POST    /Forum/:id/Post/:pid        controllers.AnswerController.create(id: Long
 
 GET     /Forum/:id/Post/:pid/Ans    controllers.AnswerController.list(id: Long,pid: Long)
 GET     /Forum/:id/Post/:pid/View   controllers.ForumPostController.incView(id: Long,pid: Long)
+GET     /Verify                     controllers.JwtController.stillValid()
 
 # An example controller showing a sample home page
 
