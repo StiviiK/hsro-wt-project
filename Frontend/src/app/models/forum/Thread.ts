@@ -36,7 +36,6 @@ export class Thread {
     this.category = category;
   }
 
-
   public static get(data: ThreadJson) {
     const thread = new Thread(data.id, data.views, User.get(data.creator), data.topic, data.question, new Date(data.lastUpdate), data.category);
     return thread;
