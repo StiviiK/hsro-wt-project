@@ -9,6 +9,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+
 import com.typesafe.config.Config;
 import helper.ResultHelper;
 import io.ebean.Ebean;
@@ -18,6 +19,7 @@ import jwt.filter.Attrs;
 import models.User;
 import play.Logger;
 import play.libs.Json;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -35,26 +37,35 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+
+import static java.util.concurrent.CompletableFuture.completedFuture;
 
 public class JwtController extends Controller {
-
+    private HttpExecutionContext hec;
     @Inject
     private JwtControllerHelper jwtControllerHelper;
 
     @Inject
     private Config config;
 
+    @Inject
+    public JwtController(HttpExecutionContext hec) {
+        this.hec = hec;
+    }
+
     /*public Result generateSignedToken() throws UnsupportedEncodingException {
         return ok("signed token: " + getSignedToken(5l));
     }*/
 
-    public Result login()  {
+    public CompletionStage<Result> login()  {
+        return CompletableFuture.supplyAsync(() -> {
         JsonNode body = request().body().asJson();
-
 
         if (body == null) {
             Logger.error("json body is null");
-            return forbidden(ResultHelper.completed(false,"Json body was empty",body));
+            completedFuture(forbidden(ResultHelper.completed(false,"Json body was empty",body)));
         }
 
 
@@ -67,10 +78,10 @@ public class JwtController extends Controller {
                     //  .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                     .build();
             System.out.println("token:"+body.get("googleToken").asText());
-            /*/ (Receive idTokenString by HTTPS POST)
+            // (Receive idTokenString by HTTPS POST)
             try{
                 System.out.println("Im trying to verify GoogleToken");
-                GoogleIdToken idToken = verifier.verify(body.get("googleToken").asText());
+                GoogleIdToken idToken = verifier.verify(body.get("googleToken").toString());
                 System.out.println("still trying");
                 if (idToken != null) {
                     Payload payload = idToken.getPayload();
@@ -97,9 +108,10 @@ public class JwtController extends Controller {
                 System.out.println(idToken);
             }
             catch(Exception exception){
-                return badRequest(ResultHelper.completed(false,"invalid googleToken",null));
+                System.out.println("i catched "+exception.toString());
+                //return badRequest(ResultHelper.completed(false,"invalid googleToken",null));
             }
-            / *///Google token is authenticated, search for the user now
+            //Google token is authenticated, search for the user now
             JsonNode user = body.get("user");
             User current =Json.fromJson(user,User.class);
             List<User> userFoundList= Ebean.find(User.class).where().eq("email",current.getEmail()).findList();
@@ -117,8 +129,10 @@ public class JwtController extends Controller {
                     currentToken = getSignedToken(current);
                 }
                 catch(UnsupportedEncodingException except){
-                    return badRequest("UnsupportedEncoding Exception");
+                   completedFuture(badRequest("UnsupportedEncoding Exception"));
+                   currentToken=null;
                 }
+
                 JsonNode dataObject=userCreator(currentToken,current);
                 return ok(ResultHelper.completed(true,"Logged in user!",dataObject));
 
@@ -131,10 +145,11 @@ public class JwtController extends Controller {
                     currentToken = getSignedToken(current);
                 }
                 catch(UnsupportedEncodingException except){
-                    return badRequest("UnsupportedEncoding Exception");
+                   completedFuture(badRequest("UnsupportedEncoding Exception"));
+                   currentToken=null;
                 }
                 JsonNode dataObject=userCreator(currentToken,current);
-                return(ok(ResultHelper.completed(true,"Created user!",dataObject)));
+                return ok(ResultHelper.completed(true,"Created user!",dataObject));
             }
         }
         /*
@@ -172,6 +187,7 @@ public class JwtController extends Controller {
         }
         */
         return forbidden();
+        }, hec.current());
     }
     private JsonNode userCreator(String currentToken,User user){
         ObjectNode dataObject=Json.newObject();

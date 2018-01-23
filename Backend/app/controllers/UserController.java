@@ -89,12 +89,14 @@ public class UserController extends Controller {
 
                 List<ForumPost> posts = toGet.getPosts();
             Long[] answersAr,postsAr;
+            /*
             answersAr=new Long[answers.size()];
             int j=0;
                 for (Answer ans:answers){
                     answersAr[j]=answers.get(j).getId();
                     j++;
-                }
+                }*/
+            JsonNode answersNode=Answer.arrayToJson(answers);
                 postsAr=new Long[posts.size()];
 
                 int i=0;
@@ -102,7 +104,7 @@ public class UserController extends Controller {
                     postsAr[i]=posts.get(i).getId();
                     i++;
                 }
-                retNode.set("answers",Json.toJson(answersAr));
+                retNode.set("answers",Json.toJson(answersNode));
                 retNode.set("threads",Json.toJson(postsAr));
 
             //Validation
