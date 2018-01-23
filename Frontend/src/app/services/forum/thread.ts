@@ -19,7 +19,7 @@ export class ThreadService {
     if (Thread.getById(id)) {
       return of(Thread.getById(id));
     } else {
-      return this._api.get<ThreadApiResponse>('thread/' + id)
+      return this._api.get<ThreadApiResponse>('Forum/0/Post/' + id)
         .map(
             (response: ThreadApiResponse): Thread => {
               if (response && response.status === true) {

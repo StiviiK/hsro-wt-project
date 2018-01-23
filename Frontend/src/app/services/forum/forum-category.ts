@@ -31,7 +31,7 @@ export class ForumCategoryService {
     if (ForumCategory.getById(id)) {
       return of(ForumCategory.getById(id));
     } else {
-      return this._api.get<ForumCategoryApiResponse>('/category/' + id)
+      return this._api.get<ForumCategoryApiResponse>('Forum/' + id)
         .map(
           (response: ForumCategoryApiResponse): ForumCategory => {
             if (response && response.status === true) {

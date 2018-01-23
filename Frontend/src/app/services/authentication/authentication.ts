@@ -30,6 +30,7 @@ export class AuthenticationService {
         mergeMap(
           (user: SocialUser): Observable<boolean> => {
             if (user && user.token) {
+              console.log(user);
               const payload: JWTApiRequest = {
                 googleToken: user.token,
                 user: {
@@ -39,7 +40,7 @@ export class AuthenticationService {
                 }
               };
 
-              return this._api.post<JWTApiResponse>('jwt/get', payload)
+              return this._api.post<JWTApiResponse>('jwt/login', payload)
                 .map(
                   (response: JWTApiResponse): boolean => {
                     if (response && response.status === true) {
@@ -61,9 +62,9 @@ export class AuthenticationService {
 
   public logout(): boolean {
     if (AuthenticatedUser.load()) {
-      const payload: ApiRequest = {};
-      this._api.post<ApiResponse>('logout', payload)
-        .subscribe(console.log, console.error);
+      // const payload: ApiRequest = {};
+      // this._api.post<ApiResponse>('logout', payload)
+      //   .subscribe(console.log, console.error);
 
       this.token = null;
       AuthenticatedUser.clear();

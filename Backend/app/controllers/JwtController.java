@@ -51,10 +51,13 @@ public class JwtController extends Controller {
     public Result login()  {
         JsonNode body = request().body().asJson();
 
+        System.out.println("got here 1");
         if (body == null) {
             Logger.error("json body is null");
             return forbidden(ResultHelper.completed(false,"Json body was empty",body));
         }
+
+        System.out.println("got here 2");
         if(body.hasNonNull("googleToken")){
             NetHttpTransport trans=new NetHttpTransport();
             JacksonFactory factory = new JacksonFactory();
@@ -66,8 +69,8 @@ public class JwtController extends Controller {
 
             // (Receive idTokenString by HTTPS POST)
             try{
-                GoogleIdToken idToken = verifier.verify(body.get("googleToken").asText());
-                System.out.println(idToken);
+                //GoogleIdToken idToken = verifier.verify(body.get("googleToken").asText());
+                //System.out.println(idToken);
             }
             catch(Exception exception){
                 return badRequest(ResultHelper.completed(false,"invalid googleToken",null));

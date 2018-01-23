@@ -8,8 +8,8 @@
       <mat-list-item *ngFor="let thread of category.threads" routerLink="/!/forum/{{category.id}}/thread/{{ thread.id }}">
         <mat-icon mat-list-icon>speaker_notes</mat-icon>
         <h4 mat-line>{{thread.topic}}</h4>
-        <p mat-line>by {{thread.creator.username}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
-        <span [class.vote-red]="thread.votes < 0" class="vote">{{ thread.votes }}</span>
+        <p mat-line>by {{thread.creator.name}} | posted on {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
+        <!-- <span [class.vote-red]="thread.votes < 0" class="vote">{{ thread.votes }}</span> -->
       </mat-list-item>
       <mat-list-item *ngIf="category.threads.length == 0">
         <mat-icon mat-list-icon>speaker_notes</mat-icon>

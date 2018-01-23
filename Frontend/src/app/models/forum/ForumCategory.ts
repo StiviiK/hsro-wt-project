@@ -15,6 +15,7 @@ export class ForumCategory {
     this.name = name;
     this.color = color;
     this._threads = threads;
+    this.threads = [];
   }
 
   public addThread(thread: Thread) {

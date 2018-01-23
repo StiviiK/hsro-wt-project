@@ -150,12 +150,12 @@ public class ForumPostController extends Controller {
                 retNode.put("question", toGet.getQuestion());
 
                 if (toGet.getLastUpdate() != null) {
-                    retNode.put("lastUpdate", toGet.getLastUpdate().toString());
+                    retNode.put("lastUpdate", new java.sql.Timestamp(toGet.getLastUpdate().getTime()).toString());
                 }
 
 
                 retNode.put("votes", toGet.getVotes());
-                retNode.put("Category", forumID);
+                retNode.put("category", toGet.getForum().getId());
 
                 retNode.set("creator", toGet.getCreator().toJson());
                 //responding Answers to post;

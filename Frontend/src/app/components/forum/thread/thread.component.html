@@ -1,37 +1,38 @@
-<mat-toolbar *ngIf="thread.category" class="forum-header"><!-- this is the headerbar -->
-  <a routerLink="/!/forum" class="unmarked-link">Forum</a>
-  <a routerLink="/!/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
-  <a routerLink="/!/forum/{{category.id}}/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.question}}</a>
-</mat-toolbar>
-<!-- Remove later -->
-<mat-toolbar *ngIf="thread.category == null" class="forum-header"><!-- this is the headerbar -->
-  <a routerLink="/!/forum" class="unmarked-link">Forum</a>
-  <a routerLink="/!/forum/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.topic}}</a>
-</mat-toolbar>
-<!-- Remove end -->
-<div class="inner-content">
-  <div *ngIf="thread">
-    <h2>{{ thread.topic }}</h2>
-    <mat-divider></mat-divider>
-    <mat-card>
-      <p>{{thread.creator.name}}:</p>
-      <p>{{ thread.question }}</p>
-    </mat-card>
-    <div *ngFor="let answer of thread.answers; let i = index">
-      <app-thread-answer [answer]="answer" [count]="i"></app-thread-answer>
-    </div>
-    <div>
-        <mat-form-field class="maxWidth">
-          <textarea matInput placeholder="reply" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
-        </mat-form-field>
+<div *ngIf="thread !== undefined">  
+  <mat-toolbar *ngIf="thread.category" class="forum-header">
+    <a routerLink="/!/forum" class="unmarked-link">Forum</a>
+    <a routerLink="/!/forum/{{ thread.category.id }}" class="unmarked-link">{{ thread.category.name }}</a>
+    <a routerLink="/!/forum/{{ thread.category.id }}/thread/{{ thread.id }}" class="unmarked-link" disabled="true">{{ thread.topic }}</a>
+  </mat-toolbar>
+  <!-- Remove later -->
+  <mat-toolbar *ngIf="!thread.category" class="forum-header">
+    <a routerLink="/!/forum" class="unmarked-link">Forum</a>
+    <a routerLink="/!/forum/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.topic}}</a>
+  </mat-toolbar>
+  <!-- Remove end -->
+  <div class="inner-content">
+    <div *ngIf="thread">
+      <h2>{{ thread.topic }}</h2>
+      <mat-divider></mat-divider>
+      <mat-card>
+        <p>{{thread.creator.name}}:</p>
+        <p>{{ thread.question }}</p>
+      </mat-card>
+      <div *ngFor="let answer of thread.answers; let i = index">
+        <app-thread-answer [answer]="answer" [count]="i"></app-thread-answer>
+      </div>
+      <div>
+          <mat-form-field class="maxWidth">
+            <textarea matInput placeholder="reply" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
+          </mat-form-field>
 
-        <button mat-icon-button>
-          <mat-icon>send</mat-icon>
-        </button>
+          <button mat-icon-button>
+            <mat-icon>send</mat-icon>
+          </button>
+      </div>
     </div>
   </div>
-  <div *ngIf="!thread">
-    <h2>Loading...</h2>
-  </div>
-
+</div> 
+<div *ngIf="!thread || !thread.category">
+  <p>Loading...</p>
 </div>

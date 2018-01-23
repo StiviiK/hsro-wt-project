@@ -22,16 +22,17 @@ export class ForumContentComponent implements OnInit {
     let id: number;
     this._route.params.subscribe(params => {
       this._forumCategoryService.get(params['categoryId']).subscribe(
-        (category: ForumCategory) => {
-          category._threads.forEach(number => {
-            this._threadService.get(number).subscribe(
-              (thread: Thread) => {
-                category.addThread(thread);
-              }
-            )
-          })
-          this.category = category;
-        }
+          (category: ForumCategory) => {
+            console.log(category);
+            category._threads.forEach(number => {
+              this._threadService.get(number).subscribe(
+                (thread: Thread) => {
+                  category.addThread(thread);
+                }
+              )
+            })
+            this.category = category;
+          }
       );
     });
   }

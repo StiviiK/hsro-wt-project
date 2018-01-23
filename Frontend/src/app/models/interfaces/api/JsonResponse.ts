@@ -5,7 +5,7 @@ export interface UserJson {
     id: number,
     name: string,
     email: string,
-    avatar_url: string,
+    avatar: string,
 }
 
 export interface ThreadJson {
