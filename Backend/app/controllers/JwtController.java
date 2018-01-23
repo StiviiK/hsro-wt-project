@@ -64,13 +64,37 @@ public class JwtController extends Controller {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(trans, factory)
                     .setAudience(Collections.singletonList("46761239813-oumj8o0oh51ipa90d6gf88jkp2d946n3.apps.googleusercontent.com"))
                     // Or, if multiple clients access the backend:
-                    //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                    //  .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                     .build();
 
             // (Receive idTokenString by HTTPS POST)
             try{
-                //GoogleIdToken idToken = verifier.verify(body.get("googleToken").asText());
-                //System.out.println(idToken);
+                System.out.println("Im trying to verify GoogleToken");
+                GoogleIdToken idToken = verifier.verify(body.get("googleToken").asText());
+                System.out.println("still trying");
+                if (idToken != null) {
+                    Payload payload = idToken.getPayload();
+
+                    // Print user identifier
+                    String userId = payload.getSubject();
+                    System.out.println("User ID: " + userId);
+
+                    // Get profile information from payload
+                    String email = payload.getEmail();
+                    boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+                    String name = (String) payload.get("name");
+                    String pictureUrl = (String) payload.get("picture");
+                    String locale = (String) payload.get("locale");
+                    String familyName = (String) payload.get("family_name");
+                    String givenName = (String) payload.get("given_name");
+
+                    // Use or store profile information
+                    // ...
+
+                } else {
+                    System.out.println("Invalid ID token.");
+                }
+                System.out.println(idToken);
             }
             catch(Exception exception){
                 return badRequest(ResultHelper.completed(false,"invalid googleToken",null));

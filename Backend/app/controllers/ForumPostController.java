@@ -81,7 +81,7 @@ public class ForumPostController extends Controller {
                             return ok(ResultHelper.completed(true,"Post created sucessfully", node));
                         }
                         , hec.current());
-                //Even more validation required
+                //Even more validation requir ed
 
             } else {
                 return completedFuture(badRequest(ResultHelper.completed(true,"ForumID or UserID is bad", body)));

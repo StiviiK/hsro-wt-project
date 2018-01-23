@@ -86,9 +86,25 @@ public class UserController extends Controller {
             ObjectNode retNode=Json.newObject();
             retNode.set("user",toGet.toJson());
             List<Answer> answers = toGet.getAnswers();
-            retNode.set("answers",Answer.arrayToJson(answers));
-            List<ForumPost> posts = toGet.getPosts();
-            retNode.set("threads",ForumPost.arrayToJson(posts));
+
+                List<ForumPost> posts = toGet.getPosts();
+            Long[] answersAr,postsAr;
+            answersAr=new Long[answers.size()];
+            int j=0;
+                for (Answer ans:answers){
+                    answersAr[j]=answers.get(j).getId();
+                    j++;
+                }
+                postsAr=new Long[posts.size()];
+
+                int i=0;
+                for (ForumPost post:posts){
+                    postsAr[i]=posts.get(i).getId();
+                    i++;
+                }
+                retNode.set("answers",Json.toJson(answersAr));
+                retNode.set("threads",Json.toJson(postsAr));
+
             //Validation
 
                 return ok(ResultHelper.completed(true,"Read succesfully", retNode));
