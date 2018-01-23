@@ -1,11 +1,19 @@
 .container{
   margin:2.5%;
 }
+
 .historyHeader {
   font-weight: bold;
   font-size: 150%;
   font-family: Roboto;
 }
+
 mat-list-item {
   cursor: pointer;
+}
+
+img {
+  background-size: cover;
+  float: left;
+  margin-right: 5%;
 }

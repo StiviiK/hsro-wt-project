@@ -8,7 +8,7 @@ export class User { // represents any user
   public name: string;
   public email: string; // unique + primary key
   public avatar: string;
-  public _answers?: ThreadAnswerJson[];
+  public _answeredThreads?: number[];
   public _topics?: number[];
 
   public constructor(id: number, name: string, email: string, avatar: string) {

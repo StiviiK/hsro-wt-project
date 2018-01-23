@@ -2,11 +2,26 @@
   font-family: Roboto;
   //width: 60vw;
 }
-mat-card{
+
+mat-card {
+  background: #EEEEEE;
   margin-bottom: 5px;
 }
 
-.maxWidth{
+mat-card-title {
+  cursor: pointer;
+}
+
+mat-card-subtitle {
+  cursor: pointer;
+}
+
+.avatar {
+  background-size: cover;
+  cursor: pointer;
+}
+
+.maxWidth {
   min-width: 150px;
   max-width: 65vw;
   width: 100%;

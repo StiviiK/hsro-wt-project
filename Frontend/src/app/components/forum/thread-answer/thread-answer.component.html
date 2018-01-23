@@ -1,4 +1,10 @@
 <mat-card>
-    <p routerLink="/!/user-info/{{ answer.creator.id }}">{{ answer.creator.name }}:</p>
-    <p>{{ answer.message }}</p>
+    <mat-card-header routerLink="/!/user/{{ answer.creator.id }}">
+        <div mat-card-avatar [style.background-image]="getAvatarImage()" class="avatar"></div>
+        <mat-card-title>{{ answer.creator.name }}</mat-card-title>
+        <mat-card-subtitle>(click to get to user)</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{ answer.message }}</p>
+    </mat-card-content>
 </mat-card>
