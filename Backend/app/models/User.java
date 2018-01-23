@@ -27,9 +27,11 @@ public class User extends Model {
     @Constraints.Required
     private String avatar;
 
+    @JoinColumn(name = "creator_id")
     @OneToMany(cascade = CascadeType.ALL)
     private List<ForumPost> posts;
 
+    @JoinColumn(name = "creator_id")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers;
     public static final Finder<Long, User> find = new Finder<>(User.class);
@@ -83,6 +85,14 @@ public class User extends Model {
 
     public void setPosts(List<ForumPost> posts) {
         this.posts = posts;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     //endregion
