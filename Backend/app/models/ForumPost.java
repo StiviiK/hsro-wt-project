@@ -31,6 +31,8 @@ public class ForumPost extends Model {
 
     @Constraints.Required
     private String topic;
+
+    @Column(columnDefinition = "TEXT")
     @Constraints.Required
     private String question;
     @Constraints.Required

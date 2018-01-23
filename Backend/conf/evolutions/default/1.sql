@@ -21,7 +21,7 @@ create table forum (
 create table forum_post (
   id                            bigint auto_increment not null,
   topic                         varchar(255),
-  question                      varchar(255),
+  question                      TEXT,
   views                         integer not null,
   forum_id                      bigint,
   creator_id                    bigint,
