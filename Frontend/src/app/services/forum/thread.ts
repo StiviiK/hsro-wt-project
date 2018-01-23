@@ -4,9 +4,9 @@ import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../api/api.service';
-import { ThreadApiResponse, ThreadViewApiResponse, ThreadCreateApiResponse } from '../../models/interfaces/api/ApiResponse';
+import { ThreadApiResponse, ThreadViewApiResponse, ThreadCreateApiResponse, ThreadAnswerApiResponse } from '../../models/interfaces/api/ApiResponse';
 import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
-import { ThreadApiRequest } from '../../models/interfaces/api/ApiRequest';
+import { ThreadApiRequest, ThreadAnswerApiRequest } from '../../models/interfaces/api/ApiRequest';
 
 @Injectable()
 export class ThreadService {
@@ -24,11 +24,9 @@ export class ThreadService {
               const data = response.data;
               const thread: Thread = Thread.get(response.data);
 
-              const threadAnswer: ThreadAnswer[] = [];
               data.answers.forEach((json: ThreadAnswerJson) => {
-                threadAnswer.push(ThreadAnswer.get(json, thread));
+                thread.answers.push(ThreadAnswer.get(json, thread));
               });
-
               return thread;
             }
           }
@@ -82,5 +80,16 @@ export class ThreadService {
           }
         }
       )
+  }
+
+  createAnswer(threadId: number, payload: ThreadAnswerApiRequest): Observable<boolean> {
+    console.log("hellof");
+    
+    return this._api.post<ThreadAnswerApiResponse>('Forum/0/Post/' + threadId, payload)
+      .map(
+        (response: ThreadAnswerApiResponse): boolean => {
+          return response && response.status;
+        }
+      );
   }
 }

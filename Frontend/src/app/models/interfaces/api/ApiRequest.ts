@@ -10,7 +10,12 @@ export interface JWTApiRequest extends ApiRequest {
 }
 
 export interface ThreadApiRequest extends ApiRequest {
-  topic: string,
-  question: string,
-  creator: number,
+  topic: string;
+  question: string;
+  creator: number;
+}
+
+export interface ThreadAnswerApiRequest extends ApiRequest {
+  message: string;
+  creator: number;
 }

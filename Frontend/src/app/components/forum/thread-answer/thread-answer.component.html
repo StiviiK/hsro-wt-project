@@ -1,1 +1,4 @@
-<mat-card>#{{ count }} - {{ answer.creator.name }}: {{ answer.message }}</mat-card>
+<mat-card>
+    <p routerLink="/!/user-info/{{ answer.creator.id }}">{{ answer.creator.name }}:</p>
+    <p>{{ answer.message }}</p>
+</mat-card>

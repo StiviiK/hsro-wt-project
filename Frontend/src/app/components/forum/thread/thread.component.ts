@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Thread } from '../../../models/forum/Thread';
 import { ThreadService } from '../../../services/forum/thread';
 import { ThreadAnswer } from '../../../models/forum/ThreadAnswer';
-import { User } from '../../../models/user/User';
+import { User, AuthenticatedUser } from '../../../models/user/User';
 import { ForumCategory } from '../../../models/forum/ForumCategory';
 import { ForumCategoryService } from '../../../services/forum/forum-category';
+import { ThreadAnswerApiRequest } from '../../../models/interfaces/api/ApiRequest';
 
 @Component({
   selector: 'app-forum-thread',
@@ -13,7 +14,8 @@ import { ForumCategoryService } from '../../../services/forum/forum-category';
   styleUrls: ['./thread.component.scss']
 })
 export class ForumThreadComponent implements OnInit {
-  thread: Thread;
+  public thread: Thread;
+  public answer: string;
 
   constructor(private _route: ActivatedRoute,
               private _router: Router,
@@ -46,7 +48,19 @@ export class ForumThreadComponent implements OnInit {
     });
   }
 
-  private updateHistory(threadId: string): void {
+  public postAnswer() {
+    const payload: ThreadAnswerApiRequest = {
+      message: this.answer,
+      creator: AuthenticatedUser.load().id,
+    }
+    this._threadService.createAnswer(this.thread.id, payload).subscribe(
+      (status: boolean) => {
+        location.reload();
+      }
+    );
+  }
+
+  private updateHistory(threadId: string) {
     const lastVisited: string[] = JSON.parse(localStorage.getItem('lastVisited') || '[]');
     if (!lastVisited.find(id => id === threadId)) {
       lastVisited.unshift(threadId);

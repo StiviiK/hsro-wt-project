@@ -32,6 +32,13 @@ export interface ThreadCreateApiResponse extends ApiResponse {
 
 export interface ThreadViewApiResponse extends ApiResponse { }
 
+export interface ThreadAnswerApiResponse extends ApiResponse {
+  data: {
+    id: number;
+    message: string;
+  }
+}
+
 export interface ForumCategoryApiResponse extends ApiResponse {
   data: ForumCategoryJson;
 }

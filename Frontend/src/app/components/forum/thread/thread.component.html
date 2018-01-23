@@ -15,7 +15,7 @@
       <h2>{{ thread.topic }}</h2>
       <mat-divider></mat-divider>
       <mat-card>
-        <p>{{thread.creator.name}}:</p>
+        <p routerLink="/!/user-info/{{ thread.creator.id }}">{{ thread.creator.name }}:</p>
         <p>{{ thread.question }}</p>
       </mat-card>
       <div *ngFor="let answer of thread.answers; let i = index">
@@ -23,10 +23,10 @@
       </div>
       <div>
           <mat-form-field class="maxWidth">
-            <textarea matInput placeholder="reply" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
+            <textarea matInput placeholder="reply" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10" [(ngModel)]="answer"></textarea>
           </mat-form-field>
 
-          <button mat-icon-button>
+          <button mat-icon-button (click)="postAnswer()">
             <mat-icon>send</mat-icon>
           </button>
       </div>
