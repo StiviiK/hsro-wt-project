@@ -30,7 +30,6 @@ export class AuthenticationService {
         mergeMap(
           (user: SocialUser): Observable<boolean> => {
             if (user && user.token) {
-              console.log(user);
               const payload: JWTApiRequest = {
                 googleToken: user.token,
                 user: {
