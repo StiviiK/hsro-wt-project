@@ -57,3 +57,7 @@ Backend/server.pid
 Backend/*.eml
 Backend/dist/
 Backend/.cache
+/Backend/conf
+/Backend/gradle
+/Backend/.gradle
+/Backend/*.iml
