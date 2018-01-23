@@ -15,8 +15,14 @@
       <h2>{{ thread.topic }}</h2>
       <mat-divider></mat-divider>
       <mat-card>
-        <p routerLink="/!/user-info/{{ thread.creator.id }}">{{ thread.creator.name }}:</p>
-        <p>{{ thread.question }}</p>
+        <mat-card-header routerLink="/!/user/{{ thread.creator.id }}">
+          <div mat-card-avatar [style.background-image]="getAvatarImage()" class="avatar"></div>
+          <mat-card-title>{{ thread.creator.name }}</mat-card-title>
+          <mat-card-subtitle>(click to get to user)</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ thread.question }}</p>
+        </mat-card-content>
       </mat-card>
       <div *ngFor="let answer of thread.answers; let i = index">
         <app-thread-answer [answer]="answer" [count]="i"></app-thread-answer>

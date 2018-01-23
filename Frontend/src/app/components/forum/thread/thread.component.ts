@@ -7,6 +7,7 @@ import { User, AuthenticatedUser } from '../../../models/user/User';
 import { ForumCategory } from '../../../models/forum/ForumCategory';
 import { ForumCategoryService } from '../../../services/forum/forum-category';
 import { ThreadAnswerApiRequest } from '../../../models/interfaces/api/ApiRequest';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-forum-thread',
@@ -16,11 +17,13 @@ import { ThreadAnswerApiRequest } from '../../../models/interfaces/api/ApiReques
 export class ForumThreadComponent implements OnInit {
   public thread: Thread;
   public answer: string;
+  public image: string;
 
   constructor(private _route: ActivatedRoute,
               private _router: Router,
               private _threadService: ThreadService,
-              private _categoryService: ForumCategoryService) { }
+              private _categoryService: ForumCategoryService,
+              private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this._route.params.subscribe(params => {
@@ -67,5 +70,9 @@ export class ForumThreadComponent implements OnInit {
     }
     lastVisited.splice(4, 1);
     localStorage.setItem('lastVisited', JSON.stringify(lastVisited));
+  }
+
+  public getAvatarImage() {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${this.thread.creator.avatar})`);
   }
 }

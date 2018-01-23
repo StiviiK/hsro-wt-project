@@ -5,6 +5,7 @@ import { ThreadService } from '../../services/forum/thread';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user';
 import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-info',
@@ -14,16 +15,17 @@ import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
 export class UserInfoComponent implements OnInit {
   public user: User;
   public lastThreads: Thread[];
-  public lastAnswers: ThreadAnswerJson[];
+  public answeredThreads: Thread[];
 
   constructor(private _router: Router,
               private _route: ActivatedRoute,
               private _userService: UserService,
-              private _threadService: ThreadService) { }
+              private _threadService: ThreadService,
+              private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.lastThreads = [];
-    this.lastAnswers = [];
+    this.answeredThreads = [];
     
     this.user = AuthenticatedUser.load();
     this._route.params.subscribe(params => {
@@ -39,9 +41,13 @@ export class UserInfoComponent implements OnInit {
               )
             }
           )
-          this.user._answers.forEach(
-            (json: ThreadAnswerJson) => {
-              this.lastAnswers.push(json);
+          this.user._answeredThreads.forEach(
+            (id: number) => {
+              this._threadService.get(id).subscribe(
+                (thread: Thread) => {
+                  this.answeredThreads.push(thread);
+                }
+              )
             }
           )
         }
@@ -49,4 +55,7 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
+  public getAvatarImage() {
+    return this._sanitizer.bypassSecurityTrustStyle(`url(${this.user.avatar})`);
+  }
 }

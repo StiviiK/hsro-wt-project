@@ -15,7 +15,7 @@ export class UserService {
         (response: UserApiResponse): User => {
           if (response && response.status === true) {
             const user = User.get(response.data.user);
-            user._answers = response.data.answers;
+            user._answeredThreads = response.data.answeredThreads;
             user._topics = response.data.threads;
             return user;
           }

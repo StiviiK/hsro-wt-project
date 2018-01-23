@@ -1,6 +1,6 @@
 <div class="inner-content">
   <mat-list>
-    <h3 mat-subheader>Last Topics visited</h3>
+    <h3 mat-subheader>Last Threads visited</h3>
     <div *ngIf="lastThreads !== null && lastThreads !== undefined">
       <mat-list-item *ngFor="let thread of lastThreads" routerLink="/!/forum/{{ thread._category }}/thread/{{ thread.id }}">
         <mat-icon mat-list-icon>bookmark</mat-icon>
@@ -10,11 +10,11 @@
       </mat-list-item>
       <mat-list-item *ngIf="lastThreads.length == 0">
         <mat-icon mat-list-icon>speaker_notes</mat-icon>
-        <h4 mat-line>No topics yet</h4>
+        <h4 mat-line>No threads yet</h4>
       </mat-list-item>
     </div>
     <mat-divider></mat-divider>
-    <h3 mat-subheader>Hot Topics</h3>
+    <h3 mat-subheader>Hot Threads</h3>
     <div *ngIf="hotThreads !== null && hotThreads !== undefined">
       <mat-list-item *ngFor="let thread of hotThreads" routerLink="/!/forum/thread/{{ thread.id }}">
         <mat-icon mat-list-icon>speaker_notes</mat-icon>
@@ -25,7 +25,7 @@
       </mat-list-item>
       <mat-list-item *ngIf="hotThreads.length == 0">
         <mat-icon mat-list-icon>speaker_notes</mat-icon>
-        <h4 mat-line>No topics yet</h4>
+        <h4 mat-line>No threads yet</h4>
       </mat-list-item>
     </div>
   </mat-list>

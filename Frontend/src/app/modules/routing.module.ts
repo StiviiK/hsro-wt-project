@@ -23,7 +23,7 @@ const routes: Routes = [
     children: [
       // linking rout paths with components
       { path: 'dashboard', component: EnterpageComponent, canActivate: [AuthGuard] },
-      { path: 'user-info/:id', component: UserInfoComponent, canActivate: [AuthGuard] },
+      { path: 'user/:id', component: UserInfoComponent, canActivate: [AuthGuard] },
       { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId', component: ForumContentComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },

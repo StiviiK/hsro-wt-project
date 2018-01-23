@@ -50,7 +50,7 @@ export interface ForumCategorysApiResponse extends ApiResponse {
 export interface UserApiResponse extends ApiResponse {
   data: {
     user: UserJson;
-    answers: ThreadAnswerJson[];
+    answeredThreads: number[];
     threads: number[];
   };
 }
