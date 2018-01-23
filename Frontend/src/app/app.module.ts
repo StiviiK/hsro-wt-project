@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/user/auth/login.component';
 import { LogoutComponent } from './components/user/auth/logout.component';
 import { NavComponent } from './components/nav/nav.component';
-import { ChatComponent } from './components/chat/chat.component';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 import { EnterpageComponent } from './components/enterpage/enterpage.component';
 import { ForumComponent } from './components/forum/forum.component';
 import { ForumContentComponent } from './components/forum/forum-content/forum-content.component';
@@ -39,7 +39,7 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     LogoutComponent,
     NavComponent,
-    ChatComponent,
+    UserInfoComponent,
     EnterpageComponent,
     ForumComponent,
     ForumContentComponent,

@@ -2,17 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../guards/authentication/auth.guard';
-
 import { LoginComponent } from '../components/user/auth/login.component';
 import { LogoutComponent } from '../components/user/auth/logout.component';
 import { NavComponent } from '../components/nav/nav.component';
 import { EnterpageComponent } from '../components/enterpage/enterpage.component';
-import { ChatComponent } from '../components/chat/chat.component';
 import { ForumComponent } from '../components/forum/forum.component';
 import { ErrorComponent } from '../components/error/error.component';
 import { ForumThreadComponent } from '../components/forum/thread/thread.component';
 import { ForumContentComponent } from '../components/forum/forum-content/forum-content.component';
 import {ThreadCreateComponent} from '../components/forum/thread-create/thread-create.component';
+import {UserInfoComponent} from '../components/user-info/user-info.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,7 +23,7 @@ const routes: Routes = [
     children: [
       // linking rout paths with components
       { path: 'dashboard', component: EnterpageComponent, canActivate: [AuthGuard] },
-      { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+      { path: 'user-info', component: UserInfoComponent, canActivate: [AuthGuard] },
       { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId', component: ForumContentComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
