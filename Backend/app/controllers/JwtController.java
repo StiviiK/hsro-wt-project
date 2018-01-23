@@ -109,7 +109,7 @@ public class JwtController extends Controller {
             }
             catch(Exception exception){
                 System.out.println("i catched "+exception.toString());
-                //return badRequest(ResultHelper.completed(false,"invalid googleToken",null));
+                //return badRequest(ResultHelper.completed(false,"invalid googleToken",null)); <-- validator is broken
             }
             //Google token is authenticated, search for the user now
             JsonNode user = body.get("user");

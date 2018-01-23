@@ -7,6 +7,7 @@ import helper.ResultHelper;
 import models.Answer;
 import models.ForumPost;
 import models.User;
+import org.apache.commons.lang3.ArrayUtils;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
@@ -14,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.With;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -88,23 +90,27 @@ public class UserController extends Controller {
             List<Answer> answers = toGet.getAnswers();
 
                 List<ForumPost> posts = toGet.getPosts();
-            Long[] answersAr,postsAr;
-            /*
-            answersAr=new Long[answers.size()];
-            int j=0;
+            Long[] postsAr;
+            List<Long> answersAr=new ArrayList<>();
+
+
                 for (Answer ans:answers){
-                    answersAr[j]=answers.get(j).getId();
-                    j++;
-                }*/
-            JsonNode answersNode=Answer.arrayToJson(answers);
+
+                    if(!answersAr.contains(ans.getPost().getId())){
+                        answersAr.add(ans.getPost().getId());
+                    }
+
+                }
+            //JsonNode answersNode=Answer.arrayToJson(answers);
                 postsAr=new Long[posts.size()];
 
                 int i=0;
                 for (ForumPost post:posts){
+
                     postsAr[i]=posts.get(i).getId();
                     i++;
                 }
-                retNode.set("answers",Json.toJson(answersNode));
+                retNode.set("answeredThreads",Json.toJson(answersAr));
                 retNode.set("threads",Json.toJson(postsAr));
 
             //Validation
