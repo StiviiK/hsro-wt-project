@@ -1,7 +1,7 @@
 import { User } from "../../user/User";
 import { ThreadAnswer } from "../../forum/ThreadAnswer";
 import { Thread } from "../../forum/Thread";
-import { ThreadJson, ForumCategoryJson } from "./JsonResponse";
+import { ThreadJson, ForumCategoryJson, UserJson, ThreadAnswerJson } from "./JsonResponse";
 import { ForumCategory } from "../../forum/ForumCategory";
 
 export interface ApiResponse {
@@ -38,4 +38,12 @@ export interface ForumCategoryApiResponse extends ApiResponse {
 
 export interface ForumCategorysApiResponse extends ApiResponse {
   data: ForumCategoryJson[];
+}
+
+export interface UserApiResponse extends ApiResponse {
+  data: {
+    user: UserJson;
+    answers: number[];
+    threads: number[];
+  };
 }

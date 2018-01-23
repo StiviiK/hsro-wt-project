@@ -2,12 +2,14 @@ import { SocialUser } from 'ng4-social-login';
 import { UserJson } from '../interfaces/api/JsonResponse';
 
 export class User { // represents any user
-  public static users: Map<number, User> = new Map();;
+  public static users: Map<number, User> = new Map();
 
   public id: number;
   public name: string;
   public email: string; // unique + primary key
   public avatar: string;
+  public _answers?: number[];
+  public _topics?: number[];
 
   public constructor(id: number, name: string, email: string, avatar: string) {
     this.id = id;
@@ -19,7 +21,8 @@ export class User { // represents any user
   // Creates an user from UserJson
   public static get(data: UserJson) {
     if (User.users.get(data.id)) {
-      return User.users.get(data.id);
+      const user = User.users.get(data.id);
+      return user;
     }
 
     const user = new User(data.id, data.name, data.email, data.avatar);

@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/user/auth/login.component';
 import { LogoutComponent } from './components/user/auth/logout.component';
 import { NavComponent } from './components/nav/nav.component';
-import { UserInfoComponent } from './components/user-info/user-info.component';
+import { UserInfoComponent } from './components/user/user-info.component';
 import { EnterpageComponent } from './components/enterpage/enterpage.component';
 import { ForumComponent } from './components/forum/forum.component';
 import { ForumContentComponent } from './components/forum/forum-content/forum-content.component';
@@ -32,6 +32,7 @@ import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-a
 import { ErrorComponent } from './components/error/error.component';
 import { ThreadCreateComponent } from './components/forum/thread-create/thread-create.component';
 import { FormsModule } from '@angular/forms';
+import { UserService } from './services/user/user';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { FormsModule } from '@angular/forms';
     AuthenticationService,
     ThreadService,
     ForumCategoryService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

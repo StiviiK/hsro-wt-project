@@ -2,10 +2,10 @@ import { User } from "../../user/User";
 import { ThreadAnswer } from "../../forum/ThreadAnswer";
 
 export interface UserJson {
-    id: number,
-    name: string,
-    email: string,
-    avatar: string,
+    id: number;
+    name: string;
+    email: string;
+    avatar: string;
 }
 
 export interface ThreadJson {

@@ -10,8 +10,8 @@ import { ForumComponent } from '../components/forum/forum.component';
 import { ErrorComponent } from '../components/error/error.component';
 import { ForumThreadComponent } from '../components/forum/thread/thread.component';
 import { ForumContentComponent } from '../components/forum/forum-content/forum-content.component';
-import {ThreadCreateComponent} from '../components/forum/thread-create/thread-create.component';
-import {UserInfoComponent} from '../components/user-info/user-info.component';
+import { ThreadCreateComponent } from '../components/forum/thread-create/thread-create.component';
+import { UserInfoComponent } from '../components/user/user-info.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,7 +23,7 @@ const routes: Routes = [
     children: [
       // linking rout paths with components
       { path: 'dashboard', component: EnterpageComponent, canActivate: [AuthGuard] },
-      { path: 'user-info', component: UserInfoComponent, canActivate: [AuthGuard] },
+      { path: 'user-info/:id', component: UserInfoComponent, canActivate: [AuthGuard] },
       { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId', component: ForumContentComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
