@@ -9,12 +9,12 @@ import { ThreadService } from '../../services/forum/thread';
   styleUrls: ['./enterpage.component.scss']
 })
 export class EnterpageComponent implements OnInit { // fill this with backend later
-  hotThreads: Thread[];
-  lastThreads: Thread[];
+  hotThreads: Thread[] = [];
+  lastThreads: Thread[] = [];
   constructor(private _threadService: ThreadService) { }
 
   ngOnInit() {
-    this._threadService.getHottest().subscribe(threads => this.hotThreads = threads);
+    //this._threadService.getHottest().subscribe(threads => this.hotThreads = threads);
     this._threadService.getLastVisited().subscribe(threads => this.lastThreads = threads);
   }
 }

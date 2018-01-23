@@ -8,6 +8,10 @@
         <p mat-line>by {{thread.creator.name}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
         <span matTooltip="{{ thread.views }} views" matTooltipPosition="after">{{ thread.views }}</span>
       </mat-list-item>
+      <mat-list-item *ngIf="lastThreads.length == 0">
+        <mat-icon mat-list-icon>speaker_notes</mat-icon>
+        <h4 mat-line>No topics yet</h4>
+      </mat-list-item>
     </div>
     <mat-divider></mat-divider>
     <h3 mat-subheader>Hot Topics</h3>
@@ -18,6 +22,10 @@
         <p mat-line>by {{thread.creator.name}} | last answer {{thread.lastUpdate | date}} | {{ thread.answers.length }} answers</p>
         <!-- <span *ngIf="thread.votes < 0" style="color: #F44336">{{ thread.votes }}</span>
         <span *ngIf="thread.votes >= 0" style="color: #4CAF50">{{ thread.votes }}</span> -->
+      </mat-list-item>
+      <mat-list-item *ngIf="hotThreads.length == 0">
+        <mat-icon mat-list-icon>speaker_notes</mat-icon>
+        <h4 mat-line>No topics yet</h4>
       </mat-list-item>
     </div>
   </mat-list>

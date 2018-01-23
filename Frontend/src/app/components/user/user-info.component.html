@@ -18,10 +18,20 @@
               <p mat-line>by {{ thread.creator.name }} | last answer {{ thread.lastUpdate | date }} | {{ thread.answers.length }} answers</p>
               <span matTooltip="{{ thread.views }} views" matTooltipPosition="after">{{ thread.views }}</span>
             </mat-list-item>
+            <mat-list-item *ngIf="lastThreads.length === 0">
+              <mat-icon mat-list-icon>speaker_notes</mat-icon>
+              <h4 mat-line>No topics yet</h4>
+            </mat-list-item>
           </div>
         </mat-list>
       </mat-tab>
-      <mat-tab label="Threads you replied to">Content 2  <!-- change 'Content 2' to repliedThreads -->
+      <mat-tab label="Threads you replied to"><!-- change 'Content 2' to repliedThreads -->
+        <mat-list>
+          <mat-list-item>
+            <mat-icon mat-list-icon>speaker_notes</mat-icon>
+            <h4 mat-line>No answers yet</h4>
+          </mat-list-item>
+        </mat-list>
       </mat-tab>
     </mat-tab-group>
   </mat-card>
