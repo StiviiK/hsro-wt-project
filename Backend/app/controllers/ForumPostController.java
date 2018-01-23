@@ -136,7 +136,18 @@ public class ForumPostController extends Controller {
             }
         }, hec.current());
     }
-
+    public CompletionStage<Result> incView(long forumID,long postID){
+        return CompletableFuture.supplyAsync(() -> {
+            ForumPost post=ForumPost.find.byId(postID);
+            if(post!=null){
+                post.incViews();
+                return ok(ResultHelper.completed(true,"increased View",null));
+            }
+            else{
+                return badRequest(ResultHelper.completed(false,"post not found",null));
+            }
+        }, hec.current());
+    }
     public CompletionStage<Result> get(long forumID, long postID) {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost toGet = ForumPost.find.byId(postID);
