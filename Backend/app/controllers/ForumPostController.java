@@ -76,7 +76,9 @@ public class ForumPostController extends Controller {
                             forumPost.setTopic(body.get("topic").asText());
                             forumPost.setLastUpdate(new Date());
                             forumPost.save();
-                            return ok(ResultHelper.completed(true,"Post created sucessfully", Json.toJson(forumPost)));
+                            ObjectNode node=Json.newObject();
+                            node.put("id",forumPost.getId());
+                            return ok(ResultHelper.completed(true,"Post created sucessfully", node));
                         }
                         , hec.current());
                 //Even more validation required

@@ -1,9 +1,13 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.validation.Constraints;
+import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -54,6 +58,23 @@ public class ForumPost extends Model {
     private Date lastUpdate;
     public static final Finder<Long, ForumPost> find = new Finder<>(ForumPost.class);
 
+    public JsonNode toJson(){
+        ObjectNode creatorNode= Json.newObject();
+        creatorNode.put("id",this.id);
+        creatorNode.put("topic",this.topic);
+        creatorNode.put("question",this.question);
+
+        return creatorNode;
+    }
+    public static JsonNode arrayToJson(List<ForumPost> posts){
+        ArrayNode retNode=Json.newArray();
+        for (ForumPost post:posts)
+        {
+            retNode.add(post.toJson());
+        }
+
+        return retNode;
+    }
    //region Getter & Setter
 
 

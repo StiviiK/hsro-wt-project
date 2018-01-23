@@ -1,8 +1,11 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import helper.PostAction;
 import helper.ResultHelper;
+import models.Answer;
+import models.ForumPost;
 import models.User;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
@@ -79,9 +82,16 @@ public class UserController extends Controller {
     public CompletionStage<Result> get(long userID) {
         return CompletableFuture.supplyAsync(() -> {
             User toGet = User.find.byId(userID);
-            //Validation
             if (toGet != null) {
-                return ok(ResultHelper.completed(true,"Read succesfully", Json.toJson(toGet)));
+            ObjectNode retNode=Json.newObject();
+            retNode.set("user",toGet.toJson());
+            List<Answer> answers = toGet.getAnswers();
+            retNode.set("answers",Answer.arrayToJson(answers));
+            List<ForumPost> posts = toGet.getPosts();
+            retNode.set("threads",ForumPost.arrayToJson(posts));
+            //Validation
+
+                return ok(ResultHelper.completed(true,"Read succesfully", retNode));
             } else {
                 return notFound(ResultHelper.completed(false,"User not found", null));
             }
