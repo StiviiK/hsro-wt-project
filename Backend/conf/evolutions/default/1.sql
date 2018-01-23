@@ -3,11 +3,6 @@
 
 # --- !Ups
 
-create table actor_user (
-  id                            bigint auto_increment not null,
-  constraint pk_actor_user primary key (id)
-);
-
 create table answer (
   id                            bigint auto_increment not null,
   creator_id                    bigint,
@@ -75,8 +70,6 @@ drop index ix_forum_post_forum_id on forum_post;
 
 alter table forum_post drop foreign key fk_forum_post_creator_id;
 drop index ix_forum_post_creator_id on forum_post;
-
-drop table if exists actor_user;
 
 drop table if exists answer;
 

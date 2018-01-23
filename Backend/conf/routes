@@ -22,7 +22,7 @@ GET     /Users/:id                  controllers.UserController.get(id: Long)
 GET    /Users/:id/Login            controllers.UserController.login(id: Long)
 GET    /Users/:id/Logout           controllers.UserController.logout(id: Long)
 GET     /Users/:id/Check            controllers.UserController.checkLogin(id: Long)
-GET     /Users/:id/Chat             controllers.SocketController.connectWith(id: Long)
+
 #ForumRoutes
 + nocsrf
 POST    /Forum                      controllers.ForumController.create()
@@ -47,8 +47,7 @@ GET     /Forum/:id/Post/:pid        controllers.ForumPostController.get(id:Long,
 +nocsrf
 POST    /Forum/:id/Post/:pid        controllers.AnswerController.create(id: Long,pid: Long)
 
-#ChatRoutes
-GET     /Chat/Host                  controllers.SocketController.hostSocket()
+GET     /Forum/:id/Post/:pid/Ans    controllers.AnswerController.list(id: Long,pid: Long)
 
 
 # An example controller showing a sample home page
@@ -64,13 +63,3 @@ GET     /jwt/requires-jwt-via-filter    controllers.JwtController.requiresJwtVia
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /jwt/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-#ScoketIO routes
-+ noJwtFilter
-GET     /ws                    controllers.Assets.at(path = "/public", file = "index.html")
-+ noJwtFilter
-GET     /ws/assets/*file       controllers.Assets.at(path = "/public", file)
-+ noJwtFilter
-GET     /ws/socket.io/         play.engineio.EngineIOController.endpoint(transport)
-+ noJwtFilter
-POST    /ws/socket.io/         play.engineio.EngineIOController.endpoint(transport)

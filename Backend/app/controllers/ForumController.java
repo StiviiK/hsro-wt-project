@@ -105,11 +105,12 @@ public class ForumController extends Controller {
     public CompletionStage<Result> get(long forumID) {
         return CompletableFuture.supplyAsync(() -> {
             Forum toGet = Forum.find.byId(forumID);
-            List<ForumPost> posts = toGet.getPosts();
-            ObjectNode node = Json.newObject();
-            node.put("id", toGet.getId());
-            node.put("name", toGet.getName());
-            node.put("color", toGet.getColor());
+            if(toGet!=null) {
+                List<ForumPost> posts = toGet.getPosts();
+                ObjectNode node = Json.newObject();
+                node.put("id", toGet.getId());
+                node.put("name", toGet.getName());
+                node.put("color", toGet.getColor());
 
            /* ArrayNode postsNode = Json.newArray();
 
@@ -123,19 +124,22 @@ public class ForumController extends Controller {
                 currentPost.put("creator", post.getCreator().getName());
                 postsNode.add(currentPost);
             }*/
-            long[] threadids=new long[posts.size()];
-            int i=0;
-            for (ForumPost post: posts
-                 ) {
-                threadids[i]=post.getId();
-                i++;
+                long[] threadids = new long[posts.size()];
+                int i = 0;
+                for (ForumPost post : posts
+                        ) {
+                    threadids[i] = post.getId();
+                    i++;
+                }
+                node.set("threads", Json.toJson(threadids));
+
+                //Validation
+                return ok(ResultHelper.completed(true, "succes", node));
+
             }
-            node.set("threads", Json.toJson(threadids));
-
-            //Validation
-            return ok(ResultHelper.completed(true, "succes", node));
-
-        }, hec.current());
+            else{
+                return badRequest(ResultHelper.completed(false,"Forum not found",null));
+            }}, hec.current());
     }
     //endregion
 }

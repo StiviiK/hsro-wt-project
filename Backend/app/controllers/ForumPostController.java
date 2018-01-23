@@ -140,31 +140,30 @@ public class ForumPostController extends Controller {
     public CompletionStage<Result> get(long forumID, long postID) {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost toGet = ForumPost.find.byId(postID);
-
-            ObjectNode retNode=Json.newObject();
-            retNode.put("id",postID);
-            retNode.put("views",toGet.getViews());
-
-
-            retNode.put("topic",toGet.getTopic());
-            retNode.put("question",toGet.getQuestion());
-
-            if(toGet.getLastUpdate()!=null){
-                retNode.put("lastUpdate",toGet.getLastUpdate().toString());
-            }
+            if(toGet!=null) {
+                ObjectNode retNode = Json.newObject();
+                retNode.put("id", postID);
+                retNode.put("views", toGet.getViews());
 
 
+                retNode.put("topic", toGet.getTopic());
+                retNode.put("question", toGet.getQuestion());
 
-            retNode.put("votes",toGet.getVotes());
-            retNode.put("Category",forumID);
+                if (toGet.getLastUpdate() != null) {
+                    retNode.put("lastUpdate", toGet.getLastUpdate().toString());
+                }
 
-            retNode.set("creator",toGet.getCreator().toJson());
-            //responding Answers to post;
-            ArrayNode answerNode=Json.newArray();
-            List<Answer> answers = toGet.getAnswers();
-            JsonNode node=Json.toJson(answers);
 
-              //  for (Answer ans : answers) {
+                retNode.put("votes", toGet.getVotes());
+                retNode.put("Category", forumID);
+
+                retNode.set("creator", toGet.getCreator().toJson());
+                //responding Answers to post;
+                ArrayNode answerNode = Json.newArray();
+                List<Answer> answers = toGet.getAnswers();
+                JsonNode node = Json.toJson(answers);
+
+                //  for (Answer ans : answers) {
                     /*
                     ObjectNode currentAns = Json.newObject();
                     currentAns.put("id", ans.getId());
@@ -172,15 +171,21 @@ public class ForumPostController extends Controller {
                     currentAns.put("message", ans.getMessage());
                     answerNode.add(currentAns);
                     */
-              //  }
+                //  }
 
                 retNode.set("answers", node);
 
-            //Validation
+                //Validation
 
-                return ok(ResultHelper.completed(true,"Read succesfully", retNode));
+                return ok(ResultHelper.completed(true, "Read succesfully", retNode));
 
-        }, hec.current());
+            }
+            else{
+                return badRequest(ResultHelper.completed(false,"Post not found",null));
+            }
+            }, hec.current());
+
     }
+
     //endregion
 }

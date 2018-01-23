@@ -35,7 +35,7 @@ public class JwtFilter extends Filter {
         if (requestHeader.attrs().containsKey(Router.Attrs.HANDLER_DEF)) {
             HandlerDef handler = requestHeader.attrs().get(Router.Attrs.HANDLER_DEF);
             List<String> modifiers = handler.getModifiers();
-            System.out.println(modifiers.toString());
+
             if (modifiers.contains(ROUTE_MODIFIER_NO_JWT_FILTER_TAG)) {
 
                 return nextFilter.apply(requestHeader);
@@ -45,8 +45,8 @@ public class JwtFilter extends Filter {
         Optional<String> authHeader =  requestHeader.getHeaders().get(HEADER_AUTHORIZATION);
 
         if (!authHeader.filter(ah -> ah.contains(BEARER)).isPresent()) {
-            System.out.println("I contain a bearer!");
-            Logger.error("f=JwtFilter, error=authHeaderNotPresent");
+
+           // Logger.error("f=JwtFilter, error=authHeaderNotPresent");
             return CompletableFuture.completedFuture(forbidden(ERR_AUTHORIZATION_HEADER));
         }
 
