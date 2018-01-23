@@ -1,3 +1,4 @@
-FROM ubuntu
+FROM openjdk
 
-CMD ["echo", "hello world"]
+CMD ["java", "-version"]
+CMD ["javac", "-version"]

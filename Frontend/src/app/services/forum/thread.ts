@@ -4,8 +4,9 @@ import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../api/api.service';
-import { ThreadApiResponse, ThreadViewApiResponse } from '../../models/interfaces/api/ApiResponse';
+import { ThreadApiResponse, ThreadViewApiResponse, ThreadCreateApiResponse } from '../../models/interfaces/api/ApiResponse';
 import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
+import { ThreadApiRequest } from '../../models/interfaces/api/ApiRequest';
 
 @Injectable()
 export class ThreadService {
@@ -67,8 +68,19 @@ export class ThreadService {
     return this._api.get<ThreadViewApiResponse>("Forum/0/Post/" + id + "/View")
       .map(
         (response: ThreadViewApiResponse ): boolean => {
-          return (response && response.status === true) || false;
+          return response && response.status === true;
         }
       );
+  }
+
+  create(forumId: number, payload: ThreadApiRequest): Observable<number> {
+    return this._api.post<ThreadCreateApiResponse>('Forum/' + forumId, payload)
+      .map(
+        (response: ThreadCreateApiResponse): number => {
+          if (response && response.status == true) {
+            return response.data.id;
+          }
+        }
+      )
   }
 }

@@ -8,7 +8,7 @@ export interface ApiResponse {
   status: boolean;
   message: string;
 
-  data?: object; // result of api call
+  data?: any; // result of api call
 }
 
 export interface JWTApiResponse extends ApiResponse {
@@ -22,6 +22,12 @@ export interface JWTApiResponse extends ApiResponse {
 
 export interface ThreadApiResponse extends ApiResponse {
   data: ThreadJson;
+}
+
+export interface ThreadCreateApiResponse extends ApiResponse {
+  data: {
+    id: number
+  };
 }
 
 export interface ThreadViewApiResponse extends ApiResponse { }

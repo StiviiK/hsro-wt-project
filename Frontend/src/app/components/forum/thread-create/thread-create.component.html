@@ -7,11 +7,11 @@
 <div class="container" *ngIf="category">
   <p class="bold">Create a new Thread</p>
   <mat-form-field>
-    <input matInput placeholder="Topic">
+    <input matInput placeholder="Topic" [(ngModel)]="topic">
   </mat-form-field>
   <mat-form-field>
-    <textarea matInput placeholder="Question" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
+    <textarea matInput placeholder="Question" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10" [(ngModel)]="question"></textarea>
   </mat-form-field>
-  <button mat-raised-button color="primary">Post</button>
+  <button mat-raised-button color="primary" (click)="create()">Post</button>
 </div>
 <p *ngIf="!category">Loading...</p>

@@ -31,6 +31,7 @@ import { ForumThreadComponent } from './components/forum/thread/thread.component
 import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-answer.component';
 import { ErrorComponent } from './components/error/error.component';
 import { ThreadCreateComponent } from './components/forum/thread-create/thread-create.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ThreadCreateComponent } from './components/forum/thread-create/thread-c
     AppMaterialModule,
     AppRoutingModule,
     HttpClientModule,
-    SocialLoginModule
+    SocialLoginModule,
+    FormsModule
   ],
   providers: [
     {

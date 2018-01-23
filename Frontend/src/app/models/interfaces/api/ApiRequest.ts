@@ -8,3 +8,9 @@ export interface JWTApiRequest extends ApiRequest {
     avatar: string;
   };
 }
+
+export interface ThreadApiRequest extends ApiRequest {
+  topic: string,
+  question: string,
+  creator: number,
+}

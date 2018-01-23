@@ -2,6 +2,7 @@
   <mat-toolbar class="forum-header"><!-- this is the headerbar -->
     <a routerLink="/!/forum" class="unmarked-link">Forum</a>
     <a routerLink="/!/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
+    <button mat-raised-button routerLink="/!/forum/{{category.id}}/thread-create">Create new Thread</button>
   </mat-toolbar>
   <div class="inner-content">
     <mat-list>
@@ -16,7 +17,6 @@
         <h4 mat-line>No topics yet</h4>
       </mat-list-item>
     </mat-list>
-    <button mat-raised-button routerLink="/!/forum/{{category.id}}/thread-create">Create new Thread</button>
   </div>
 </div>
 <p *ngIf="category === undefined">Loading...</p>
