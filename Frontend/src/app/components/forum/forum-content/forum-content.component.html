@@ -16,6 +16,7 @@
         <h4 mat-line>No topics yet</h4>
       </mat-list-item>
     </mat-list>
+    <button mat-raised-button routerLink="/!/forum/{{category.id}}/thread-create">Create new Thread</button>
   </div>
 </div>
 <p *ngIf="category === undefined">Loading...</p>

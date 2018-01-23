@@ -12,6 +12,7 @@ import { ForumComponent } from '../components/forum/forum.component';
 import { ErrorComponent } from '../components/error/error.component';
 import { ForumThreadComponent } from '../components/forum/thread/thread.component';
 import { ForumContentComponent } from '../components/forum/forum-content/forum-content.component';
+import {ThreadCreateComponent} from '../components/forum/thread-create/thread-create.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId', component: ForumContentComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
+      { path: 'forum/:categoryId/thread-create', component: ThreadCreateComponent, canActivate: [AuthGuard] },
     ]
   },
   { path: '', redirectTo: '/!/dashboard', pathMatch: 'full' }, // If path routing is empty redirect to dashboard

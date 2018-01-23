@@ -1,0 +1,17 @@
+<div *ngIf="category">
+  <mat-toolbar class="forum-header"><!-- this is the headerbar -->
+    <a routerLink="/!/forum" class="unmarked-link">Forum</a>
+    <a routerLink="/!/forum/{{category.id}}" class="unmarked-link">{{category.name}}</a>
+  </mat-toolbar>
+</div>
+<div class="container" *ngIf="category">
+  <p class="bold">Create a new Thread</p>
+  <mat-form-field>
+    <input matInput placeholder="Topic">
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Question" matTextareaAutosize matAutosizeMinRows="1" matAutosizeMaxRows="10"></textarea>
+  </mat-form-field>
+  <button mat-raised-button color="primary">Post</button>
+</div>
+<p *ngIf="!category">Loading...</p>

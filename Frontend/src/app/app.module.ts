@@ -30,6 +30,7 @@ import { ForumContentComponent } from './components/forum/forum-content/forum-co
 import { ForumThreadComponent } from './components/forum/thread/thread.component';
 import { ThreadAnswerComponent } from './components/forum/thread-answer/thread-answer.component';
 import { ErrorComponent } from './components/error/error.component';
+import { ThreadCreateComponent } from './components/forum/thread-create/thread-create.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ErrorComponent } from './components/error/error.component';
     ErrorComponent,
     ForumThreadComponent,
     ThreadAnswerComponent,
+    ThreadCreateComponent,
   ],
   imports: [
     BrowserModule,
