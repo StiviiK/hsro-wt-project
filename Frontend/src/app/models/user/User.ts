@@ -7,13 +7,13 @@ export class User { // represents any user
   public id: number;
   public name: string;
   public email: string; // unique + primary key
-  public avatar_url: string;
+  public avatar: string;
 
-  public constructor(id: number, name: string, email: string, avatar_url: string) {
+  public constructor(id: number, name: string, email: string, avatar: string) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.avatar_url = avatar_url;
+    this.avatar = avatar;
   }
 
   // Creates an user from UserJson
@@ -22,7 +22,7 @@ export class User { // represents any user
       return User.users.get(data.id);
     }
 
-    const user = new User(data.id, data.name, data.email, data.avatar_url);
+    const user = new User(data.id, data.name, data.email, data.avatar);
     User.users.set(data.id, user);
     return user;
   }
