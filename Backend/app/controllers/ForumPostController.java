@@ -175,19 +175,21 @@ public class ForumPostController extends Controller {
                 //responding Answers to post;
                 ArrayNode answerNode = Json.newArray();
                 List<Answer> answers = toGet.getAnswers();
-                JsonNode node = Json.toJson(answers);
+                if(answers!=null) {
 
-                //  for (Answer ans : answers) {
-                    /*
-                    ObjectNode currentAns = Json.newObject();
-                    currentAns.put("id", ans.getId());
-                    currentAns.set("creator", ans.getCreator().toJson());
-                    currentAns.put("message", ans.getMessage());
-                    answerNode.add(currentAns);
-                    */
-                //  }
 
-                retNode.set("answers", node);
+                    for (Answer ans : answers) {
+
+                        ObjectNode currentAns = Json.newObject();
+                        currentAns.put("id", ans.getId());
+                        currentAns.set("creator", ans.getCreator().toJson());
+                        currentAns.put("message", ans.getMessage());
+                        answerNode.add(currentAns);
+
+                    }
+
+                    retNode.set("answers", answerNode);
+                }
 
                 //Validation
 

@@ -66,8 +66,8 @@ public class JwtController extends Controller {
                     // Or, if multiple clients access the backend:
                     //  .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                     .build();
-
-            // (Receive idTokenString by HTTPS POST)
+            System.out.println("token:"+body.get("googleToken").asText());
+            /*/ (Receive idTokenString by HTTPS POST)
             try{
                 System.out.println("Im trying to verify GoogleToken");
                 GoogleIdToken idToken = verifier.verify(body.get("googleToken").asText());
@@ -99,7 +99,7 @@ public class JwtController extends Controller {
             catch(Exception exception){
                 return badRequest(ResultHelper.completed(false,"invalid googleToken",null));
             }
-            //Google token is authenticated, search for the user now
+            / *///Google token is authenticated, search for the user now
             JsonNode user = body.get("user");
             User current =Json.fromJson(user,User.class);
             List<User> userFoundList= Ebean.find(User.class).where().eq("email",current.getEmail()).findList();
