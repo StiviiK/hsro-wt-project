@@ -27,7 +27,6 @@ const routes: Routes = [
       { path: 'forum', component: ForumComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId', component: ForumContentComponent, canActivate: [AuthGuard] },
       { path: 'forum/:categoryId/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
-      { path: 'forum/thread/:id', component: ForumThreadComponent, canActivate: [AuthGuard] },
     ]
   },
   { path: '', redirectTo: '/!/dashboard', pathMatch: 'full' }, // If path routing is empty redirect to dashboard
