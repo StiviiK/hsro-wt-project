@@ -23,7 +23,6 @@ export class ForumContentComponent implements OnInit {
     this._route.params.subscribe(params => {
       this._forumCategoryService.get(params['categoryId']).subscribe(
           (category: ForumCategory) => {
-            console.log(category);
             category._threads.forEach(number => {
               this._threadService.get(number).subscribe(
                 (thread: Thread) => {

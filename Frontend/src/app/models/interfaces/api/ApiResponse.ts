@@ -2,6 +2,7 @@ import { User } from "../../user/User";
 import { ThreadAnswer } from "../../forum/ThreadAnswer";
 import { Thread } from "../../forum/Thread";
 import { ThreadJson, ForumCategoryJson } from "./JsonResponse";
+import { ForumCategory } from "../../forum/ForumCategory";
 
 export interface ApiResponse {
   status: boolean;
@@ -25,4 +26,8 @@ export interface ThreadApiResponse extends ApiResponse {
 
 export interface ForumCategoryApiResponse extends ApiResponse {
   data: ForumCategoryJson;
+}
+
+export interface ForumCategorysApiResponse extends ApiResponse {
+  data: ForumCategoryJson[];
 }
