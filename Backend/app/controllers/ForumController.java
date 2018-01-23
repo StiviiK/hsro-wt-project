@@ -73,7 +73,7 @@ public class ForumController extends Controller {
             List<Forum> forumlist = Forum.find.all();
             System.out.println(forumlist.toString());
             //JsonNode forumListJN =Json.toJson(forumlist);
-            ObjectNode dataNode = Json.newObject();
+
             ArrayNode forums = Json.newArray();
             for (Forum forum : forumlist
                     ) {
@@ -83,8 +83,8 @@ public class ForumController extends Controller {
                 currentForum.put("color", forum.getColor());
                 forums.add(currentForum);
             }
-            dataNode.put("forum", forums);
-            return ok(ResultHelper.completed(true, "Collected Forums sucessfully", dataNode));
+
+            return ok(ResultHelper.completed(true, "Collected Forums sucessfully",forums));
         }, hec.current());
     }
 
