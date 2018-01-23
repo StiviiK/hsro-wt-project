@@ -5,15 +5,15 @@
       <p>Name: {{ user.name }}</p>
       <p>ID: {{ user.id }}</p>
       <p>Posts created: {{ lastThreads.length }}</p>
-      <p>Post-Answers: {{ lastAnswers.length }}</p>
+      <p>Answers created: {{ lastAnswers.length }}</p>
     </div>
 
     <mat-tab-group>
-      <mat-tab label="Threads you created"> <!-- change lastThreads to createdThreads -->
+      <mat-tab label="Threads created"> <!-- change lastThreads to createdThreads -->
         <mat-list>
           <div *ngIf="lastThreads !== null && lastThreads !== undefined">
             <mat-list-item *ngFor="let thread of lastThreads" routerLink="/!/forum/{{ thread._category }}/thread/{{ thread.id }}">
-             <mat-icon mat-list-icon>bookmark</mat-icon>
+              <mat-icon mat-list-icon>bookmark</mat-icon>
               <h4 mat-line>{{ thread.topic }}</h4>
               <p mat-line>by {{ thread.creator.name }} | last answer {{ thread.lastUpdate | date }} | {{ thread.answers.length }} answers</p>
               <span matTooltip="{{ thread.views }} views" matTooltipPosition="after">{{ thread.views }}</span>
@@ -25,9 +25,13 @@
           </div>
         </mat-list>
       </mat-tab>
-      <mat-tab label="Threads you replied to"><!-- change 'Content 2' to repliedThreads -->
+      <mat-tab label="Created answers"><!-- change 'Content 2' to repliedThreads -->
         <mat-list>
-          <mat-list-item>
+          <mat-list-item *ngFor="let answer of lastAnswers">
+            <mat-icon mat-list-icon>speaker_notes</mat-icon>
+            <h4 mat-line>{{ answer.message }}</h4>
+          </mat-list-item>
+          <mat-list-item *ngIf="lastAnswers.length === 0">
             <mat-icon mat-list-icon>speaker_notes</mat-icon>
             <h4 mat-line>No answers yet</h4>
           </mat-list-item>

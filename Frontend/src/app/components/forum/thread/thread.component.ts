@@ -24,7 +24,6 @@ export class ForumThreadComponent implements OnInit {
 
   ngOnInit() {
     this._route.params.subscribe(params => {
-      this.updateHistory(params['id'] as string);
       this._threadService.increaseViews(params['id']).subscribe(
         (status: boolean) => {
           if (!status) {
@@ -37,6 +36,7 @@ export class ForumThreadComponent implements OnInit {
           if (thread === undefined) {
             this._router.navigate(['error', '404']);
           } else {
+            this.updateHistory(params['id'] as string);
             this._categoryService.get(thread._category).subscribe((category: ForumCategory) => {
               category.addThread(thread);
               thread.setCategory(category);

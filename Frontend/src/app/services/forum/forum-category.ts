@@ -27,6 +27,7 @@ export class ForumCategoryService {
           }
         }
       )
+      .catch(() => { return of(undefined) });
   }
 
   get(id: number): Observable<ForumCategory> {
@@ -37,6 +38,7 @@ export class ForumCategoryService {
             return ForumCategory.get(response.data);
           }
         }
-      );
+      )
+      .catch(() => { return of(undefined) });
   }
 }

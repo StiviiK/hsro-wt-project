@@ -1,5 +1,5 @@
 import { SocialUser } from 'ng4-social-login';
-import { UserJson } from '../interfaces/api/JsonResponse';
+import { UserJson, ThreadAnswerJson } from '../interfaces/api/JsonResponse';
 
 export class User { // represents any user
   public static users: Map<number, User> = new Map();
@@ -8,7 +8,7 @@ export class User { // represents any user
   public name: string;
   public email: string; // unique + primary key
   public avatar: string;
-  public _answers?: number[];
+  public _answers?: ThreadAnswerJson[];
   public _topics?: number[];
 
   public constructor(id: number, name: string, email: string, avatar: string) {

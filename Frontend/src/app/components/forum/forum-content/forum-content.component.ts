@@ -15,7 +15,8 @@ export class ForumContentComponent implements OnInit {
 
   constructor(private _forumCategoryService: ForumCategoryService,
               private _threadService: ThreadService,
-              private _route: ActivatedRoute) {
+              private _route: ActivatedRoute,
+              private _router: Router) {
   }
 
   ngOnInit() {
@@ -23,14 +24,18 @@ export class ForumContentComponent implements OnInit {
     this._route.params.subscribe(params => {
       this._forumCategoryService.get(params['categoryId']).subscribe(
           (category: ForumCategory) => {
-            category._threads.forEach(number => {
-              this._threadService.get(number).subscribe(
-                (thread: Thread) => {
-                  category.addThread(thread);
-                }
-              )
-            })
-            this.category = category;
+            if (category === undefined) {
+              this._router.navigate(['error', '404']);
+            } else {
+              category._threads.forEach(number => {
+                this._threadService.get(number).subscribe(
+                  (thread: Thread) => {
+                    category.addThread(thread);
+                  }
+                )
+              })
+              this.category = category;
+            }
           }
       );
     });

@@ -7,14 +7,6 @@
 
 <mat-sidenav-container class="sidenav">
   <mat-sidenav #sidenav mode="push" class="sidenav container">
-    <!--
-    <div class="sidenav header">
-      <mat-toolbar class="header">
-        <span style="margin-left: 15px">Awesome items!</span>
-      </mat-toolbar>
-    </div>
-    -->
-
     <mat-list role="list"><!-- This is the List that pops out when u open the sidebarmenu -->
         <mat-list-item role="listitem">
           <button mat-button routerLink="/!/dashboard" class="sidenav-item">
@@ -28,14 +20,19 @@
         </mat-list-item>
         <mat-list-item role="listitem">
           <button mat-button routerLink="/!/user-info/{{ user.id }}" class="sidenav-item">
-          <mat-icon style="padding-right: 10px">User</mat-icon>User
+          <mat-icon style="padding-right: 10px">portrait</mat-icon>User
           </button>
-      </mat-list-item>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+            <button mat-button routerLink="/logout" class="sidenav-item">
+            <mat-icon style="padding-right: 10px">exit_to_app</mat-icon>Logout
+            </button>
+          </mat-list-item>
       </mat-list>
   </mat-sidenav>
 
-  <mat-sidenav-content> <!-- Contains the content that gets Pushed by the Sidebar -->
-    <router-outlet class="Main Content"><!-- the router-outlet is the element that gets changed when the routes change -->
+  <mat-sidenav-content>
+    <router-outlet class="Main Content">
     </router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

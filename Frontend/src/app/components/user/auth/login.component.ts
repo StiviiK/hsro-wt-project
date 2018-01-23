@@ -17,11 +17,9 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.status = "loading";
-    //this._authService.test();
     this._authService.login().subscribe(
       (result) => {
         this.status = null;
-        console.log(result);
         this._router.navigate(['/!/dashboard']);
       },
       (err) => {
