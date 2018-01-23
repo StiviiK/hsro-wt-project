@@ -4,7 +4,7 @@ import { Thread } from '../../models/forum/Thread';
 import { ThreadService } from '../../services/forum/thread';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user';
-import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
+import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
 
 @Component({
   selector: 'app-user-info',
@@ -14,7 +14,7 @@ import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 export class UserInfoComponent implements OnInit {
   public user: User;
   public lastThreads: Thread[];
-  public lastAnswers: ThreadAnswer[];
+  public lastAnswers: ThreadAnswerJson[];
 
   constructor(private _router: Router,
               private _route: ActivatedRoute,
@@ -37,6 +37,11 @@ export class UserInfoComponent implements OnInit {
                   this.lastThreads.push(thread);
                 }
               )
+            }
+          )
+          this.user._answers.forEach(
+            (json: ThreadAnswerJson) => {
+              this.lastAnswers.push(json);
             }
           )
         }

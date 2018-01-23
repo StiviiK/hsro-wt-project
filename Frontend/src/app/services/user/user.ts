@@ -8,7 +8,7 @@ import { UserApiResponse } from '../../models/interfaces/api/ApiResponse';
 export class UserService {
 
   constructor(private _api: ApiService) { }
-
+  
   get(id: number): Observable<User> {
     return this._api.get<UserApiResponse>("Users/" + id)
       .map(
@@ -20,6 +20,6 @@ export class UserService {
             return user;
           }
         }
-      );
+      )
   }
 }

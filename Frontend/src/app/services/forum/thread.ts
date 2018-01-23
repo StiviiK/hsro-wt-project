@@ -31,6 +31,7 @@ export class ThreadService {
             }
           }
       )
+      .catch(() => { return of(undefined) });
   }
 
   getHottest(): Observable<Thread[]> {
@@ -68,7 +69,8 @@ export class ThreadService {
         (response: ThreadViewApiResponse ): boolean => {
           return response && response.status === true;
         }
-      );
+      )
+      .catch(() => { return of(false) });
   }
 
   create(forumId: number, payload: ThreadApiRequest): Observable<number> {
@@ -80,16 +82,16 @@ export class ThreadService {
           }
         }
       )
+      .catch(() => { return of(undefined) });
   }
 
   createAnswer(threadId: number, payload: ThreadAnswerApiRequest): Observable<boolean> {
-    console.log("hellof");
-    
     return this._api.post<ThreadAnswerApiResponse>('Forum/0/Post/' + threadId, payload)
       .map(
         (response: ThreadAnswerApiResponse): boolean => {
           return response && response.status;
         }
-      );
+      )
+      .catch(() => { return of(undefined) });
   }
 }
