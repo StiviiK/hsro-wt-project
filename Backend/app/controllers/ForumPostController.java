@@ -141,6 +141,7 @@ public class ForumPostController extends Controller {
             ForumPost post=ForumPost.find.byId(postID);
             if(post!=null){
                 post.incViews();
+                post.update();
                 return ok(ResultHelper.completed(true,"increased View",null));
             }
             else{

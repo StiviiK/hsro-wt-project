@@ -4,7 +4,7 @@ import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../api/api.service';
-import { ThreadApiResponse } from '../../models/interfaces/api/ApiResponse';
+import { ThreadApiResponse, ThreadViewApiResponse } from '../../models/interfaces/api/ApiResponse';
 import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
 
 @Injectable()
@@ -16,26 +16,22 @@ export class ThreadService {
   constructor(private _api: ApiService) {}
 
   get(id: number): Observable<Thread> {
-    if (Thread.getById(id)) {
-      return of(Thread.getById(id));
-    } else {
-      return this._api.get<ThreadApiResponse>('Forum/0/Post/' + id)
-        .map(
-            (response: ThreadApiResponse): Thread => {
-              if (response && response.status === true) {
-                const data = response.data;
-                const thread: Thread = Thread.get(response.data);
+    return this._api.get<ThreadApiResponse>('Forum/0/Post/' + id)
+      .map(
+          (response: ThreadApiResponse): Thread => {
+            if (response && response.status === true) {
+              const data = response.data;
+              const thread: Thread = Thread.get(response.data);
 
-                const threadAnswer: ThreadAnswer[] = [];
-                data.answers.forEach((json: ThreadAnswerJson) => {
-                  threadAnswer.push(ThreadAnswer.get(json, thread));
-                });
+              const threadAnswer: ThreadAnswer[] = [];
+              data.answers.forEach((json: ThreadAnswerJson) => {
+                threadAnswer.push(ThreadAnswer.get(json, thread));
+              });
 
-                return thread;
-              }
+              return thread;
             }
-        );
-      }
+          }
+      )
   }
 
   getHottest(): Observable<Thread[]> {
@@ -65,5 +61,14 @@ export class ThreadService {
     );
 
     return of(threads);
+  }
+
+  increaseViews(id: number): Observable<boolean> {
+    return this._api.get<ThreadViewApiResponse>("Forum/0/Post/" + id + "/View")
+      .map(
+        (response: ThreadViewApiResponse ): boolean => {
+          return (response && response.status === true) || false;
+        }
+      );
   }
 }

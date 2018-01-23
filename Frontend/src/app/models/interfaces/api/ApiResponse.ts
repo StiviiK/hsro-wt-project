@@ -24,6 +24,8 @@ export interface ThreadApiResponse extends ApiResponse {
   data: ThreadJson;
 }
 
+export interface ThreadViewApiResponse extends ApiResponse { }
+
 export interface ForumCategoryApiResponse extends ApiResponse {
   data: ForumCategoryJson;
 }

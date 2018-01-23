@@ -23,6 +23,13 @@ export class ForumThreadComponent implements OnInit {
   ngOnInit() {
     this._route.params.subscribe(params => {
       this.updateHistory(params['id'] as string);
+      this._threadService.increaseViews(params['id']).subscribe(
+        (status: boolean) => {
+          if (!status) {
+            console.error("Failed to increase view");
+          }
+        }
+      );
       this._threadService.get(params['id']).subscribe(
         (thread: Thread) => {
           if (thread === undefined) {

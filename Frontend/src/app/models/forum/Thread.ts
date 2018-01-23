@@ -4,8 +4,6 @@ import { ForumCategory } from './ForumCategory';
 import { ThreadJson } from '../interfaces/api/JsonResponse';
 
 export class Thread {
-  public static threads: Map<number, Thread> = new Map();
-
   public id: number;
   public views: number;
   public creator: User;
@@ -41,11 +39,6 @@ export class Thread {
 
   public static get(data: ThreadJson) {
     const thread = new Thread(data.id, data.views, User.get(data.creator), data.topic, data.question, new Date(data.lastUpdate), data.category);
-    Thread.threads.set(data.id, thread);
     return thread;
-  }
-
-  public static getById(id: number) {
-    return Thread.threads.get(id);
   }
 }
