@@ -4,7 +4,6 @@ language: scala
 jdk: oraclejdk8
 
 scala:
-  - 2.10.4
   - 2.12.4
 
 services:
@@ -18,7 +17,7 @@ script:
   - docker build -t "$FRONTEND_IMAGE" .
   - cd ../Backend/
   - sbt docker:publishLocal
-#  - docker build -t "$BACKEND_IMAGE" .
+  - docker tag wtbackend:1.0-SNAPSHOT "$BACKEND_IMAGE":latest
   - cd ..
   - docker images
 
