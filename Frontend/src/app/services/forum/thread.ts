@@ -7,6 +7,7 @@ import { ApiService } from '../api/api.service';
 import { ThreadApiResponse, ThreadCreateApiResponse, ThreadAnswerApiResponse, ApiResponse } from '../../models/interfaces/api/ApiResponse';
 import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
 import { ThreadApiRequest, ThreadAnswerApiRequest } from '../../models/interfaces/api/ApiRequest';
+import { ForumCategory } from '../../models/forum/ForumCategory';
 
 @Injectable()
 export class ThreadService {
@@ -16,8 +17,8 @@ export class ThreadService {
 
   constructor(private _api: ApiService) {}
 
-  get(id: number): Observable<Thread> {
-    return this._api.get<ThreadApiResponse>('Forum/0/Post/' + id)
+  get(id: number, categoryId: number): Observable<Thread> {
+    return this._api.get<ThreadApiResponse>(`Forum/${ categoryId }/Post/${ id }`)
       .map(
           (response: ThreadApiResponse): Thread => {
             if (response && response.status === true) {
@@ -52,7 +53,7 @@ export class ThreadService {
     const self = this;
     JSON.parse(localStorage.getItem('lastVisited') || '[]').forEach(
       (item: any) => {
-        this.get(item)
+        this.get(item, 0)
           .toPromise()
           .then((thread) => {
               threads.push(thread);
@@ -63,18 +64,18 @@ export class ThreadService {
     return of(threads);
   }
 
-  increaseViews(id: number): Observable<boolean> {
-    return this._api.get<ApiResponse>('Forum/0/Post/' + id + '/View')
+  increaseViews(thread: Thread): Observable<boolean> {
+    return this._api.get<ApiResponse>(`Forum/${ thread._category }/Post/${ thread.id }/View`)
       .map(
-        (response: ApiResponse ): boolean => {
+        (response: ApiResponse): boolean => {
           return response && response.status === true;
         }
       )
       .catch(() => of(false));
   }
 
-  create(forumId: number, payload: ThreadApiRequest): Observable<number> {
-    return this._api.post<ThreadCreateApiResponse>('Forum/' + forumId, payload)
+  create(forum: ForumCategory, payload: ThreadApiRequest): Observable<number> {
+    return this._api.post<ThreadCreateApiResponse>(`Forum/${ forum.id }`, payload)
       .map(
         (response: ThreadCreateApiResponse): number => {
           if (response && response.status === true) {
@@ -85,13 +86,22 @@ export class ThreadService {
       .catch(() => of(undefined));
   }
 
-  createAnswer(threadId: number, payload: ThreadAnswerApiRequest): Observable<boolean> {
-    return this._api.post<ThreadAnswerApiResponse>('Forum/0/Post/' + threadId, payload)
+  createAnswer(thread: Thread, payload: ThreadAnswerApiRequest): Observable<boolean> {
+    return this._api.post<ThreadAnswerApiResponse>(`Forum/${ thread._category }/Post/${ thread.id }`, payload)
       .map(
         (response: ThreadAnswerApiResponse): boolean => {
           return response && response.status;
         }
       )
       .catch(() => of(undefined));
+  }
+
+  removeAnswer(thread: Thread, answer: ThreadAnswer): Observable<boolean> {
+    return this._api.delete<ApiResponse>(`Forum/${ thread._category }/Post/${ thread.id }/Answer/${ answer.id }`)
+      .map(
+        (response: ApiResponse) => {
+          return response && response.status === true;
+        }
+      );
   }
 }

@@ -31,7 +31,7 @@ export class ForumCategoryService {
   }
 
   get(id: number): Observable<ForumCategory> {
-    return this._api.get<ForumCategoryApiResponse>('Forum/' + id)
+    return this._api.get<ForumCategoryApiResponse>(`Forum/${ id }`)
       .map(
         (response: ForumCategoryApiResponse): ForumCategory => {
           if (response && response.status === true) {

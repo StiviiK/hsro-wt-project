@@ -39,7 +39,7 @@ export class ThreadCreateComponent implements OnInit {
       creator: AuthenticatedUser.load().id,
     };
 
-    this._threadService.create(this.category.id, payload).subscribe(
+    this._threadService.create(this.category, payload).subscribe(
       (id: number) => {
         this._router.navigate(['!', 'forum', this.category.id, 'thread', id]);
       }

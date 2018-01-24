@@ -27,7 +27,7 @@ export class ForumContentComponent implements OnInit {
               this._router.navigate(['error', '404']);
             } else {
               category._threads.forEach(number => {
-                this._threadService.get(number).subscribe(
+                this._threadService.get(number, category.id).subscribe(
                   (thread: Thread) => {
                     category.addThread(thread);
                   }

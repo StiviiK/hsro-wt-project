@@ -34,7 +34,7 @@ export class UserInfoComponent implements OnInit {
           this.user = user;
           this.user._topics.forEach(
             (id: number) => {
-              this._threadService.get(id).subscribe(
+              this._threadService.get(id, 0).subscribe(
                 (thread: Thread) => {
                   this.lastThreads.push(thread);
                 }
@@ -44,7 +44,7 @@ export class UserInfoComponent implements OnInit {
 
           this.user._answeredThreads.forEach(
             (id: number) => {
-              this._threadService.get(id).subscribe(
+              this._threadService.get(id, 0).subscribe(
                 (thread: Thread) => {
                   this.answeredThreads.push(thread);
                 }

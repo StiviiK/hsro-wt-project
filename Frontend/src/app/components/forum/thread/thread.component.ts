@@ -18,6 +18,7 @@ export class ForumThreadComponent implements OnInit {
   public thread: Thread;
   public answer: string;
   public image: string;
+  public user: User;
 
   constructor(private _route: ActivatedRoute,
               private _router: Router,
@@ -26,15 +27,9 @@ export class ForumThreadComponent implements OnInit {
               private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    this.user = AuthenticatedUser.load();
     this._route.params.subscribe(params => {
-      this._threadService.increaseViews(params['id']).subscribe(
-        (status: boolean) => {
-          if (!status) {
-            console.error('Failed to increase view');
-          }
-        }
-      );
-      this._threadService.get(params['id']).subscribe(
+      this._threadService.get(params['id'], params['categoryId']).subscribe(
         (thread: Thread) => {
           if (thread === undefined) {
             this._router.navigate(['error', '404']);
@@ -45,6 +40,13 @@ export class ForumThreadComponent implements OnInit {
               thread.setCategory(category);
               this.thread = thread;
             });
+            this._threadService.increaseViews(thread).subscribe(
+              (status: boolean) => {
+                if (!status) {
+                  console.error('Failed to increase view');
+                }
+              }
+            );
           }
         }
       );
@@ -57,7 +59,7 @@ export class ForumThreadComponent implements OnInit {
       creator: AuthenticatedUser.load().id,
     };
 
-    this._threadService.createAnswer(this.thread.id, payload).subscribe(
+    this._threadService.createAnswer(this.thread, payload).subscribe(
       (status: boolean) => {
         location.reload();
       }

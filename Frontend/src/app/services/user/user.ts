@@ -10,7 +10,7 @@ export class UserService {
   constructor(private _api: ApiService) { }
 
   get(id: number): Observable<User> {
-    return this._api.get<UserApiResponse>('Users/' + id)
+    return this._api.get<UserApiResponse>(`Users/${ id }`)
       .map(
         (response: UserApiResponse): User => {
           if (response && response.status === true) {

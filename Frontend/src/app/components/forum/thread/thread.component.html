@@ -4,12 +4,6 @@
     <a routerLink="/!/forum/{{ thread.category.id }}" class="unmarked-link">{{ thread.category.name }}</a>
     <a routerLink="/!/forum/{{ thread.category.id }}/thread/{{ thread.id }}" class="unmarked-link" disabled="true">{{ thread.topic }}</a>
   </mat-toolbar>
-  <!-- Remove later -->
-  <mat-toolbar *ngIf="!thread.category" class="forum-header">
-    <a routerLink="/!/forum" class="unmarked-link">Forum</a>
-    <a routerLink="/!/forum/thread/{{thread.id}}" class="unmarked-link" disabled="true">{{thread.topic}}</a>
-  </mat-toolbar>
-  <!-- Remove end -->
   <div class="inner-content">
     <div *ngIf="thread">
       <h2>{{ thread.topic }}</h2>

@@ -7,4 +7,7 @@
     <mat-card-content>
         <p>{{ answer.message }}</p>
     </mat-card-content>
+    <mat-card-actions *ngIf="answer.creator.id === user.id">
+        <button mat-button (click)="removeAnswer()"><mat-icon>remove_circle</mat-icon> remove Answer</button>
+    </mat-card-actions>
 </mat-card>
