@@ -20,7 +20,6 @@ export class ForumContentComponent implements OnInit {
   }
 
   ngOnInit() {
-    let id: number;
     this._route.params.subscribe(params => {
       this._forumCategoryService.get(params['categoryId']).subscribe(
           (category: ForumCategory) => {
@@ -32,8 +31,8 @@ export class ForumContentComponent implements OnInit {
                   (thread: Thread) => {
                     category.addThread(thread);
                   }
-                )
-              })
+                );
+              });
               this.category = category;
             }
           }

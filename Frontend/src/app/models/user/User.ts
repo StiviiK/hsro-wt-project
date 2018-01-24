@@ -21,8 +21,7 @@ export class User { // represents any user
   // Creates an user from UserJson
   public static get(data: UserJson) {
     if (User.users.get(data.id)) {
-      const user = User.users.get(data.id);
-      return user;
+      return User.users.get(data.id);
     }
 
     const user = new User(data.id, data.name, data.email, data.avatar);

@@ -15,6 +15,12 @@ export class Thread {
   public category: ForumCategory;
   public _category: number;
 
+  public static get(data: ThreadJson) {
+    const thread = new Thread(data.id, data.views, User.get(data.creator), data.topic,
+                              data.question, new Date(data.lastUpdate), data.category);
+    return thread;
+  }
+
   public constructor(id: number, views: number, creator: User, topic: string, question: string, lastUpdate: Date, category: number) {
     this.id = id;
     this.views = views;
@@ -34,10 +40,5 @@ export class Thread {
 
   public setCategory(category: ForumCategory) {
     this.category = category;
-  }
-
-  public static get(data: ThreadJson) {
-    const thread = new Thread(data.id, data.views, User.get(data.creator), data.topic, data.question, new Date(data.lastUpdate), data.category);
-    return thread;
   }
 }

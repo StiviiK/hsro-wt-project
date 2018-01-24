@@ -1,8 +1,8 @@
-import { User } from "../../user/User";
-import { ThreadAnswer } from "../../forum/ThreadAnswer";
-import { Thread } from "../../forum/Thread";
-import { ThreadJson, ForumCategoryJson, UserJson, ThreadAnswerJson } from "./JsonResponse";
-import { ForumCategory } from "../../forum/ForumCategory";
+import { User } from '../../user/User';
+import { ThreadAnswer } from '../../forum/ThreadAnswer';
+import { Thread } from '../../forum/Thread';
+import { ThreadJson, ForumCategoryJson, UserJson, ThreadAnswerJson } from './JsonResponse';
+import { ForumCategory } from '../../forum/ForumCategory';
 
 export interface ApiResponse {
   status: boolean;
@@ -30,13 +30,11 @@ export interface ThreadCreateApiResponse extends ApiResponse {
   };
 }
 
-export interface ThreadViewApiResponse extends ApiResponse { }
-
 export interface ThreadAnswerApiResponse extends ApiResponse {
   data: {
     id: number;
     message: string;
-  }
+  };
 }
 
 export interface ForumCategoryApiResponse extends ApiResponse {

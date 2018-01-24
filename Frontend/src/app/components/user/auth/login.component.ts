@@ -17,14 +17,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.status = "loading";
     this._authService.login().subscribe(
       (result) => {
-        this.status = null;
         this._router.navigate(['/!/dashboard']);
       },
       (err) => {
-        this.status = "failed";
         console.error(err);
       }
     );

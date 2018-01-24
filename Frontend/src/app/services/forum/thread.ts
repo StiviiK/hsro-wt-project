@@ -4,7 +4,7 @@ import { ThreadAnswer } from '../../models/forum/ThreadAnswer';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../api/api.service';
-import { ThreadApiResponse, ThreadViewApiResponse, ThreadCreateApiResponse, ThreadAnswerApiResponse } from '../../models/interfaces/api/ApiResponse';
+import { ThreadApiResponse, ThreadCreateApiResponse, ThreadAnswerApiResponse, ApiResponse } from '../../models/interfaces/api/ApiResponse';
 import { ThreadAnswerJson } from '../../models/interfaces/api/JsonResponse';
 import { ThreadApiRequest, ThreadAnswerApiRequest } from '../../models/interfaces/api/ApiRequest';
 
@@ -31,7 +31,7 @@ export class ThreadService {
             }
           }
       )
-      .catch(() => { return of(undefined) });
+      .catch(() => of(undefined));
   }
 
   getHottest(): Observable<Thread[]> {
@@ -64,25 +64,25 @@ export class ThreadService {
   }
 
   increaseViews(id: number): Observable<boolean> {
-    return this._api.get<ThreadViewApiResponse>("Forum/0/Post/" + id + "/View")
+    return this._api.get<ApiResponse>('Forum/0/Post/' + id + '/View')
       .map(
-        (response: ThreadViewApiResponse ): boolean => {
+        (response: ApiResponse ): boolean => {
           return response && response.status === true;
         }
       )
-      .catch(() => { return of(false) });
+      .catch(() => of(false));
   }
 
   create(forumId: number, payload: ThreadApiRequest): Observable<number> {
     return this._api.post<ThreadCreateApiResponse>('Forum/' + forumId, payload)
       .map(
         (response: ThreadCreateApiResponse): number => {
-          if (response && response.status == true) {
+          if (response && response.status === true) {
             return response.data.id;
           }
         }
       )
-      .catch(() => { return of(undefined) });
+      .catch(() => of(undefined));
   }
 
   createAnswer(threadId: number, payload: ThreadAnswerApiRequest): Observable<boolean> {
@@ -92,6 +92,6 @@ export class ThreadService {
           return response && response.status;
         }
       )
-      .catch(() => { return of(undefined) });
+      .catch(() => of(undefined));
   }
 }

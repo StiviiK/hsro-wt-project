@@ -21,13 +21,13 @@ export class ForumCategoryService {
               (json: ForumCategoryJson) => {
                 categories.push(ForumCategory.get(json));
               }
-            )
+            );
 
             return categories;
           }
         }
       )
-      .catch(() => { return of(undefined) });
+      .catch(() => of(undefined));
   }
 
   get(id: number): Observable<ForumCategory> {
@@ -39,6 +39,6 @@ export class ForumCategoryService {
           }
         }
       )
-      .catch(() => { return of(undefined) });
+      .catch(() => of(undefined));
   }
 }

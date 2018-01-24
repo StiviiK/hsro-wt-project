@@ -25,6 +25,6 @@ export class ForumComponent implements OnInit {
           this.categories = categories;
         }
       }
-    )
+    );
   }
 }

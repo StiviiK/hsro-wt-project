@@ -2,7 +2,6 @@
   <img mat-card-image src="../../../../assets/img/LoginPagePicture.jpg">
   <p>Please login with your Google+ Account to access the Website.</p>
   <p *ngIf="status === 'failed'">Login failed!</p>
-  <mat-spinner *ngIf="status === 'loading'"></mat-spinner>
   <button mat-raised-button color="warn" (click)="login()">g+ | LogIn!</button>
 </mat-card>
 

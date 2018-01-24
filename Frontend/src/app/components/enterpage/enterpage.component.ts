@@ -14,7 +14,7 @@ export class EnterpageComponent implements OnInit { // fill this with backend la
   constructor(private _threadService: ThreadService) { }
 
   ngOnInit() {
-    //this._threadService.getHottest().subscribe(threads => this.hotThreads = threads);
+    // this._threadService.getHottest().subscribe(threads => this.hotThreads = threads);
     this._threadService.getLastVisited().subscribe(threads => this.lastThreads = threads);
   }
 }

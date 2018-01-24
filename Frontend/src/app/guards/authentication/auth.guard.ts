@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate() {
       if (AuthenticatedUser.load() != null) {
-        return this._api.get<ApiResponse>("Verify")
+        return this._api.get<ApiResponse>('Verify')
           .map(
             (response: ApiResponse): boolean => {
               if (response && response.status === true) {
@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate {
             this._authService.logout();
             this._router.navigate(['/login']);
             return of(false);
-          })
+          });
       } else {
         this._authService.logout();
         this._router.navigate(['/login']);

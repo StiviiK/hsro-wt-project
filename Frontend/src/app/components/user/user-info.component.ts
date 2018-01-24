@@ -26,7 +26,7 @@ export class UserInfoComponent implements OnInit {
   ngOnInit() {
     this.lastThreads = [];
     this.answeredThreads = [];
-    
+
     this.user = AuthenticatedUser.load();
     this._route.params.subscribe(params => {
       this._userService.get(params['id']).subscribe(
@@ -38,20 +38,21 @@ export class UserInfoComponent implements OnInit {
                 (thread: Thread) => {
                   this.lastThreads.push(thread);
                 }
-              )
+              );
             }
-          )
+          );
+
           this.user._answeredThreads.forEach(
             (id: number) => {
               this._threadService.get(id).subscribe(
                 (thread: Thread) => {
                   this.answeredThreads.push(thread);
                 }
-              )
+              );
             }
-          )
+          );
         }
-      )
+      );
     });
   }
 

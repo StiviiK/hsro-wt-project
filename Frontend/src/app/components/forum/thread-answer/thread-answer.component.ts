@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {ThreadAnswer} from '../../../models/forum/ThreadAnswer';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -20,4 +20,3 @@ export class ThreadAnswerComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${this.answer.creator.avatar})`);
   }
 }
-  

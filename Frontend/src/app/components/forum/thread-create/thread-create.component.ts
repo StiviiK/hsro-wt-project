@@ -14,8 +14,8 @@ import { AuthenticatedUser } from '../../../models/user/User';
 })
 export class ThreadCreateComponent implements OnInit {
   public category: ForumCategory;
-  public topic: string = "";
-  public question: string = "";
+  public topic: string;
+  public question: string;
 
   constructor(private _route: ActivatedRoute,
               private _router: Router,
@@ -37,12 +37,12 @@ export class ThreadCreateComponent implements OnInit {
       topic: this.topic,
       question: this.question,
       creator: AuthenticatedUser.load().id,
-    }
+    };
 
     this._threadService.create(this.category.id, payload).subscribe(
       (id: number) => {
         this._router.navigate(['!', 'forum', this.category.id, 'thread', id]);
       }
-    )
+    );
   }
 }

@@ -1,4 +1,5 @@
-export interface ApiRequest { }
+// tslint:disable-next-line:no-empty-interface
+export interface ApiRequest {}
 
 export interface JWTApiRequest extends ApiRequest {
   googleToken: string;

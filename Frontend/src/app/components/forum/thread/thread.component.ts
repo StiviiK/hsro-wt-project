@@ -30,7 +30,7 @@ export class ForumThreadComponent implements OnInit {
       this._threadService.increaseViews(params['id']).subscribe(
         (status: boolean) => {
           if (!status) {
-            console.error("Failed to increase view");
+            console.error('Failed to increase view');
           }
         }
       );
@@ -55,7 +55,8 @@ export class ForumThreadComponent implements OnInit {
     const payload: ThreadAnswerApiRequest = {
       message: this.answer,
       creator: AuthenticatedUser.load().id,
-    }
+    };
+
     this._threadService.createAnswer(this.thread.id, payload).subscribe(
       (status: boolean) => {
         location.reload();

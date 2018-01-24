@@ -4,7 +4,7 @@ import { ThreadAnswerJson } from '../interfaces/api/JsonResponse';
 
 export class ThreadAnswer {
   public static answers: Map<number, ThreadAnswer> = new Map();
-  
+
   public id: number;
   public thread: Thread;
   public creator: User;

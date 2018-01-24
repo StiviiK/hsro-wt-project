@@ -8,6 +8,11 @@ export class ForumCategory {
   public _threads: number[];
   public color: String;
 
+  public static get(data: ForumCategoryJson) {
+    const category = new ForumCategory(data.id, data.name, data.color, data.threads);
+    return category;
+  }
+
   public constructor(id: number, name: String, color: String, threads: number[]) {
     this.id = id;
     this.name = name;
@@ -20,10 +25,5 @@ export class ForumCategory {
     if (this.threads.findIndex((other: Thread) => other === thread) === -1) {
       this.threads.push(thread);
     }
-  }
-
-  public static get(data: ForumCategoryJson) {
-    const category = new ForumCategory(data.id, data.name, data.color, data.threads);
-    return category;
   }
 }

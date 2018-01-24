@@ -1,6 +1,3 @@
-import { User } from "../../user/User";
-import { ThreadAnswer } from "../../forum/ThreadAnswer";
-
 export interface UserJson {
     id: number;
     name: string;
