@@ -16,11 +16,14 @@ services:
             - db:db
         ports:
             - 3000:80
-
     backend:
-        image: hsro_back
+        image: stiviik/hsro-wt-project/backend
         restart: always
         links:
             - db:DATABASE
         ports:
             - 9000:9000
+    frontend:
+        image: stiviik/hsro-wt-project/frontend
+        ports:
+            - 4200:80
