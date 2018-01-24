@@ -23,6 +23,7 @@ public class JwtValidatorImpl implements JwtValidator {
         this.secret = config.getString("play.http.secret.key");
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
+
         verifier = JWT.require(algorithm)
                 //.withIssuer("ThePlayApp")
                 .build();

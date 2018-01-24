@@ -47,7 +47,8 @@ GET     /Forum/:id/Post/:pid        controllers.ForumPostController.get(id:Long,
 
 +nocsrf
 POST    /Forum/:id/Post/:pid        controllers.AnswerController.create(id: Long,pid: Long)
-
++nocsrf
+DELETE  /Forum/:id/Post/:pid/Answer/:aid controllers.AnswerController.delete(id: Long,pid: Long,aid: Long)
 GET     /Forum/:id/Post/:pid/Ans    controllers.AnswerController.list(id: Long,pid: Long)
 GET     /Forum/:id/Post/:pid/View   controllers.ForumPostController.incView(id: Long,pid: Long)
 GET     /Verify                     controllers.JwtController.stillValid()

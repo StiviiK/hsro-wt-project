@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import helper.JwtVerifyHelper;
 import helper.PostAction;
 import helper.ResultHelper;
 import models.Answer;
@@ -12,6 +13,7 @@ import models.User;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 
@@ -29,6 +31,20 @@ public class AnswerController extends Controller {
     @Inject
     public AnswerController(HttpExecutionContext hec) {
         this.hec = hec;
+    }
+    public CompletionStage<Result> delete(long forumId, long postID,long answerID) {
+
+        return CompletableFuture.supplyAsync(() -> {
+            Answer toDelete = Answer.find.byId(answerID);
+            //Validation
+            Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
+            if (toDelete != null&& toDelete.getCreator().getId()==verifiedID) {
+                toDelete.delete();
+                return ok(ResultHelper.completed(true,"Deleted succesfully", null));
+            } else {
+                return notFound(ResultHelper.completed(false,"Post not found",null));
+            }
+        }, hec.current());
     }
 
 
@@ -79,7 +95,7 @@ public class AnswerController extends Controller {
                         ans.setCreator(User.find.byId(body.get("creator").asLong()));
                         ans.setMessage(body.get("message").asText());
                         ans.save();
-                        return ok(ResultHelper.completed(true, "Post created sucessfully", Json.toJson(ans)));
+                        return ok(ResultHelper.completed(true, "Answer created sucessfully", Json.toJson(ans)));
                     }
                     , hec.current());
             //Even more validation required

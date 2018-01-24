@@ -1,22 +1,40 @@
 package controllers;
 
+import akka.http.javadsl.model.HttpHeader;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sun.org.apache.xpath.internal.SourceTree;
+import com.typesafe.config.Config;
+import helper.JwtVerifyHelper;
 import helper.PostAction;
 import helper.ResultHelper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import jwt.JwtValidatorImpl;
+import jwt.VerifiedJwt;
+import jwt.VerifiedJwtImpl;
 import models.Answer;
 import models.Forum;
 import models.ForumPost;
 import models.User;
+import play.Logger;
+import play.libs.F;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 
 import javax.inject.Inject;
+import javax.print.DocFlavor;
+
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -26,6 +44,9 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 
 @With(PostAction.class)
 public class ForumPostController extends Controller {
+
+    @Inject
+    private Config config;
 
     private HttpExecutionContext hec;
     /*
@@ -54,14 +75,17 @@ public class ForumPostController extends Controller {
             category: number;
     }
 }*/
+
     @Inject
     public ForumPostController(HttpExecutionContext hec) {
         this.hec = hec;
     }
 
     //region CRUD
-    public CompletionStage<Result> create(long forumID) {
+    public CompletionStage<Result> create(long forumID)  {
         JsonNode body = request().body().asJson();
+        System.out.println("Checking header");
+        Long jwtUserID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
         if (body != null) {
 
             // ForumPost forumPost = Json.fromJson(body, ForumPost.class);
@@ -69,6 +93,9 @@ public class ForumPostController extends Controller {
 
             if (body.get("creator").asLong() != 0) {
                 //Validation
+                if(body.get("creator").asLong()!=jwtUserID){
+                    return completedFuture(unauthorized(ResultHelper.completed(false,"posted id is wrong or token is bad",null)));
+                }
                 return CompletableFuture.supplyAsync(() -> {
                             forumPost.setForum(Forum.find.byId(forumID));
                             forumPost.setCreator(User.find.byId(body.get("creator").asLong()));
@@ -130,6 +157,10 @@ public class ForumPostController extends Controller {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost toDelete = ForumPost.find.byId(postID);
             //Validation
+            if(request().getHeaders().get("Authorization").isPresent()){
+                String auth=request().getHeaders().get("Authorization").get();
+                System.out.println("Auth :"+auth);
+            }
             if (toDelete != null) {
                 toDelete.delete();
                 return ok(ResultHelper.completed(true,"Deleted succesfully", null));
