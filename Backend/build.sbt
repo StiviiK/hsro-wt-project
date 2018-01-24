@@ -1,3 +1,8 @@
+import NativePackagerKeys._
+
+maintainer:= "Erik v. Slingerland"
+dockerExposedPorts in Docker := Seq(9000, 9443)
+
 name := """WtBackend"""
 organization := "web.verocode.de"
 

@@ -1,34 +1,47 @@
 sudo: required
+
+language: scala
+jdk: oraclejdk8
+
+scala:
+  - 2.10.4
+  - 2.12.4
+
 services:
-- docker
+  - docker
+
 before_install:
-- docker info
+  - docker info
+
 script:
-- cd Frontend
-- docker build -t "$FRONTEND_IMAGE" .
-- cd ../Backend/
-- docker build -t "$BACKEND_IMAGE" .
-- cd ..
-- docker images
+  - cd Frontend
+  - docker build -t "$FRONTEND_IMAGE" .
+  - cd ../Backend/
+  - sbt docker:publishLocal
+#  - docker build -t "$BACKEND_IMAGE" .
+  - cd ..
+  - docker images
+
 before_deploy:
-- docker save "$FRONTEND_IMAGE" > FRONTEND_IMAGE.tar
-- docker save "$BACKEND_IMAGE" > BACKEND_IMAGE.tar
-- sha1sum FRONTEND_IMAGE.tar > FRONTEND_IMAGE.tar.sha1
-- sha1sum BACKEND_IMAGE.tar > BACKEND_IMAGE.tar.sha1
+  - docker save "$FRONTEND_IMAGE" > FRONTEND_IMAGE.tar
+  - docker save "$BACKEND_IMAGE" > BACKEND_IMAGE.tar
+  - sha1sum FRONTEND_IMAGE.tar > FRONTEND_IMAGE.tar.sha1
+  - sha1sum BACKEND_IMAGE.tar > BACKEND_IMAGE.tar.sha1
 deploy:
   provider: releases
   api_key:
     secure: iWQs+OrQAtHjBSYbaWoP7dhQrAF/RZsngP9KXiQaeoZqGX5ZuZ1dl9JK9LgtAw5iIi96DUJlPga0Z/HpiHyAjvOkNuU1dzIhSwVaN0RjiwGNJ5aJi8Y5ekYh4RA9MiUPbcyMucG8R9rVkLfhivp5Xjmpd4wWfnxv4sq9Fh9T/0/EvMp80fUtwQjKUNGwpagGP3Ue0foCNovhKmVQTVV6VRiH1aUNOEUb6wusX9apvH2WpYUx0Pfeeq930w433583M/x2EwHPg2X7/tcnY2dy6ZECU2rwNUuyvv56eXnlRb4cgQqXf6n4vErFOV7INMx6HwTdatd1pyvzShjXoMl0MN3AYGCmGf5HC+AYwrm2Aeqn9UEqua6l/zpbas3MtvrBwh9eSk9v8YVOZ2CIFhRUtHujPE/7THDeLCOxScbSgJu6bWAOKMb6fYyTDpgHjPW+4uvu0Ij0ouuZjjwmGZ4xeY/H2/kSxrLnuEXpbPoNIvMT6OHiwbdtYY/9T6RwVAm3upmtZrFM3zT/BhvOV9mVANLHkrw1LpqFxgzN+GgHBw0saBzYU4QifIEJBlQQ4rx9tcYQf/2VeCKd3c6WOV2A5GOIGl4W9YApyv7JzBsaCykEb2YTV8gWyo2K1OdnQEBeaCTsfNQYtLuAE9D7bPNAFZhtF9hk7LflBiKt8YS5wYM=
   file:
-  - FRONTEND_IMAGE.tar
-  - FRONTEND_IMAGE.tar.sha1
-  - BACKEND_IMAGE.tar
-  - BACKEND_IMAGE.tar.sha1
-  - docker-compose.yml
+    - FRONTEND_IMAGE.tar
+    - FRONTEND_IMAGE.tar.sha1
+    - BACKEND_IMAGE.tar
+    - BACKEND_IMAGE.tar.sha1
+    - docker-compose.yml
   skip_cleanup: true
   on:
     repo: StiviiK/hsro-wt-project
     tags: true
+
 notifications:
   slack:
     secure: CciXli5V00cG9WI7Pe0/OVqrMOt93T6We09n2rfdxq6QwpJq+AewLKth07tKqyCGbh/jy1Nt10ZjaKq+89qZ+KpTR6zD/CH77Kid6xmgCrcAzh6Jv4G6NhNJ19Dz08u3buTRPEFoKVz6TDBENZUJfkIBOuiWMjzJSdl03Us2UNkr1IKY1tDfYH1UZcswAcxaSPxE8KyaUwckV0z3a0XduA9bPh52xlsKO2PEDoV931jPDgoUwZeVrkpECkNy5gk7rn1MvshmEuqkQZbGFh3tpML6IvxXgQ/KO1CEB2LQ2/JQNlXSqS+RWz0ZyXqty0VjygXkKDuGWb/woZ8O4gCsiI063bGknQ/Tcw01m1nfxATD/TuPYT3B2L2HUJsCYMWSGUB3nkHSes+QGg33s7rRpivYunXTXQg2ZpkM7HYyAqHwL8oGtQj9E0nd2NahY87KudtMja7t/Doc7EWRDSRxsDaa+7rI1JxYyQYDSRXKSsRv942kg9G3mrBqGN4R6zQ0SR0HbyB8vDoq+rIcILVsMvBeVlZowyTqNlg3zWWD+XwUSpSwpGyXcS9ruNPgthgXoo3VXQT+f+Ro4INCYbwZQ/3klJBEawM7mWUpfZVxc8uMCJ6y+agxzjPAZej2l4eN/t+yw6qupHs9PIHhnA1drbrdT18nRkW5Ko3MHb1qAgM=
