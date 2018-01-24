@@ -72,23 +72,18 @@ public class JwtController extends Controller {
 
         if (body == null) {
             Logger.error("json body is null");
-            completedFuture(forbidden(ResultHelper.completed(false,"Json body was empty",body)));
+            return forbidden(ResultHelper.completed(false,"Json body was empty",null));
         }
 
 
         if(body.hasNonNull("googleToken")){
             boolean verifiedByGoogle=false;
-            NetHttpTransport trans=new NetHttpTransport();
-            JacksonFactory factory = new JacksonFactory();
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(trans, factory)
-                    .setAudience(Collections.singletonList("46761239813-oumj8o0oh51ipa90d6gf88jkp2d946n3.apps.googleusercontent.com"))
-                    // Or, if multiple clients access the backend:
-                    //  .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-                    .build();
+
             System.out.println("token:"+body.get("googleToken").asText());
-            JsonNode node;
+
             CompletionStage<WSResponse> res=checkGoogleToken(body.get("googleToken").asText());
             WSResponse response;
+            //try reaching google
             try {
                 response = res.toCompletableFuture().get();
                 System.out.println("response from google:"+response.getBody());
@@ -98,6 +93,7 @@ public class JwtController extends Controller {
                 }
             }
             catch(Exception e){
+                //couldnt reach google or invalid token
                 System.out.println("Attempt to call google for validation failed");
                 return badRequest(ResultHelper.completed(false,"invalid googleToken or no response",null));
             }
@@ -116,13 +112,10 @@ public class JwtController extends Controller {
                     currentToken = getSignedToken(current);
                 }
                 catch(UnsupportedEncodingException except){
-                   completedFuture(badRequest("UnsupportedEncoding Exception"));
-                   currentToken=null;
+                    return badRequest(ResultHelper.completed(false,"Couldn't sign token. UnsupportedEncodingException",null));
                 }
-
                 JsonNode dataObject=userCreator(currentToken,current);
                 return ok(ResultHelper.completed(true,"Logged in user!",dataObject));
-
             }
             else{
                 //Create account
@@ -132,8 +125,8 @@ public class JwtController extends Controller {
                     currentToken = getSignedToken(current);
                 }
                 catch(UnsupportedEncodingException except){
-                   completedFuture(badRequest("UnsupportedEncoding Exception"));
-                   currentToken=null;
+                     return badRequest(ResultHelper.completed(false,"Couldn't sign token. UnsupportedEncodingException",null));
+
                 }
                 JsonNode dataObject=userCreator(currentToken,current);
                 return ok(ResultHelper.completed(true,"Created user!",dataObject));
@@ -151,9 +144,9 @@ public class JwtController extends Controller {
         ObjectNode userObject=Json.newObject();
         userObject.put("id",user.getId());
         dataObject.set("user",userObject);
-
         return dataObject;
     }
+    //Generates the signed JWT
     private String getSignedToken(User user) throws UnsupportedEncodingException {
         String secret = config.getString("play.http.secret.key");
         System.out.println(secret);
@@ -165,9 +158,13 @@ public class JwtController extends Controller {
                 .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusMinutes(300).toInstant()))
                 .sign(algorithm);
     }
+    //basic minimal response to check if token is still valid
     public Result stillValid(){
         return ok(ResultHelper.completed(true,"token still valid",null));
     }
+
+    //Jwt testing purpose
+    /*
     public Result requiresJwt() {
         return jwtControllerHelper.verify(request(), res -> {
             if (res.left.isPresent()) {
@@ -191,4 +188,5 @@ public class JwtController extends Controller {
             return ok("access granted via filter");
         }).orElse(forbidden("eh, no verified jwt found"));
     }
+    */
 }

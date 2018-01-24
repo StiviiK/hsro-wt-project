@@ -32,6 +32,7 @@ public class UserController extends Controller {
     }
 
     //region CRUD
+    // admin purpose only remove this on release or verify for admins only
     public CompletionStage<Result> create() {
         JsonNode body = request().body().asJson();
         if (body != null) {
@@ -46,6 +47,7 @@ public class UserController extends Controller {
 
     }
 
+    // admin purpose only remove this on release or verify for admins only
     public CompletionStage<Result> update(long userID) {
         JsonNode body = request().body().asJson();
         User currentUser = Json.fromJson(body, User.class);
@@ -58,7 +60,7 @@ public class UserController extends Controller {
             return ok(ResultHelper.completed(true,"Added succesfully", Json.toJson(currentUser)));
         }, hec.current());
     }
-
+    // admin purpose only remove this on release or verify for admins only
     public CompletionStage<Result> delete(long userID) {
 
         return CompletableFuture.supplyAsync(() -> {
@@ -73,6 +75,7 @@ public class UserController extends Controller {
         }, hec.current());
     }
 
+    //Massive Call on DB! use with caution -> remove on release or verify for admins only
     public CompletionStage<Result> list() {
         return CompletableFuture.supplyAsync(() -> {
             List<User> userList = User.find.all();
@@ -81,6 +84,7 @@ public class UserController extends Controller {
         }, hec.current());
     }
 
+
     public CompletionStage<Result> get(long userID) {
         return CompletableFuture.supplyAsync(() -> {
             User toGet = User.find.byId(userID);
@@ -88,40 +92,29 @@ public class UserController extends Controller {
             ObjectNode retNode=Json.newObject();
             retNode.set("user",toGet.toJson());
             List<Answer> answers = toGet.getAnswers();
-
-                List<ForumPost> posts = toGet.getPosts();
-            Long[] postsAr;
+            List<ForumPost> posts = toGet.getPosts();
+            //Custom Node-builder for custom request (ids only)
+            List<Long> postsAr=new ArrayList<>();
             List<Long> answersAr=new ArrayList<>();
-
-
                 for (Answer ans:answers){
-
+                    //check if multiple answers on one thread so no double listing
                     if(!answersAr.contains(ans.getPost().getId())){
                         answersAr.add(ans.getPost().getId());
                     }
-
                 }
             //JsonNode answersNode=Answer.arrayToJson(answers);
-                postsAr=new Long[posts.size()];
-
-                int i=0;
                 for (ForumPost post:posts){
-
-                    postsAr[i]=posts.get(i).getId();
-                    i++;
+                    postsAr.add(post.getId());
                 }
                 retNode.set("answeredThreads",Json.toJson(answersAr));
                 retNode.set("threads",Json.toJson(postsAr));
-
-            //Validation
-
-                return ok(ResultHelper.completed(true,"Read succesfully", retNode));
+                return ok(ResultHelper.completed(true,"got user succesfully", retNode));
             } else {
                 return notFound(ResultHelper.completed(false,"User not found", null));
             }
         }, hec.current());
     }
-
+    /*
     public CompletionStage<Result> login(Long id) {
         return CompletableFuture.supplyAsync(() -> {
         session("user",""+id);
@@ -153,4 +146,5 @@ public class UserController extends Controller {
     }, hec.current());
     }
     //endregion
+    */
 }

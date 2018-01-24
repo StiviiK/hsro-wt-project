@@ -17,6 +17,6 @@ public class HomeController extends Controller {
     public Result index() {
         return ok(views.html.index.render());
     }
-
+    //All we do here is render the start page
 
 }

@@ -12,33 +12,35 @@ public class JwtVerifyHelper {
     public static Long getUserFromToken(Http.Headers header) {
         if(header.get("Authorization").isPresent()){
             String auth =header.get("Authorization").toString();
+            //Data in Header authorization
             System.out.println("Auth:"+auth);
-            // String token=auth.get("Bearer").asText();
-            // System.out.println("Bearer:"+auth);
-
+            //Trim the authorization data to the pure token
             String tokenString = auth.substring(auth.indexOf("[") + 1, auth.indexOf("]"));
-            // System.out.println("SUBSTRING: "+tokenString);
-            //String payloadString = tokenString.substring(tokenString.indexOf(".") + 1, tokenString.indexOf("."));
-
+            //Split the JWT in Head/Payload/Signing
             String[] splitToken = tokenString.split("\\.");
 
-// splitToken[0] is the header, splitToken[1] is the payload and
-// splitToken[2] is the signature
+            // splitToken[0] is the header, splitToken[1] is the payload and
+            // splitToken[2] is the signature
+
+            //decode the payload
             byte[] decodedBytes = Base64.getDecoder().decode(splitToken[1]);
 
             try {
+                //turn bytes to String again
                 String payload = new String(decodedBytes, "UTF-8");
                 System.out.println("Payload is : "+payload);
+                //parse string to json
                 JsonNode userNode= Json.parse(payload);
                 System.out.println("Payload in json:"+userNode);
-                Long id = userNode.get("user_id").asLong();
-                System.out.println("ID: "+ Json.stringify(userNode));
-                //System.out.println("Payloadstribg:"+payloadString);
-                //tring secret=config.getString("play.http.secret.key");
-                //byte[] decodedBytes = Base64.getDecoder().decode(payloadString);
-                //String decodedString = new String(decodedBytes);
-                System.out.println("usernode:"+userNode+"userID"+id);
-                return id;
+                //get user_id from json
+                if(userNode.hasNonNull("user_id")) {
+                    Long id = userNode.get("user_id").asLong();
+
+                    System.out.println("usernode:" + userNode + "userID" + id);
+                    //return user id from payload for verification
+                    return id;
+                }
+                return null;
             }
             catch (Exception e){
                 Logger.info("couldnt decode payload "+e.toString());

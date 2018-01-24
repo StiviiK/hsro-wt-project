@@ -49,32 +49,6 @@ public class ForumPostController extends Controller {
     private Config config;
 
     private HttpExecutionContext hec;
-    /*
-    * thread/:ID: ->
-{
-    status: bool
-    message: string,
-    data: {
-        id: number;
-            views: number;
-            creator: {
-            id: number,
-                name: string,
-                email: string,
-                avatar_url: string,
-        },
-            topic: string;
-            question: string;
-            answers: {
-            id: number;
-                creator: UserJson;
-                message: string;
-        }[];
-            lastUpdate: number;
-            votes: number;
-            category: number;
-    }
-}*/
 
     @Inject
     public ForumPostController(HttpExecutionContext hec) {
@@ -88,12 +62,10 @@ public class ForumPostController extends Controller {
         Long jwtUserID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
         if (body != null) {
 
-            // ForumPost forumPost = Json.fromJson(body, ForumPost.class);
             ForumPost forumPost = new ForumPost();
-
             if (body.get("creator").asLong() != 0) {
                 //Validation
-                if(body.get("creator").asLong()!=jwtUserID){
+                if(jwtUserID!=null&&body.get("creator").asLong()!=jwtUserID){
                     return completedFuture(unauthorized(ResultHelper.completed(false,"posted id is wrong or token is bad",null)));
                 }
                 return CompletableFuture.supplyAsync(() -> {
@@ -144,11 +116,20 @@ public class ForumPostController extends Controller {
                 return ok(ResultHelper.completed(true,"Collected Posts sucessfully", postListJson));
             }
             Forum selectedForum = Forum.find.byId(forumId);
-            List<ForumPost> postList = selectedForum.getPosts();
-            if (postList != null) {
-                return ok(ResultHelper.completed(true,"sucessfully fetched Posts from Forum" + forumId, Json.toJson(postList)));
+            if(selectedForum!=null) {
+                List<ForumPost> postList = selectedForum.getPosts();
+                if (postList != null) {
+                    return ok(ResultHelper.completed(true, "sucessfully fetched Posts from Forum" + forumId, Json.toJson(postList)));
+                }
+                else{
+                    return badRequest(ResultHelper.completed(true,"no posts found in forum",null));
+                }
+
             }
-            return ok();
+            else{
+                return badRequest(ResultHelper.completed(false,"invalid forumID",null));
+            }
+
         }, hec.current());
     }
 
@@ -160,8 +141,9 @@ public class ForumPostController extends Controller {
             Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
 
             if (toDelete != null) {
-                if(verifiedID==toDelete.getCreator().getId()) {
+                if(verifiedID!=null&&verifiedID==toDelete.getCreator().getId()) {
                     toDelete.delete();
+                    //Also delete answers of post
                     for (Answer ans:toDelete.getAnswers())
                           {
                         ans.delete();
@@ -169,13 +151,14 @@ public class ForumPostController extends Controller {
                     return ok(ResultHelper.completed(true, "Deleted succesfully", null));
                 }
                 else{
-                    return unauthorized(ResultHelper.completed(false,"invalid token",null));
+                    return unauthorized(ResultHelper.completed(false,"invalid token-authorization",null));
                 }
             } else {
                 return notFound(ResultHelper.completed(false,"Post not found ",null));
             }
         }, hec.current());
     }
+    //increases view of post when called
     public CompletionStage<Result> incView(long forumID,long postID){
         return CompletableFuture.supplyAsync(() -> {
             ForumPost post=ForumPost.find.byId(postID);
@@ -193,46 +176,33 @@ public class ForumPostController extends Controller {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost toGet = ForumPost.find.byId(postID);
             if(toGet!=null) {
+                //custom return node modify
                 ObjectNode retNode = Json.newObject();
                 retNode.put("id", postID);
                 retNode.put("views", toGet.getViews());
-
-
                 retNode.put("topic", toGet.getTopic());
                 retNode.put("question", toGet.getQuestion());
-
                 if (toGet.getLastUpdate() != null) {
                     retNode.put("lastUpdate", new java.sql.Timestamp(toGet.getLastUpdate().getTime()).toString());
                 }
-
-
                 retNode.put("votes", toGet.getVotes());
                 retNode.put("category", toGet.getForum().getId());
-
                 retNode.set("creator", toGet.getCreator().toJson());
                 //responding Answers to post;
+                //modify answers in returnNode to current needs
                 ArrayNode answerNode = Json.newArray();
                 List<Answer> answers = toGet.getAnswers();
                 if(answers!=null) {
-
-
                     for (Answer ans : answers) {
-
                         ObjectNode currentAns = Json.newObject();
                         currentAns.put("id", ans.getId());
                         currentAns.set("creator", ans.getCreator().toJson());
                         currentAns.put("message", ans.getMessage());
                         answerNode.add(currentAns);
-
                     }
-
                     retNode.set("answers", answerNode);
                 }
-
-                //Validation
-
-                return ok(ResultHelper.completed(true, "Read succesfully", retNode));
-
+                return ok(ResultHelper.completed(true, "read successfully", retNode));
             }
             else{
                 return badRequest(ResultHelper.completed(false,"Post not found",null));

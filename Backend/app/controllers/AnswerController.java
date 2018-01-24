@@ -17,7 +17,9 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.With;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -32,13 +34,16 @@ public class AnswerController extends Controller {
     public AnswerController(HttpExecutionContext hec) {
         this.hec = hec;
     }
+
+    //Delete an Answer
     public CompletionStage<Result> delete(long forumId, long postID,long answerID) {
 
         return CompletableFuture.supplyAsync(() -> {
             Answer toDelete = Answer.find.byId(answerID);
             //Validation
+
             Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
-            if (toDelete != null&& toDelete.getCreator().getId()==verifiedID) {
+            if (toDelete != null&&verifiedID!=null&& toDelete.getCreator().getId()==verifiedID) {
                 toDelete.delete();
                 return ok(ResultHelper.completed(true,"Deleted succesfully", null));
             } else {
@@ -47,7 +52,7 @@ public class AnswerController extends Controller {
         }, hec.current());
     }
 
-
+    //get one answer
     public CompletionStage<Result> get(long forumID, long postID, long answerID) {
         return CompletableFuture.supplyAsync(() -> {
             Answer answ = Answer.find.byId(answerID);
@@ -59,35 +64,40 @@ public class AnswerController extends Controller {
             }
         }, hec.current());
     }
+    //list answers from post
     public CompletionStage<Result> list(long forumID, long postID) {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost post = ForumPost.find.byId(postID);
-            List<Answer> answers = post.getAnswers();
-            ArrayNode ansNode = Json.newArray();
-            //Validation
-            if (answers != null) {
-                for (Answer ans:answers
-                     ) {
-                    ObjectNode objNode=Json.newObject();
-                    objNode.put("id",ans.getId());
-                    objNode.set("creator",ans.getCreator().toJson());
-                    objNode.put("mesage",ans.getMessage());
-                    ansNode.add(objNode);
+            if(post!=null){
+                List<Answer> answers = post.getAnswers();
+                ArrayNode ansNode = Json.newArray();
+                if (answers != null) {
+                    for (Answer ans:answers
+                            ) {
+                        ObjectNode objNode=Json.newObject();
+                        objNode.put("id",ans.getId());
+                        objNode.set("creator",ans.getCreator().toJson());
+                        objNode.put("mesage",ans.getMessage());
+                        ansNode.add(objNode);
+                    }
+                    return ok(ResultHelper.completed(true, "Got answer succesfully", ansNode));
+                } else {
+                    return notFound(ResultHelper.completed(false, "Post has no answers", null));
                 }
-                return ok(ResultHelper.completed(true, "Got answer succesfully", ansNode));
-            } else {
-                return notFound(ResultHelper.completed(false, "Forum not found", null));
+            }
+            else{
+                return notFound(ResultHelper.completed(false,"Post not found",null));
             }
         }, hec.current());
     }
 
     public CompletionStage<Result> create(long forumID, long postID) {
         JsonNode body = request().body().asJson();
-        if (body != null) {
+        if (body != null&&ForumPost.find.byId(postID)!=null) {
             Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
             // ForumPost forumPost = Json.fromJson(body, ForumPost.class);
             Answer ans = new Answer();
-            if(body.get("creator").asLong()==verifiedID){
+            if(verifiedID!=null&&body.get("creator").asLong()==verifiedID){
                 return CompletableFuture.supplyAsync(() -> {
                             ans.setPost(ForumPost.find.byId(postID));
                             ans.setCreator(User.find.byId(body.get("creator").asLong()));
@@ -106,7 +116,7 @@ public class AnswerController extends Controller {
             //Validation
 
         } else {
-            return completedFuture(badRequest("Body was empty"));
+            return completedFuture(badRequest("Body was empty or post id is bad"));
 
 
         }

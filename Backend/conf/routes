@@ -2,6 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# +noJwtFilter = no check if valid JWT is in header to access
+# +nocsrf = disables cors
+
 # An example controller showing a sample home page
 + noJwtFilter
 GET     /                           controllers.HomeController.index
@@ -17,12 +20,11 @@ PATCH   /Users/:id                  controllers.UserController.update(id: Long)
 + nocsrf
 DELETE  /Users/:id                  controllers.UserController.delete(id: Long)
 + noJwtFilter
-GET     /Users                      controllers.UserController.list()
-+ noJwtFilter
 GET     /Users/:id                  controllers.UserController.get(id: Long)
-GET    /Users/:id/Login            controllers.UserController.login(id: Long)
-GET    /Users/:id/Logout           controllers.UserController.logout(id: Long)
-GET     /Users/:id/Check            controllers.UserController.checkLogin(id: Long)
+#remove GET /Users on release?
++ noJwtFilter
+GET     /Users                      controllers.UserController.list()
+
 
 #ForumRoutes
 + nocsrf
@@ -45,25 +47,20 @@ DELETE  /Forum/:id/Post/:pid        controllers.ForumPostController.delete(id: L
 GET     /Forum/:id/Post             controllers.ForumPostController.list(id: Long)
 + noJwtFilter
 GET     /Forum/:id/Post/:pid        controllers.ForumPostController.get(id:Long,pid: Long)
++ noJwtFilter
+GET     /Forum/:id/Post/:pid/View   controllers.ForumPostController.incView(id: Long,pid: Long)
 
+#AnswerRoutes
 +nocsrf
 POST    /Forum/:id/Post/:pid        controllers.AnswerController.create(id: Long,pid: Long)
 +nocsrf
 DELETE  /Forum/:id/Post/:pid/Answer/:aid controllers.AnswerController.delete(id: Long,pid: Long,aid: Long)
 GET     /Forum/:id/Post/:pid/Ans    controllers.AnswerController.list(id: Long,pid: Long)
-GET     /Forum/:id/Post/:pid/View   controllers.ForumPostController.incView(id: Long,pid: Long)
-GET     /Verify                     controllers.JwtController.stillValid()
 
-# An example controller showing a sample home page
 
+#Jwt Routes
+#login with googleToken and get JWT
 +nocsrf
 + noJwtFilter
 POST     /jwt/login                     controllers.JwtController.login()
-
-+ noJwtFilter
-GET     /jwt/requires-jwt               controllers.JwtController.requiresJwt
-
-GET     /jwt/requires-jwt-via-filter    controllers.JwtController.requiresJwtViaFilter
-
-# Map static resources from the /public folder to the /assets URL path
-GET     /jwt/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /Verify                     controllers.JwtController.stillValid()

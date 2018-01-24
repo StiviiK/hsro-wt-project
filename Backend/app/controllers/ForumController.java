@@ -35,7 +35,9 @@ public class ForumController extends Controller {
     public ForumController(HttpExecutionContext hec) {
         this.hec = hec;
     }
-
+    //this CRUD is only for testing purposes
+    //OPTION 1  : this must be removed on release(except for list() and get() -> create edit and delete categories via DB
+    //OPTION 2  : this must be modified on release ->grant access only to authenticated admin accounts
     //region CRUD
     public CompletionStage<Result> create() {
         JsonNode body = request().body().asJson();
@@ -112,30 +114,15 @@ public class ForumController extends Controller {
                 node.put("name", toGet.getName());
                 node.put("color", toGet.getColor());
 
-           /* ArrayNode postsNode = Json.newArray();
-
-            for (ForumPost post : posts
-                    ) {
-                ObjectNode currentPost = Json.newObject();
-                currentPost.put("id", post.getId());
-                currentPost.put("topic", post.getTopic());
-                currentPost.put("question", post.getQuestion());
-                currentPost.put("views", post.getViews());
-                currentPost.put("creator", post.getCreator().getName());
-                postsNode.add(currentPost);
-            }*/
-                long[] threadids = new long[posts.size()];
+                long[] threadIds = new long[posts.size()];
                 int i = 0;
                 for (ForumPost post : posts
                         ) {
-                    threadids[i] = post.getId();
+                    threadIds[i] = post.getId();
                     i++;
                 }
-                node.set("threads", Json.toJson(threadids));
-
-                //Validation
-                return ok(ResultHelper.completed(true, "succes", node));
-
+                node.set("threads", Json.toJson(threadIds));
+                return ok(ResultHelper.completed(true, "read forum successfully", node));
             }
             else{
                 return badRequest(ResultHelper.completed(false,"Forum not found",null));

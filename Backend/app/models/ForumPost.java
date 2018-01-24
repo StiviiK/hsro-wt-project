@@ -150,8 +150,13 @@ public class ForumPost extends Model {
     }
 
     public List<Answer> getAnswers() {
+        if(answers!=null){
+            return answers;
+        }
+        else{
+            return null;
+        }
 
-        return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
