@@ -20,6 +20,8 @@ import models.User;
 import play.Logger;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -44,6 +46,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 
 public class JwtController extends Controller {
     private HttpExecutionContext hec;
+    private final WSClient ws;
     @Inject
     private JwtControllerHelper jwtControllerHelper;
 
@@ -51,14 +54,18 @@ public class JwtController extends Controller {
     private Config config;
 
     @Inject
-    public JwtController(HttpExecutionContext hec) {
+    public JwtController(HttpExecutionContext hec,WSClient ws) {
         this.hec = hec;
+        this.ws=ws;
     }
 
     /*public Result generateSignedToken() throws UnsupportedEncodingException {
         return ok("signed token: " + getSignedToken(5l));
     }*/
+    private CompletionStage<WSResponse> checkGoogleToken(String token) {
+        return ws.url("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="+token).get();
 
+    }
     public CompletionStage<Result> login()  {
         return CompletableFuture.supplyAsync(() -> {
         JsonNode body = request().body().asJson();
@@ -70,6 +77,7 @@ public class JwtController extends Controller {
 
 
         if(body.hasNonNull("googleToken")){
+            boolean verifiedByGoogle=false;
             NetHttpTransport trans=new NetHttpTransport();
             JacksonFactory factory = new JacksonFactory();
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(trans, factory)
@@ -78,50 +86,29 @@ public class JwtController extends Controller {
                     //  .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
                     .build();
             System.out.println("token:"+body.get("googleToken").asText());
-            // (Receive idTokenString by HTTPS POST)
-            try{
-                System.out.println("Im trying to verify GoogleToken");
-                GoogleIdToken idToken = verifier.verify(body.get("googleToken").toString());
-                System.out.println("still trying");
-                if (idToken != null) {
-                    Payload payload = idToken.getPayload();
-
-                    // Print user identifier
-                    String userId = payload.getSubject();
-                    System.out.println("User ID: " + userId);
-
-                    // Get profile information from payload
-                    String email = payload.getEmail();
-                    boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-                    String name = (String) payload.get("name");
-                    String pictureUrl = (String) payload.get("picture");
-                    String locale = (String) payload.get("locale");
-                    String familyName = (String) payload.get("family_name");
-                    String givenName = (String) payload.get("given_name");
-
-                    // Use or store profile information
-                    // ...
-
-                } else {
-                    System.out.println("Invalid ID token.");
+            JsonNode node;
+            CompletionStage<WSResponse> res=checkGoogleToken(body.get("googleToken").asText());
+            WSResponse response;
+            try {
+                response = res.toCompletableFuture().get();
+                System.out.println("response from google:"+response.getBody());
+                System.out.println("responseStatus:"+response.getStatus());
+                if(response.getStatus()==200){
+                    verifiedByGoogle=true;
                 }
-                System.out.println(idToken);
             }
-            catch(Exception exception){
-                System.out.println("i catched "+exception.toString());
-                //return badRequest(ResultHelper.completed(false,"invalid googleToken",null)); <-- validator is broken
+            catch(Exception e){
+                System.out.println("Attempt to call google for validation failed");
+                return badRequest(ResultHelper.completed(false,"invalid googleToken or no response",null));
             }
+
+            if(verifiedByGoogle){
             //Google token is authenticated, search for the user now
             JsonNode user = body.get("user");
             User current =Json.fromJson(user,User.class);
             List<User> userFoundList= Ebean.find(User.class).where().eq("email",current.getEmail()).findList();
             String currentToken;
-            //Generate JWT
-
-
-            //Create userview in JSon
-
-
+            //Generate JWT & Login/Create
             if(userFoundList.size()!=0){
                 //LOG IN
                 current=userFoundList.get(0);
@@ -152,41 +139,10 @@ public class JwtController extends Controller {
                 return ok(ResultHelper.completed(true,"Created user!",dataObject));
             }
         }
-        /*
-        if (body.hasNonNull("username") && body.hasNonNull("password") /* && body.get("username").asText().equals("abc")) {
-
-            User currentUser=Ebean.find(User.class)
-                    .where().eq("username", body.get("username").asText())
-                    .findOne();
-            System.out.println("this is what i found:"+currentUser.getName()+currentUser.getPassword());
-            System.out.println("this is what i have:"+body.get("username").asText()+body.get("password").asText());
-
-            if(currentUser!=null){
-                if(body.get("password").asText().equals(currentUser.getPassword())){
-                    //pw correct! logging in!
-                    //System.out.println(currentUser.getName()+currentUser.getPassword());
-                    ObjectNode result = Json.newObject();
-                    String currentToken=getSignedToken(currentUser);
-                    currentUser.setCurrentToken(currentToken);
-                    result.put("access_token", currentToken);
-                    return ok(result);
-                }
-                else{
-                    return unauthorized("password is incorrect");
-                }
-
-
-            }
-            else{
-                    return badRequest("no user found with name: "+body.get("username"));
-            }
-
-
-        } else {
-            Logger.error("json body not as expected: {}", body.toString());
-        }
-        */
-        return forbidden();
+        else{
+                return badRequest(ResultHelper.completed(false,"invalid google token",null));
+            }}
+        return forbidden(ResultHelper.completed(false,"no googleToken found in body",null));
         }, hec.current());
     }
     private JsonNode userCreator(String currentToken,User user){
