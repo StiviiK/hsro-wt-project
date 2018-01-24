@@ -1,4 +1,4 @@
-<div *ngIf="thread !== undefined">  
+<div *ngIf="thread !== undefined">
   <mat-toolbar *ngIf="thread.category" class="forum-header">
     <a routerLink="/!/forum" class="unmarked-link">Forum</a>
     <a routerLink="/!/forum/{{ thread.category.id }}" class="unmarked-link">{{ thread.category.name }}</a>
@@ -17,6 +17,9 @@
         <mat-card-content>
           <p>{{ thread.question }}</p>
         </mat-card-content>
+        <mat-card-actions *ngIf="thread.creator.id === user.id">
+          <button mat-button (click)="removeThread()"><mat-icon>remove_circle</mat-icon> remove Thread</button>
+        </mat-card-actions>
       </mat-card>
       <div *ngFor="let answer of thread.answers; let i = index">
         <app-thread-answer [answer]="answer" [count]="i"></app-thread-answer>
@@ -32,7 +35,7 @@
       </div>
     </div>
   </div>
-</div> 
+</div>
 <div *ngIf="!thread || !thread.category">
   <p>Loading...</p>
 </div>

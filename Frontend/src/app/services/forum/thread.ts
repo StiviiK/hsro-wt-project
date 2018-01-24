@@ -86,6 +86,15 @@ export class ThreadService {
       .catch(() => of(undefined));
   }
 
+  remove(thread: Thread): Observable<boolean> {
+    return this._api.delete<ApiResponse>(`Forum/${ thread._category }/Post/${ thread.id }`)
+      .map(
+        (response: ApiResponse): boolean => {
+          return response && response.status === true;
+        }
+      );
+  }
+
   createAnswer(thread: Thread, payload: ThreadAnswerApiRequest): Observable<boolean> {
     return this._api.post<ThreadAnswerApiResponse>(`Forum/${ thread._category }/Post/${ thread.id }`, payload)
       .map(

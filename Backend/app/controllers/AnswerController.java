@@ -87,7 +87,7 @@ public class AnswerController extends Controller {
             Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
             // ForumPost forumPost = Json.fromJson(body, ForumPost.class);
             Answer ans = new Answer();
-            if(ans.getCreator().getId()==verifiedID){
+            if(body.get("creator").asLong()==verifiedID){
                 return CompletableFuture.supplyAsync(() -> {
                             ans.setPost(ForumPost.find.byId(postID));
                             ans.setCreator(User.find.byId(body.get("creator").asLong()));

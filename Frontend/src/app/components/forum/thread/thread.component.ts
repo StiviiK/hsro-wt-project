@@ -75,7 +75,28 @@ export class ForumThreadComponent implements OnInit {
     localStorage.setItem('lastVisited', JSON.stringify(lastVisited));
   }
 
+  private removeFromHistory(threadId: string) {
+    const lastVisited: string[] = JSON.parse(localStorage.getItem('lastVisited') || '[]');
+    const index = lastVisited.findIndex(id => id === threadId);
+    console.log(index);
+    if (index > -1) {
+      lastVisited.splice(index, 1);
+    }
+    localStorage.setItem('lastVisited', JSON.stringify(lastVisited));
+  }
+
   public getAvatarImage() {
     return this._sanitizer.bypassSecurityTrustStyle(`url(${this.thread.creator.avatar})`);
+  }
+
+  public removeThread() {
+    this._threadService.remove(this.thread).subscribe(
+      (status: boolean) => {
+        if (status) {
+          this.removeFromHistory(String(this.thread.id));
+          this._router.navigate(['!', 'forum', this.thread._category]);
+        }
+      }
+    );
   }
 }
