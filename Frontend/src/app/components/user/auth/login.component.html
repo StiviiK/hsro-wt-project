@@ -1,7 +1,9 @@
 <mat-card>
   <img mat-card-image src="../../../../assets/img/LoginPagePicture.jpg">
   <mat-progress-bar *ngIf="isLoading === true" mode="indeterminate"></mat-progress-bar>
-  <p>Please login with your Google+ Account to access the Website.</p>
-  <button mat-raised-button color="warn" (click)="login()">g+ | LogIn!</button>
+  <div *ngIf="isLoading !== true">
+    <p>Please login with your Google+ Account to access the Website.</p>
+    <button mat-raised-button color="warn" (click)="login()">g+ | LogIn!</button>
+  </div>
 </mat-card>
 
