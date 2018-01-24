@@ -39,6 +39,7 @@ GET     /Forum/:id                  controllers.ForumController.get(id: Long)
 POST    /Forum/:id                  controllers.ForumPostController.create(id: Long)
 
 PATCH   /Forum/:id/Post/:pid        controllers.ForumPostController.update(id: Long,pid: Long)
++nocsrf
 DELETE  /Forum/:id/Post/:pid        controllers.ForumPostController.delete(id: Long,pid: Long)
 + noJwtFilter
 GET     /Forum/:id/Post             controllers.ForumPostController.list(id: Long)

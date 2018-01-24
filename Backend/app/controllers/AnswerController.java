@@ -84,21 +84,26 @@ public class AnswerController extends Controller {
     public CompletionStage<Result> create(long forumID, long postID) {
         JsonNode body = request().body().asJson();
         if (body != null) {
-
+            Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
             // ForumPost forumPost = Json.fromJson(body, ForumPost.class);
             Answer ans = new Answer();
+            if(ans.getCreator().getId()==verifiedID){
+                return CompletableFuture.supplyAsync(() -> {
+                            ans.setPost(ForumPost.find.byId(postID));
+                            ans.setCreator(User.find.byId(body.get("creator").asLong()));
+                            ans.setMessage(body.get("message").asText());
+                            ans.save();
+                            return ok(ResultHelper.completed(true, "Answer created sucessfully", Json.toJson(ans)));
+                        }
+                        , hec.current());
+                //Even more validation required
 
+            }
+            else{
+                return completedFuture(unauthorized(ResultHelper.completed(false,"invalid token",null)));
+            }
 
             //Validation
-            return CompletableFuture.supplyAsync(() -> {
-                        ans.setPost(ForumPost.find.byId(postID));
-                        ans.setCreator(User.find.byId(body.get("creator").asLong()));
-                        ans.setMessage(body.get("message").asText());
-                        ans.save();
-                        return ok(ResultHelper.completed(true, "Answer created sucessfully", Json.toJson(ans)));
-                    }
-                    , hec.current());
-            //Even more validation required
 
         } else {
             return completedFuture(badRequest("Body was empty"));

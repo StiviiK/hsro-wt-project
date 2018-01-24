@@ -157,15 +157,22 @@ public class ForumPostController extends Controller {
         return CompletableFuture.supplyAsync(() -> {
             ForumPost toDelete = ForumPost.find.byId(postID);
             //Validation
-            if(request().getHeaders().get("Authorization").isPresent()){
-                String auth=request().getHeaders().get("Authorization").get();
-                System.out.println("Auth :"+auth);
-            }
+            Long verifiedID= JwtVerifyHelper.getUserFromToken(request().getHeaders());
+
             if (toDelete != null) {
-                toDelete.delete();
-                return ok(ResultHelper.completed(true,"Deleted succesfully", null));
+                if(verifiedID==toDelete.getCreator().getId()) {
+                    toDelete.delete();
+                    for (Answer ans:toDelete.getAnswers())
+                          {
+                        ans.delete();
+                    }
+                    return ok(ResultHelper.completed(true, "Deleted succesfully", null));
+                }
+                else{
+                    return unauthorized(ResultHelper.completed(false,"invalid token",null));
+                }
             } else {
-                return notFound(ResultHelper.completed(false,"Post not found",null));
+                return notFound(ResultHelper.completed(false,"Post not found ",null));
             }
         }, hec.current());
     }
