@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  status: string;
+  public isLoading: boolean;
 
   constructor(private _authService: AuthenticationService, private _router: Router) { }
 
@@ -17,11 +17,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isLoading = true;
     this._authService.login().subscribe(
       (result) => {
+        this.isLoading = false;
         this._router.navigate(['/!/dashboard']);
       },
       (err) => {
+        this.isLoading = false;
         console.error(err);
       }
     );
