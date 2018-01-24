@@ -1,12 +1,26 @@
 version: '3'
 services: 
-  backend:
-    image: stiviik/hsro-wt-project/backend
-  frontend:
-    image: stiviik/hsro-wt-project/frontend
-    depends_on:
-      - backend
-    ports:
-      - "3000:80"
-    links:
-      - "backend:backend"
+    db:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: wasdwasd1
+            MYSQL_DATABASE: wt_schema
+
+    admin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            MYSQL_ROOT_PASSWORD: wasdwasd1
+            PMA_HOST: db
+            PMA_PORT: 3306
+        links:
+            - db:db
+        ports:
+            - 3000:80
+
+    backend:
+        image: hsro_back
+        restart: always
+        links:
+            - db:DATABASE
+        ports:
+            - 9000:9000
