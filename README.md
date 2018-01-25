@@ -16,6 +16,17 @@ To run the site, you need to download `docker-compose.yml`, `FRONTEND_IMAGE.tar`
 To the run the web image you need `docker-compose`:
 - `docker-compose up -d`
 
+### Known issues
+On the first run of `docker-compose up` the backened sometimes will crash.
+Just `Strg + C` out of the command and run the following command:
+- `docker ps -a`
+
+You should see a list of all containers. There should be an container with the image `stiviik/hsro-wt-project/backend`, get the container name and run the following command and replace `<CONTAINER>` with the name you got:
+
+- `docker rm <CONTAINRR>`
+
+If you retry the `docker-compose up` now, everything should run without an container to crash.
+
 ## Stopping
 Stop the container
 - `docker-compose stop`
