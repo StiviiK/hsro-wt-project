@@ -1,24 +1,22 @@
-version: '3'
+version: '2.1'
 services: 
     db:
         image: mysql
         environment:
             MYSQL_ROOT_PASSWORD: wasdwasd1
             MYSQL_DATABASE: wt_schema
-
     admin:
         image: phpmyadmin/phpmyadmin
         environment:
             MYSQL_ROOT_PASSWORD: wasdwasd1
-            PMA_HOST: db
+            PMA_HOST: DATABASE
             PMA_PORT: 3306
         links:
-            - db:db
+            - db:DATABASE
         ports:
             - 3000:80
     backend:
         image: stiviik/hsro-wt-project/backend
-        restart: always
         links:
             - db:DATABASE
         ports:
