@@ -1,4 +1,4 @@
-# HSRO - WT Project [![Build Status](https://travis-ci.com/StiviiK/hsro-wt-project.svg?token=Qq3qpzFwq5TTKaWqR5rv&branch=master)](https://travis-ci.com/StiviiK/hsro-wt-project)
+# HSRO - WT Project [![Build Status](https://travis-ci.org/StiviiK/hsro-wt-project.svg?branch=master)](https://travis-ci.org/StiviiK/hsro-wt-project)
 
 ## Deployment
 The deployment runs automatically with [Travis CI](https://travis-ci.org),
